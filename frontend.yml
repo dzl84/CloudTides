@@ -42,17 +42,18 @@ jobs:
       - name: Check out code into the module directory
         uses: actions/checkout@v2
 
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        env:
-          MOD: prod
+      - name: Login to Aliyun
+        uses: aliyun/acr-login@v1
         with:
-          name: registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend
+          login-server: https://registry.cn-shanghai.aliyuncs.com
+          region-id: cn-shanghai
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          buildargs: MOD
-          workdir: ui
-          tags: "latest"
+      - name: Build Docker Image
+          run: docker build -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
+      
+      - name: Publish Docker Image
+          run: docker push registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest
 
       - name: restart aliyun eci container group
         run: |
