@@ -27,6 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ui
+          echo ${{ secrets.REGION }}
           npm install
       - name: Build
         run: |
@@ -50,12 +51,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: |
-            docker build --build-arg MOD=prod -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
+          run: docker build -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
       
       - name: Publish Docker Image
-        run: |
-            docker push registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest
+          run: docker push registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest
 
       - name: restart aliyun eci container group
         run: |

@@ -27,6 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ui
+          echo ${{ secrets.REGION }}
           npm install
       - name: Build
         run: |
