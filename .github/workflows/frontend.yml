@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build --build-args MOD=prod -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
+        run: docker build --build-arg MOD=prod -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
       
       - name: Publish Docker Image
         run: docker push registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest
