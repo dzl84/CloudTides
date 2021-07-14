@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
         run: |
-            docker build -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
+            docker build --build-arg MOD=prod -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
       
       - name: Publish Docker Image
         run: |
