@@ -58,4 +58,4 @@ jobs:
 
       - name: restart aliyun eci container group
         run: |
-          client ${{ secrets.REGION }} ${{ secrets.ACCESSKEY_ID }} ${{ secrets.ACCESSKEY_SECRET }} ${{ secrets.FRONTEND_CONTAINER }}
+          ./client ${{ secrets.REGION }} ${{ secrets.ACCESSKEY_ID }} ${{ secrets.ACCESSKEY_SECRET }} ${{ secrets.FRONTEND_CONTAINER }}
