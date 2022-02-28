@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Application struct {
 	gorm.Model
@@ -19,4 +21,5 @@ type Application struct {
 	AppType       string `json:"appType,omitempty"`
 	Port          string `json:"port,omitempty"`
 	Extra         string `json:"extra"`
+	Agent         string `json:"agent"`
 }

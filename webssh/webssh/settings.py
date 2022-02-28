@@ -53,7 +53,8 @@ define('encoding', default='',
 Example: --encoding='utf-8' to solve the problem with some switches&routers''')
 define('version', type=bool, help='Show version information',
        callback=print_version)
-
+define('host_url', type=str, default="http://backend:8033", help='CloudTides Service url',
+       callback=print_version)
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 font_dirs = ['webssh', 'webssh', 'static', 'css', 'fonts']
 max_body_size = 1 * 1024 * 1024

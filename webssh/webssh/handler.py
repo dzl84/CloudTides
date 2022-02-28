@@ -533,7 +533,7 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         self.write(self.result)
 
 
-CMD_rf_WORKER = dict()
+CMD_RF_WORKER = dict()
 
 
 class MyIndexHandler(IndexHandler):
@@ -544,7 +544,7 @@ class MyIndexHandler(IndexHandler):
 
     def get_args(self, token):
 
-        url = "http://127.0.0.1:8033/api/v1/application/instance/details/" + token
+        url = options.host_url + "/api/v1/application/instance/details/" + token
         body = requests.get(url)
         row = body.json()["data"]
         logging.info(row)
@@ -602,7 +602,7 @@ class MyIndexHandler(IndexHandler):
             workers[worker.id] = worker
             self.loop.call_later(options.delay, recycle_worker, worker)
             self.result.update(id=worker.id, encoding=worker.encoding)
-        CMD_rf_WORKER[worker.id] = cmd
+        CMD_RF_WORKER[worker.id] = cmd
         logging.info(cmd)
         self.write(self.result)
 
@@ -612,6 +612,16 @@ class WsockHandler(MixinHandler, websocket.WebSocketHandler):
     def initialize(self, loop):
         super(WsockHandler, self).initialize(loop)
         self.worker_ref = None
+        self.msg_monitor = ""
+
+    def hook(self, data):
+        self.msg_monitor += data
+        if len(self.msg_monitor) >= 4:
+            self.msg_monitor = self.msg_monitor[1:]
+        if self.msg_monitor == "exit" + '\r':
+            self.on_close()
+        logging.info("[on_message] data : " + data)
+        logging.info("[on_message] msg_monitor : " + self.msg_monitor)
 
     def open(self):
         self.src_addr = self.get_client_addr()
@@ -635,9 +645,10 @@ class WsockHandler(MixinHandler, websocket.WebSocketHandler):
                 self.worker_ref = weakref.ref(worker)
                 self.loop.add_handler(worker.fd, worker, IOLoop.READ)
 
-                worker.data_to_dst.append(CMD_rf_WORKER[worker.id] + '\r')
+                worker.data_to_dst.append(CMD_RF_WORKER[worker.id] + '\r')
+                worker.data_to_dst.append('clear' + '\r')
                 worker.on_write()
-                del CMD_rf_WORKER[worker.id]
+                del CMD_RF_WORKER[worker.id]
 
             else:
                 self.close(reason='Websocket authentication failed.')
@@ -664,6 +675,7 @@ class WsockHandler(MixinHandler, websocket.WebSocketHandler):
         data = msg.get('data')
         if data and isinstance(data, UnicodeType):
             worker.data_to_dst.append(data)
+            self.hook(data)
             worker.on_write()
 
     def on_close(self):

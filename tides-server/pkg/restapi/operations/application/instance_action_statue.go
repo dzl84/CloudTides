@@ -69,6 +69,18 @@ type InstanceActionStatueBody struct {
 	// error
 	Error string `json:"error,omitempty"`
 
+	// ssh host
+	SSHHost string `json:"ssh_host,omitempty"`
+
+	// ssh password
+	SSHPassword string `json:"ssh_password,omitempty"`
+
+	// ssh port
+	SSHPort string `json:"ssh_port,omitempty"`
+
+	// ssh user
+	SSHUser string `json:"ssh_user,omitempty"`
+
 	// token
 	Token string `json:"token,omitempty"`
 }

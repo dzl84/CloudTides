@@ -3,6 +3,7 @@ module tides-server
 go 1.13
 
 require (
+	github.com/Shopify/sarama v1.31.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.1286
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
@@ -46,10 +47,11 @@ require (
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/vmware/go-vcloud-director/v2 v2.13.0
 	github.com/vmware/govmomi v0.26.1
+	github.com/zngw/kafka v0.0.0-20191214161347-4191e5f8683f
+	github.com/zngw/log v1.2.2 // indirect
 	go.mongodb.org/mongo-driver v1.7.3 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
-	golang.org/x/net v0.0.0-20211013171255-e13a2654a71e
-	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
+	golang.org/x/crypto v0.0.0-20220128200615-198e4374d7ed
+	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/ini.v1 v1.63.2 // indirect

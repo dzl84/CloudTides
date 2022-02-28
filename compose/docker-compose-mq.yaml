@@ -29,10 +29,9 @@ services:
       - SECRET_KEY=test
       - OFFICIAL_EMAIL=admin@cloudtides.org.cn
       - OFFICIAL_PASSWORD=nBd9NzkdGG9Sev3
-      - WEB_SSH_SERVICE_HOST=/webssh
+      - WEB_SSH_SERVICE_HOST=localhost/webssh
       - TEMP_STORAGE_PATH=/data
-      - MQ_TOPIC=hollow
-      - MQ_HOST=amqp://guest:guest@mq:5672/
+      - MQ_HOST=mq:9092
     stdin_open: true
     tty: true
     depends_on:
@@ -40,6 +39,8 @@ services:
     entrypoint: ["/build/backend"]
   webssh:
     image: yinhaozheng/webssh
+    environment:
+      - host_url=http://backend:8033
     depends_on:
       - backend
   frontend:
@@ -50,18 +51,44 @@ services:
     depends_on:
       - backend
       - webssh
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
   mq:
-    image: rabbitmq:3-management
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: mq
+    restart: always
+    ports:
+    # To learn about configuring Kafka for access across networks see
+    # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_INTERNAL://mq:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
 
   broker:
     build: ../tides-broker
     restart: always
     environment:
-      - MQ_TOPIC=hollow
-      - MQ_HOST=amqp://guest:guest@mq:5672/
+      - AGENT_NAME=thinkcloud
+      - MQ_HOST=mq:9092
       - SERVER_URL=http://backend:8033/api/v1/application/instance/action/statue
     depends_on:
       - mq
+    volumes:
+      - ${PWD}/hosts.yaml:/build/hosts.yaml
 
   nginx:
     image: nginx:stable

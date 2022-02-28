@@ -5,12 +5,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/Shopify/sarama"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/gofrs/uuid"
 	"github.com/gorilla/websocket"
 	"github.com/mitchellh/mapstructure"
-	amqp "github.com/rabbitmq/amqp091-go"
 	"golang.org/x/crypto/ssh"
 	"io"
 	"io/ioutil"
@@ -36,25 +36,24 @@ var (
 	sshKeyPath = ""         //ssh id_rsa.id path"
 )
 
+var agentRfWebsshLink = map[string]string{
+	"thinkcloud":  "http://www.cloudtides.org.cn:8000/webssh",
+	"schoolcloud": "xxxxxx/webssh",
+}
+
 func AchieveHost(params application.AchieveHostParams) middleware.Responder {
 
 	if !VerifyUser(params.HTTPRequest) {
 		return application.NewCreateApplicationInstanceUnauthorized()
 	}
 
-	result := make([]*application.AchieveHostOKBodyItems0, 1)
+	result := make([]*application.AchieveHostOKBodyItems0, 2)
 	result[0] = &application.AchieveHostOKBodyItems0{
-		Address: "120.133.15.12",
-		SSHPass: "ca$hc0w",
-		SSHPort: "20023",
-		SSHUser: "root",
+		AgentName: "thinkcloud",
 	}
-	//result[1] = &application.AchieveHostOKBodyItems0{
-	//	Address: "172.16.0.10",
-	//	SSHPass: "admin123",
-	//	SSHPort: "22",
-	//	SSHUser: "root",
-	//}
+	result[1] = &application.AchieveHostOKBodyItems0{
+		AgentName: "schoolcloud",
+	}
 	return application.NewAchieveHostOK().WithPayload(result)
 }
 
@@ -62,7 +61,11 @@ func AchieveMQResult(params application.InstanceActionStatueParams) middleware.R
 	ch, has := chPool.Load(params.ReqBody.Token)
 	if has {
 		ch.(chan *OperateChan) <- &OperateChan{
-			Combo: params.ReqBody.Combo,
+			Combo:       params.ReqBody.Combo,
+			SSHPort:     params.ReqBody.SSHPort,
+			SSHUser:     params.ReqBody.SSHUser,
+			SSHPassword: params.ReqBody.SSHPassword,
+			SSHHost:     params.ReqBody.SSHHost,
 		}
 	}
 	return application.NewInstanceActionStatueOK()
@@ -81,8 +84,12 @@ type Operate struct {
 }
 
 type OperateChan struct {
-	Combo string
-	Err   error
+	Combo       string
+	SSHHost     string `json:"ssh_host"`
+	SSHUser     string `json:"ssh_user"`
+	SSHPassword string `json:"ssh_password"`
+	SSHPort     string `json:"ssh_port"`
+	Err         error
 }
 
 func CreateApplicationInstance(params application.CreateApplicationInstanceParams) middleware.Responder {
@@ -114,39 +121,26 @@ func CreateApplicationInstance(params application.CreateApplicationInstanceParam
 		cmd = fmt.Sprintf("docker run -p %s:8888 -e JUPYTER_ENABLE_LAB=yes --rm -d --name %s jupyter/all-spark-notebook start-notebook.sh --NotebookApp.token='%s'", containerPort, containerName, containerToken)
 	default:
 		containerName = body.AppType + "-" + token
-		cmd = fmt.Sprintf("docker run --hostname %s -it -v $HOME/data/%s:/data -w /data -d --name %s yinhaozheng/%s:latest", body.AppType, body.AppType, containerName, body.AppType)
+		cmd = fmt.Sprintf("docker run --hostname %s -it -v $HOME/data/%s:/data -w /data -d --name %s yinhaozheng/%s:latest", body.InstanceName, body.AppType, containerName, body.AppType)
 	}
 
 	//run remote shell
 	cp := Operate{
 		Op:      "Create",
-		Host:    body.SSHHost,
-		User:    body.SSHUser,
-		Pass:    body.SSHPassword,
 		Token:   token,
-		Port:    fmt.Sprintf("%d", body.SSHPort),
 		SshType: sshType,
 		CMD:     cmd,
 	}
 
-	var combo []byte
-	if len(config.GetConfig().MqTopic) == 0 && len(config.GetConfig().MqHost) == 0 {
-		combo, err = execCmd(body.SSHHost, int(body.SSHPort), &models.Application{
-			SshPassword: body.SSHPassword,
-			SshUser:     body.SSHUser,
-		}, cmd)
-	} else {
+	log.Print("Using MQ  body.AgentName: " + body.AgentName)
 
-		log.Print("Using MQ")
+	msg, err := json.Marshal(cp)
+	failOnError(err, "Failed to marshal json")
 
-		msg, err := json.Marshal(cp)
-		failOnError(err, "Failed to marshal json")
-
-		ch := make(chan *OperateChan, 1)
-		chPool.Store(token, ch)
-		pushMsg2MQ(string(msg), config.GetConfig().MqTopic, config.GetConfig().MqHost)
-		combo, err = readCh(ch, token)
-	}
+	ch := make(chan *OperateChan, 1)
+	chPool.Store(token, ch)
+	pushMsg2MQ(string(msg), body.AgentName, config.GetConfig().MqHost)
+	combo, host, pwd, usr, port, err := readCh(ch, token)
 
 	if err != nil {
 		log.Println("remote run cmd failed", cmd, err)
@@ -155,17 +149,18 @@ func CreateApplicationInstance(params application.CreateApplicationInstanceParam
 		})
 	}
 	log.Println("cmd output:", string(combo))
-	sshPortStr := strconv.Itoa(int(body.SSHPort))
+	sshPortStr := port
 
 	row := map[string]string{
+		"agent":         body.AgentName,
 		"containerID":   string(combo),
 		"containerName": containerName,
 		"instanceName":  body.InstanceName,
 		"token":         token,
 		"uid":           strconv.Itoa(int(uid)),
-		"sshHost":       body.SSHHost,
-		"sshUser":       body.SSHUser,
-		"sshPassword":   body.SSHPassword,
+		"sshHost":       host,
+		"sshUser":       usr,
+		"sshPassword":   pwd,
 		"sshType":       sshType,
 		"sshKeyPath":    sshKeyPath,
 		"sshPort":       sshPortStr,
@@ -174,7 +169,7 @@ func CreateApplicationInstance(params application.CreateApplicationInstanceParam
 	var extra interface{}
 	switch body.AppType {
 	case "jupyter":
-		row["link"] = fmt.Sprintf("%s:%s/lab?token=%s", body.SSHHost, containerPort, token)
+		row["link"] = fmt.Sprintf("%s:%s/lab?token=%s", host, containerPort, token)
 		row["port"] = containerPort
 	default:
 		row["link"] = config.GetConfig().WebSshServiceHost
@@ -204,6 +199,7 @@ func CreateApplicationInstance(params application.CreateApplicationInstanceParam
 	if err := db.Create(&data).Error; err != nil {
 		log.Println("db install error", err)
 	}
+	log.Println(data)
 	log.Println("row Id ", data.ID)
 	tokenIndex.Store(token, data.ID)
 
@@ -251,10 +247,6 @@ func DeleteApplicationInstance(params application.DeleteApplicationInstanceParam
 		db.Where("token = ?", params.Token).First(data)
 	}
 
-	port, err := strconv.Atoi(data.SshPort)
-	if err != nil {
-		log.Println("strconv error", err)
-	}
 	cmd := fmt.Sprintf("docker kill %s", data.ContainerID[:12])
 	log.Println("cmd ", cmd)
 	//combo, err := execCmd(data.SshHost, port, data, cmd)
@@ -272,17 +264,16 @@ func DeleteApplicationInstance(params application.DeleteApplicationInstanceParam
 	}
 
 	var combo []byte
-	if len(config.GetConfig().MqTopic) == 0 && len(config.GetConfig().MqHost) == 0 {
-		combo, err = execCmd(data.SshHost, port, data, cmd)
-	} else {
-		msg, err := json.Marshal(cp)
-		failOnError(err, "Failed to marshal json")
 
-		ch := make(chan *OperateChan, 1)
-		chPool.Store(data.Token, ch)
-		pushMsg2MQ(string(msg), config.GetConfig().MqTopic, config.GetConfig().MqHost)
-		combo, err = readCh(ch, data.Token)
-	}
+	msg, err := json.Marshal(cp)
+	failOnError(err, "Failed to marshal json")
+
+	log.Println("data.Agent : ", data.Agent)
+
+	ch := make(chan *OperateChan, 1)
+	chPool.Store(data.Token, ch)
+	pushMsg2MQ(string(msg), data.Agent, config.GetConfig().MqHost)
+	combo, _, _, _, _, err = readCh(ch, data.Token)
 
 	if err != nil {
 		log.Println("remote run cmd failed", cmd, err)
@@ -328,9 +319,14 @@ func ListApplicationInstance(params application.ListApplicationInstanceParams) m
 			SSHPort:      data[i].SshPort,
 			SSHUser:      data[i].SshUser,
 			Port:         data[i].Port,
+			AgentName:    data[i].Agent,
 			Extra:        jsonTemp,
 			CreateAt:     fmt.Sprintf("%d", data[i].CreatedAt.Unix()),
 			RunningTime:  fmt.Sprintf("%d", time.Now().Unix()-data[i].CreatedAt.Unix()),
+		}
+
+		if value, has := agentRfWebsshLink[data[i].Agent]; has {
+			tmp.Link = value
 		}
 
 		payload[i] = tmp
@@ -534,49 +530,20 @@ func WsWatchApplicationInstanceLogs(params application.WsWatchApplicationInstanc
 	return wsStruct
 }
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
-
 func pushMsg2MQ(msg, name, dial string) {
-	var ch *amqp.Channel
+	var producer sarama.AsyncProducer
 	tmp, has := mqPool.Load(dial)
 	if !has {
-		conn, err := amqp.Dial(dial)
+		producer = InitProducer(dial)
 		log.Print("MQ host ", dial)
-		failOnError(err, "Failed to connect to RabbitMQ")
 
-		ch, err = conn.Channel()
-		failOnError(err, "Failed to open a channel")
-		mqPool.Store(dial, ch)
+		mqPool.Store(dial, producer)
 	} else {
-		ch = tmp.(*amqp.Channel)
+		producer = tmp.(sarama.AsyncProducer)
 	}
 
-	q, err := ch.QueueDeclare(
-		name,  // name
-		false, // durable
-		false, // delete when unused
-		false, // exclusive
-		false, // no-wait
-		nil,   // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
-	body := msg
-	err = ch.Publish(
-		"",     // exchange
-		q.Name, // routing key
-		false,  // mandatory
-		false,  // immediate
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(body),
-		})
-	failOnError(err, "Failed to publish a message")
-	log.Printf(" Sent %s\n", body)
+	ProducerSend(name, msg, producer)
+	log.Printf(" Sent %s\n", msg)
 }
 
 func execCmd(sshHost string, sshPort int, data *models.Application, cmd string) ([]byte, error) {
@@ -611,13 +578,14 @@ func publicKeyAuthFunc(kPath string) ssh.AuthMethod {
 	return ssh.PublicKeys(signer)
 }
 
-func readCh(ch chan *OperateChan, token string) ([]byte, error) {
+func readCh(ch chan *OperateChan, token string) (combos []byte, host, pwd, usr, port string, err error) {
 	lastMsg := <-ch
 	combo := lastMsg.Combo
-	err := lastMsg.Err
+	err = lastMsg.Err
 	close(ch)
 	chPool.Delete(token)
-	return []byte(combo), err
+	log.Println(lastMsg)
+	return []byte(combo), lastMsg.SSHHost, lastMsg.SSHPassword, lastMsg.SSHUser, lastMsg.SSHPort, err
 }
 
 func getSession(sshHost string, sshPort int, config *ssh.ClientConfig) (session *ssh.Session) {

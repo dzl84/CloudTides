@@ -1,0 +1,4 @@
+- host: "120.133.15.12"
+  pass: "ca$hc0w"
+  port: "20023"
+  user: "root"

@@ -43,6 +43,9 @@ func init() {
               "items": {
                 "type": "object",
                 "properties": {
+                  "agentName": {
+                    "type": "string"
+                  },
                   "appType": {
                     "type": "string"
                   },
@@ -182,6 +185,9 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "agentName": {
+                  "type": "string"
+                },
                 "appType": {
                   "type": "string"
                 },
@@ -189,18 +195,6 @@ func init() {
                   "type": "string"
                 },
                 "port": {
-                  "type": "string"
-                },
-                "sshHost": {
-                  "type": "string"
-                },
-                "sshPassword": {
-                  "type": "string"
-                },
-                "sshPort": {
-                  "type": "integer"
-                },
-                "sshUser": {
                   "type": "string"
                 }
               }
@@ -263,6 +257,18 @@ func init() {
                   "type": "string"
                 },
                 "error": {
+                  "type": "string"
+                },
+                "ssh_host": {
+                  "type": "string"
+                },
+                "ssh_password": {
+                  "type": "string"
+                },
+                "ssh_port": {
+                  "type": "string"
+                },
+                "ssh_user": {
                   "type": "string"
                 },
                 "token": {
@@ -466,16 +472,7 @@ func init() {
               "items": {
                 "type": "object",
                 "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "sshPass": {
-                    "type": "string"
-                  },
-                  "sshPort": {
-                    "type": "string"
-                  },
-                  "sshUser": {
+                  "agentName": {
                     "type": "string"
                   }
                 }
@@ -4491,6 +4488,9 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "agentName": {
+                  "type": "string"
+                },
                 "appType": {
                   "type": "string"
                 },
@@ -4498,18 +4498,6 @@ func init() {
                   "type": "string"
                 },
                 "port": {
-                  "type": "string"
-                },
-                "sshHost": {
-                  "type": "string"
-                },
-                "sshPassword": {
-                  "type": "string"
-                },
-                "sshPort": {
-                  "type": "integer"
-                },
-                "sshUser": {
                   "type": "string"
                 }
               }
@@ -4572,6 +4560,18 @@ func init() {
                   "type": "string"
                 },
                 "error": {
+                  "type": "string"
+                },
+                "ssh_host": {
+                  "type": "string"
+                },
+                "ssh_password": {
+                  "type": "string"
+                },
+                "ssh_port": {
+                  "type": "string"
+                },
+                "ssh_user": {
                   "type": "string"
                 },
                 "token": {
@@ -8132,16 +8132,7 @@ func init() {
     "AchieveHostOKBodyItems0": {
       "type": "object",
       "properties": {
-        "address": {
-          "type": "string"
-        },
-        "sshPass": {
-          "type": "string"
-        },
-        "sshPort": {
-          "type": "string"
-        },
-        "sshUser": {
+        "agentName": {
           "type": "string"
         }
       }
@@ -8230,6 +8221,9 @@ func init() {
     "ListApplicationInstanceOKBodyItems0": {
       "type": "object",
       "properties": {
+        "agentName": {
+          "type": "string"
+        },
         "appType": {
           "type": "string"
         },

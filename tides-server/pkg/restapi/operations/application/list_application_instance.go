@@ -63,6 +63,9 @@ func (o *ListApplicationInstance) ServeHTTP(rw http.ResponseWriter, r *http.Requ
 // swagger:model ListApplicationInstanceOKBodyItems0
 type ListApplicationInstanceOKBodyItems0 struct {
 
+	// agent name
+	AgentName string `json:"agentName,omitempty"`
+
 	// app type
 	AppType string `json:"appType,omitempty"`
 

@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"bytes"
-	"compress/zlib"
 	"errors"
 	"fmt"
+	"github.com/Shopify/sarama"
+	"github.com/zngw/log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -346,10 +346,29 @@ func isExist(path string) bool {
 	return true
 }
 
-func zipStr(origin string) (content string) {
-	var b bytes.Buffer
-	w := zlib.NewWriter(&b)
-	w.Write([]byte(origin))
-	w.Close()
-	return b.String()
+// Initialize the producers
+func InitProducer(hosts string) sarama.AsyncProducer {
+	config := sarama.NewConfig()
+	client, err := sarama.NewClient(strings.Split(hosts, ","), config)
+	if err != nil {
+		failOnError(err, "unable to create kafka client ")
+	}
+	producer, err := sarama.NewAsyncProducerFromClient(client)
+	if err != nil {
+		failOnError(err, "NewAsyncProducerFromClient Err")
+	}
+
+	return producer
+}
+
+// Send message
+func ProducerSend(topic, data string, producer sarama.AsyncProducer) {
+	producer.Input() <- &sarama.ProducerMessage{Topic: topic, Key: nil, Value: sarama.StringEncoder(data)}
+	log.Trace("kafka", "Produced message: ["+data+"]")
+}
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Error("%s: %s", msg, err)
+	}
 }

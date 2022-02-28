@@ -63,17 +63,8 @@ func (o *AchieveHost) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // swagger:model AchieveHostOKBodyItems0
 type AchieveHostOKBodyItems0 struct {
 
-	// address
-	Address string `json:"address,omitempty"`
-
-	// ssh pass
-	SSHPass string `json:"sshPass,omitempty"`
-
-	// ssh port
-	SSHPort string `json:"sshPort,omitempty"`
-
-	// ssh user
-	SSHUser string `json:"sshUser,omitempty"`
+	// agent name
+	AgentName string `json:"agentName,omitempty"`
 }
 
 // Validate validates this achieve host o k body items0

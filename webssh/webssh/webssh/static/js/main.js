@@ -835,7 +835,7 @@ jQuery(function ($) {
         // console.log(unescape(req.cmd))
         // cmd = unescape(req.cmd).replace(/\+/g, ' ')
         // const base64 = localStorage.getItem(req.token)
-        const base64 = 'eyJhcHBUeXBlIjoiZ3JvbWFjcyIsImNtZCI6ImRvY2tlciBleGVjIC1pdCA0ZTRjYWM3YjZmZWMgL2Jpbi9iYXNoIiwic3NoSG9zdCI6IjEyMC4xMzMuMTUuMTIiLCJzc2hQYXNzd29yZCI6ImNhJGhjMHciLCJzc2hQb3J0IjoiMjAwMjMiLCJzc2h1c2VyIjoicm9vdCJ9'
+        // const base64 = 'eyJhcHBUeXBlIjoiZ3JvbWFjcyIsImNtZCI6ImRvY2tlciBleGVjIC1pdCA0ZTRjYWM3YjZmZWMgL2Jpbi9iYXNoIiwic3NoSG9zdCI6IjEyMC4xMzMuMTUuMTIiLCJzc2hQYXNzd29yZCI6ImNhJGhjMHciLCJzc2hQb3J0IjoiMjAwMjMiLCJzc2h1c2VyIjoicm9vdCJ9'
         $.ajaxSetup({
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('CloudTidesUserToken')}`
@@ -860,8 +860,8 @@ jQuery(function ($) {
         console.log("Use new opts")
         opts = {
             url: window.location.href,
-            hostname: '120.133.15.12',
-            username: 'root',
+            hostname: '',
+            username: '',
         };
         result = connect_with_options(opts);
         // wssh.connect(opts);

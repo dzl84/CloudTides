@@ -4,15 +4,17 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/Shopify/sarama"
 	"golang.org/x/crypto/ssh"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
-
-	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func failOnError(err error, msg string) {
@@ -25,93 +27,147 @@ var sshPool sync.Map
 
 type Operate struct {
 	Op      string
-	Host    string
-	User    string
-	Pass    string
 	Token   string
 	Data    string
-	Port    string
 	CMD     string
 	SshType string
+
+	Host string `yaml:"host"`
+	User string `yaml:"user"`
+	Pass string `yaml:"pass"`
+	Port string `yaml:"port"`
+}
+
+type Host struct {
+	Host string `yaml:"host"`
+	User string `yaml:"user"`
+	Pass string `yaml:"pass"`
+	Port string `yaml:"port"`
 }
 
 var url string
 var mqHost string
 var mqTopic string
 
+var consumer sarama.Consumer
+
+// Callback func
+type ConsumerCallback func(data []byte)
+
+// Init Consumer
+func InitConsumer(hosts string) {
+	config := sarama.NewConfig()
+	client, err := sarama.NewClient(strings.Split(hosts, ","), config)
+	failOnError(err, "unable to create kafka client")
+
+	consumer, err = sarama.NewConsumerFromClient(client)
+	failOnError(err, "NewAsyncProducerFromClient Err")
+
+}
+
+func LoopConsumer(topic string, callback ConsumerCallback) {
+	partitionConsumer, err := consumer.ConsumePartition(topic, 0, sarama.OffsetNewest)
+	failOnError(err, "unable to create partitionConsumer")
+	defer partitionConsumer.Close()
+
+	for {
+		msg := <-partitionConsumer.Messages()
+		if callback != nil {
+			callback(msg.Value)
+		}
+	}
+}
+
+func Close() {
+	if consumer != nil {
+		consumer.Close()
+	}
+}
+
+func TopicCallBack(msg []byte) {
+	log.Printf("Received a message: %s", msg)
+	op := &Operate{}
+	err := json.Unmarshal(msg, op)
+	failOnError(err, "Failed convert JSON string to struct")
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < 10; i++ {
+		log.Println(rand.Intn(len(hosts)))
+	}
+	host := hosts[rand.Intn(len(hosts))]
+	var combo []byte
+	if op.Op == "delete" {
+		combo, err = execCmd(op.Host, op.User, op.Pass, op.SshType, op.Port, op.CMD)
+	} else {
+		combo, err = execCmd(host.Host, host.User, host.Pass, op.SshType, host.Port, op.CMD)
+
+	}
+	failOnError(err, "Failed to connect host by ssh")
+	log.Printf("Received a combo: %s", combo)
+
+	//SSHHost     string
+	//SSHUser     string
+	//SSHPassword string
+	//SSHPort     string
+	var values map[string]string
+	if op.Op == "delete" {
+		values = map[string]string{"combo": string(combo),
+			"token":        op.Token,
+			"ssh_host":     op.Host,
+			"ssh_user":     op.User,
+			"ssh_password": op.Pass,
+			"ssh_port":     op.Port,
+		}
+	} else {
+		values = map[string]string{"combo": string(combo),
+			"token":        op.Token,
+			"ssh_host":     host.Host,
+			"ssh_user":     host.User,
+			"ssh_password": host.Pass,
+			"ssh_port":     host.Port,
+		}
+	}
+
+	if err != nil {
+		values["error"] = err.Error()
+	} else {
+		values["error"] = ""
+	}
+
+	log.Printf("Received a values: %v", values)
+
+	jsonData, err := json.Marshal(values)
+	failOnError(err, "Failed to convent json")
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+	failOnError(err, "Failed to connect host")
+	log.Printf("Received a resp: %s", resp.Status)
+
+}
+
+var hosts []*Host
+
 func init() {
 	mqHost = os.Getenv("MQ_HOST")
-	mqTopic = os.Getenv("MQ_TOPIC")
+	mqTopic = os.Getenv("AGENT_NAME")
 	url = os.Getenv("SERVER_URL")
+	InitConsumer(mqHost)
+	yamlFile, err := ioutil.ReadFile("hosts.yaml")
+	log.Print(string(yamlFile))
+	err = yaml.Unmarshal(yamlFile, &hosts)
+	failOnError(err, "Failed to Unmarshal")
+	log.Print(hosts[0])
 }
 
 func main() {
+
 	log.Print("MQ host ", mqHost)
-	conn, err := amqp.Dial(mqHost)
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare(
-		mqTopic, // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
-	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
-	)
-	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
 
-	go func() {
-		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
-			op := &Operate{}
-			err = json.Unmarshal(d.Body, op)
-			failOnError(err, "Failed convert JSON string to struct")
-			combo, err := execCmd(op.Host, op.User, op.Pass, op.SshType, op.Port, op.CMD)
-			failOnError(err, "Failed to connect host by ssh")
-			log.Printf("Received a combo: %s", combo)
-
-			values := make(map[string]string)
-			log.Printf("Received a values: %v", values)
-			values["combo"] = string(combo)
-			log.Printf("Received a values: %v", values)
-			if err != nil {
-				values["error"] = err.Error()
-			} else {
-				values["error"] = ""
-			}
-			log.Printf("Received a values: %v", values)
-			values["token"] = op.Token
-			//values := map[string]string{"combo": string(combo), "error": err.Error(), "token": op.Token}
-			log.Printf("Received a values: %v", values)
-
-			jsonData, err := json.Marshal(values)
-			failOnError(err, "Failed to convent json")
-			resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
-			failOnError(err, "Failed to connect host")
-			log.Printf("Received a resp: %s", resp.Status)
-		}
-	}()
+	LoopConsumer(mqTopic, TopicCallBack)
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
+	Close()
 }
 
 func execCmd(sshHost, SshUser, SshPassword, sshType, sshPort, cmd string) ([]byte, error) {

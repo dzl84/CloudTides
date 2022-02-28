@@ -63,6 +63,9 @@ func (o *CreateApplicationInstance) ServeHTTP(rw http.ResponseWriter, r *http.Re
 // swagger:model CreateApplicationInstanceBody
 type CreateApplicationInstanceBody struct {
 
+	// agent name
+	AgentName string `json:"agentName,omitempty"`
+
 	// app type
 	AppType string `json:"appType,omitempty"`
 
@@ -71,18 +74,6 @@ type CreateApplicationInstanceBody struct {
 
 	// port
 	Port string `json:"port,omitempty"`
-
-	// ssh host
-	SSHHost string `json:"sshHost,omitempty"`
-
-	// ssh password
-	SSHPassword string `json:"sshPassword,omitempty"`
-
-	// ssh port
-	SSHPort int64 `json:"sshPort,omitempty"`
-
-	// ssh user
-	SSHUser string `json:"sshUser,omitempty"`
 }
 
 // Validate validates this create application instance body
