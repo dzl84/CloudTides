@@ -254,7 +254,7 @@
         "APPTYPE": "Appliction Type",
         "VERSION":"Version",
         "NUM":"Number of cpu",
-        "CLOUDPLATFORM": "cloud platform"
+        "CLOUDPLATFORM": "Resource pool"
       },
       "REFRESH": "REFRESH",
       "CREATE": "CREATE",

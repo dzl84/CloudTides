@@ -261,7 +261,7 @@
         "APPTYPE": "应用程序类型",
         "VERSION":"版本",
         "NUM":"CPU数量",
-        "CLOUDPLATFORM": "云平台"
+        "CLOUDPLATFORM": "资源池"
       },
       "REFRESH": "刷新",
       "CREATE": "创建",

@@ -34,7 +34,7 @@ export class NotebooksService {
   })
   gromacsInstanceForm = this.fb.group({
     instanceName: ['', Validators.required],
-    cloud: ['', Validators.required],
+    agentName: ['', Validators.required],
     appType: [this.currentModel],
   })
   createInstanceTitle = 'HOME.NOTEBOOKS.Create'

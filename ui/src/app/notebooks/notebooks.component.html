@@ -111,9 +111,8 @@
                 <label class="clr-control-label" for="input7">{{'HOME.APPLICATION.NEW_INSTANCE.CLOUDPLATFORM' | translate}}</label>
                 <div class="clr-control-container">
                   <div class="clr-select-wrapper">
-                    <select placeholder="Select Option" id="input7" name="cloud" formControlName="cloud">
-                      <option value='inside'>内部云</option>
-                      <option value='external'>外部云</option>
+                    <select placeholder="Select Option" id="input7" name="cloud" formControlName="agentName">
+                      <option *ngFor="let cloud of hostNameList" [value]='cloud.agentName'>{{cloud.agentName}}</option>
                     </select>
                   </div>
                 </div>

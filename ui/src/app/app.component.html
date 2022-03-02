@@ -121,7 +121,7 @@
         </div>
       </header>
 
-      <nav class="subnav" *ngIf="!this.registerService.inRegisterPage() && this.registerService.authority === 'Admin'">
+      <nav class="subnav" *ngIf="!this.registerService.inRegisterPage() && (this.registerService.authority === 'Admin' || this.registerService.authority === '')">
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link"
