@@ -154,7 +154,10 @@
         "ORG_PLACEHOLDER": "Tenant Name",
         "NETWORK_PLACEHOLDER": "Network Name",
         "CATALOG_PLACEHOLDER": "Catalog Name"
-      }
+      },
+      "CREATE_POOL": "Create A Pool",
+      "POOL": "Pool",
+      "POOL_DETAIL": "Pool Detail"
     },
     "POLICY": {
       "POLICY": "Policy",
@@ -239,6 +242,7 @@
       "APPLICATION": "Application",
       "INSTANCE": "instance",
       "HISTORY": "historical operation record",
+      "POOL": "Pool",
       "NEW_INSTANCE": {
         "NEW_INSTANCE": "new instance",
         "NEW_APPLICATION_INSTANCE": "New instance",

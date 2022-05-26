@@ -5,6 +5,7 @@ import { Item, ItemPayload, ResourceService } from '../resource.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NOTIFICATION_EXIST_TIME, RESOURCE_USAGE_REFRESH_PERIOD } from '@tide-config/const';
 import { LoginService } from 'src/app/login/login.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'tide-resource-list',
@@ -12,12 +13,29 @@ import { LoginService } from 'src/app/login/login.service';
   styleUrls: ['./resource-list.component.scss'],
 })
 export class ResourceListComponent implements OnInit, OnDestroy {
-
+  createEquinixModal = false
+  equinixForm!: FormGroup
+  pageSizeOptions = [10, 20, 50, 100, 500];
+  poolList:any[] = [{
+    name: 'pool-test',
+    id:1
+  }]
   constructor(
     private resourceService: ResourceService,
     public readonly translate: TranslateService,
     public readonly loginService: LoginService,
-  ) {
+    private fb: FormBuilder
+    ) {
+    this.equinixForm = this.fb.group({
+      name: [''],
+      data_center: [''],
+      project: [''],
+      administrators: [''],
+      server_type: [''],
+      usage: [''],
+      cost: [''],
+      enabled: [true]
+    })
 
   }
 
@@ -108,5 +126,11 @@ export class ResourceListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     window.clearInterval(this.refreshInterval);
   }
+  public resetEquinixModal () {
+    this.createEquinixModal = false
+  }
 
+  public createEquinixPoolHandler () {
+    this.createEquinixModal = false
+  }
 }

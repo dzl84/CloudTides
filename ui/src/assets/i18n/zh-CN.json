@@ -161,7 +161,10 @@
         "ORG_PLACEHOLDER": "组织名称",
         "NETWORK_PLACEHOLDER": "网络名称",
         "CATALOG_PLACEHOLDER": "目录名称"
-      }
+      },
+      "CREATE_POOL": "新建资源池",
+      "POOL": "资源池",
+      "POOL_DETAIL": "资源池详情"
     },
     "POLICY": {
       "POLICY": "策略",
@@ -246,6 +249,7 @@
       "APPLICATION": "应用程序",
       "INSTANCE": "实例",
       "HISTORY": "历史操作日志",
+      "POOL": "资源池",
       "NEW_INSTANCE": {
         "NEW_INSTANCE" : "创建新实例",
         "NEW_APPLICATION_INSTANCE": "新建实例",
