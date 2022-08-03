@@ -1,0 +1,20 @@
+<div class="instanc-warp">
+  <!-- <div class="btn-group">
+    <button class="btn" [ngClass]="{'btn-primary': currentButton}" (click)="toggleCurrentButton()">实例</button>
+    <button class="btn" [ngClass]="{'btn-primary': !currentButton}" (click)="toggleCurrentButton()">集群</button>
+  </div> -->
+  <div class="instanc-content" [hidden]="!currentButton">
+    <!-- <div class="python" (click)="openInstanceModal('jupyter')">
+      <img src="assets/img/jupyter.svg" alt="">
+      <p>Jupyter</p>
+    </div> -->
+    <div class="gromacs" (click)="openInstanceModal('gromacs')">
+      <img src="assets/img/gromacs.png" alt="">
+      <p>Gromacs</p>
+    </div>
+    <div class="gromacs" (click)="openInstanceModal('openfoam')">
+      <img src="assets/img/open-foam.png" alt="">
+      <p>OpenFOAM</p>
+    </div>
+  </div>
+</div>

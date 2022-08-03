@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  #prometheus:
+  #  build: .
+  #  ports:
+  #    - "9090:9090"
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+    networks:
+      - prom
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - type: bind
+        source: ./prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+      - type: volume
+        source: prometheus
+        target: /prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - prom
+  #node-exporter:
+  #  image: prom/node-exporter
+  #  #build: ../nodeExporter
+  #  ports:
+  #    - "9100:9100"
+  #  networks:
+  #    - prom
+  
+  #p-query:
+    #build: ./p-query
+    #restart: always
+networks:
+  prom:
+    driver: bridge
+volumes:
+  prometheus:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/dmgeo/prom/prometheus/data

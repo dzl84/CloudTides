@@ -1,0 +1,65 @@
+<div class="login-wrapper">
+  <form class="login"
+    #loginForm="ngForm"
+    autocomplete="off"
+    (ngSubmit)="this.onSubmit(this.vo.model)">
+
+    <clr-select-container class="langhidden">
+      <select
+        clrSelect
+        [(ngModel)]="i18nService.i18nChoice"
+        (ngModelChange)="i18nService.setLanguage()"
+        [ngModelOptions]="{standalone: true}">
+        <option *ngFor="let lang of i18nService.i18nSupportList" [value]="lang.lang">{{lang.name}}</option>
+      </select>
+    </clr-select-container>
+
+    <label class="title">
+      {{ "LOGIN.LOGIN_TITLE" | translate:{} }}
+    </label>
+
+    <div class="login-group">
+      <input class="username"
+        [placeholder]="'LOGIN.USERNAME' | translate:{} "
+        type="text"
+        [(ngModel)]="this.vo.model.username"
+        name="username"
+        trimOnBlur
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+        spellcheck="false"
+        required />
+
+      <input class="password"
+        [placeholder]="'LOGIN.PASSWORD' | translate:{} "
+        type="password"
+        [(ngModel)]="this.vo.model.password"
+        name="password"
+        autocomplete="new-password"
+        required />
+
+      <clr-alert clrAlertType="danger"
+        [clrAlertClosable]="false"
+        *ngIf="this.vo.loginError">
+
+        <clr-alert-item>
+          <div class="alert-text">
+            <span>{{ this.vo.loginError }}</span>
+          </div>
+        </clr-alert-item>
+
+      </clr-alert>
+
+      <button class="btn btn-primary"
+        type="submit"
+        [disabled]="!loginForm.form.valid || vo.submitting">
+        {{ (this.vo.submitting) && ('LOGIN.SUBMITTING'| translate:{}) || ('LOGIN.LOGIN'| translate:{}) }}
+      </button>
+    </div>
+    
+    <div class="login-footer">
+      <a href="http://beian.miit.gov.cn/">沪ICP备20023552号</a>
+    </div>
+  </form>
+</div>

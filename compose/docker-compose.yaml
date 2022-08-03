@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=postgres
+    volumes:
+      - server_db:/var/lib/postgresql/data
+  backend:
+    build: ../tides-server
+    volumes:
+      - ../tides-server:/data
+    environment:
+      - SERVER_IP=0.0.0.0
+      - SERVER_PORT=8033
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=postgres
+      - ADMIN_USER=Admin
+      - ADMIN_PASSWORD=Admin
+      - SECRET_KEY=test
+      - OFFICIAL_EMAIL=admin@cloudtides.org.cn
+      - OFFICIAL_PASSWORD=nBd9NzkdGG9Sev3
+      - WEB_SSH_SERVICE_HOST=localhost/webssh
+      - TEMP_STORAGE_PATH=/data
+    stdin_open: true
+    tty: true
+    depends_on:
+      - database
+    entrypoint: ["/build/backend"]
+  webssh:
+    image: yinhaozheng/webssh
+    depends_on:
+      - backend
+  frontend:
+    build:
+      context: ../ui
+      args:
+        - MOD=dev
+    depends_on:
+      - backend
+      - webssh
+  nginx:
+    image: nginx:stable
+    volumes:
+      - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+volumes:
+  server_db: {}

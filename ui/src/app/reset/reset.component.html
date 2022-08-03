@@ -1,0 +1,117 @@
+<div class="card" id="res-card">
+  <div class="card-block">
+
+
+    <form clrForm
+      [formGroup]="resetForm"
+      (ngSubmit)="this.onSubmit()">
+      <h1>
+        {{ "RESET.RESET" | translate:{} }}
+      </h1>
+      <!-- <p class="card-text">
+        {{ "RESET.SUBTITLE" | translate:{} }}
+      </p> -->
+      <br>
+      <br>
+      <div id="res-account">
+        <!-- <h3>{{ "REGISTER.ACCOUNT" | translate:{} }}</h3> -->
+        <!-- <clr-input-container>
+          <label>{{ 'RESET.USERNAME' | translate:{} }}</label>
+          <input clrInput formControlName="username" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'RESET.USERNAME_MISSING' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'minlength'">{{ 'RESET.USERNAME_TOO_SHORT' | translate:{} }}</clr-control-error>
+        </clr-input-container> -->
+        <clr-password-container>
+          <label>{{ 'RESET.PASSWORD' | translate:{} }}</label>
+          <input clrPassword formControlName="password" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'RESET.PASSWORD_MISSING' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'minlength'">{{ 'RESET.PASSWORD_TOO_SHORT' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'maxlength'">{{ 'RESET.PASSWORD_TOO_LONG' | translate:{} }}</clr-control-error>
+        </clr-password-container>
+
+        <clr-password-container>
+          <label>{{ 'RESET.NEW_PASSWORD' | translate:{} }}</label>
+          <input clrPassword formControlName="newPassword" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'RESET.PASSWORD_MISSING' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'minlength'">{{ 'RESET.PASSWORD_TOO_SHORT' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'maxlength'">{{ 'RESET.PASSWORD_TOO_LONG' | translate:{} }}</clr-control-error>
+            <clr-control-error
+            *clrIfError="'same'">{{ 'RESET.PASSWORD_SAME' | translate:{} }}</clr-control-error>
+        </clr-password-container>
+
+        <clr-password-container>
+          <label>{{ "RESET.CONFIRMED_PASSWORD" | translate:{} }}</label>
+          <input clrPassword formControlName="confirmPassword" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'RESET.PASSWORD_MISSING' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'minlength'">{{ 'RESET.PASSWORD_TOO_SHORT' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'maxlength'">{{ 'RESET.PASSWORD_TOO_LONG' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'mismatch'">{{ 'RESET.PASSWORD_NOT_MATCH' | translate:{} }}</clr-control-error>
+        </clr-password-container>
+
+        <clr-input-container>
+          <label>{{ 'RESET.VERIFICATION_CODE' | translate:{} }}</label>
+          <input clrInput formControlName="verificationCode" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'RESET.VERIFICATION_MISSING' | translate:{} }}</clr-control-error>
+          <!-- <clr-control-error
+            *clrIfError="'minlength'">{{ 'RESET.USERNAME_TOO_SHORT' | translate:{} }}</clr-control-error> -->
+        </clr-input-container>
+      </div>
+      <br>
+      <br>
+      <!-- <div id="basic-information">
+        <h3>{{ "REGISTER.BASIC_INFORMATION" | translate:{} }}</h3>
+        <clr-input-container>
+          <label>{{ 'REGISTER.EMAIL' | translate:{} }}</label>
+          <input clrInput formControlName="email" />
+          <clr-control-error *clrIfError="'required'">{{ 'REGISTER.EMAIL_MISSING' | translate:{} }}</clr-control-error>
+          <clr-control-error
+            *clrIfError="'email'">{{ 'REGISTER.EMAIL_WRONG_FORMAT' | translate:{} }}</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>{{ 'REGISTER.PHONE' | translate:{} }}</label>
+          <input clrInput formControlName="phone" />
+          <clr-control-error *clrIfError="'required'">{{ 'REGISTER.PHONE_MISSING' | translate:{} }}</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>{{ 'REGISTER.COMPANY' | translate:{} }}</label>
+          <input clrInput formControlName="companyName" />
+          <clr-control-error
+            *clrIfError="'required'">{{ 'REGISTER.COMPANY_MISSING' | translate:{} }}</clr-control-error>
+        </clr-input-container>
+      </div> -->
+      <br>
+      <clr-alert clrAlertType="danger"
+        [clrAlertClosable]="false"
+        *ngIf="this.vo.resetError">
+
+        <clr-alert-item>
+          <div class="alert-text">
+            <span>{{ this.vo.resetError }}</span>
+          </div>
+        </clr-alert-item>
+
+      </clr-alert>
+      <br>
+      <button class="btn btn-primary"
+        type="submit"
+        [disabled]="vo.submitting || !this.resetForm.valid">
+        {{ (this.vo.submitting) && ('RESET.SUBMITTING'| translate:{}) || ('RESET.RESET'| translate:{}) }}
+      </button>
+    </form>
+  </div>
+
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+</div>

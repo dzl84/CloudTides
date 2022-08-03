@@ -1,0 +1,68 @@
+<clr-alert [clrAlertType]="vo.alertType"
+  [clrAlertClosable]="false"
+  *ngIf="this.vo.alertText">
+
+  <clr-alert-item>
+    <div class="alert-text">
+      <span>{{ this.vo.alertText }}</span>
+    </div>
+  </clr-alert-item>
+
+</clr-alert>
+
+<div class="card">
+  <div class="card-block">
+    <div class="info-wrapper">
+      <clr-icon class="info-icon" size="100" shape="nodes"></clr-icon>
+      <span class="info-container">
+        <div class="name">
+          {{ item?.name }}
+        </div>
+        <div class="desc">{{ "HOME.RESOURCE.CARD.INFO.CPU" | translate:{} }}: {{ item?.cpu }} GHz</div>
+        <div class="desc">{{ "HOME.RESOURCE.CARD.INFO.MEMORY" | translate:{} }}: {{ item?.mem }} GB</div>
+        <div class="desc">{{ "HOME.RESOURCE.CARD.INFO.DISK" | translate:{} }}: {{ item?.disk }} GB</div>
+      </span>
+    </div>
+    <div class="detail-wrapper">
+      <span class="detail-container">
+        <div class="value">{{ item?.usage ? item?.usage["cpu%"] : "-" }}%</div>
+        <div class="key">{{ "HOME.RESOURCE.CARD.DETAIL.CPU" | translate:{} }}</div>
+      </span>
+      <span class="detail-container">
+        <div class="value">{{ item?.usage ? item?.usage["mem%"] : "-"  }}%</div>
+        <div class="key">{{ "HOME.RESOURCE.CARD.DETAIL.MEMORY" | translate:{} }}</div>
+      </span>
+      <span class="detail-container">
+        <div class="value">{{ item?.usage ? item?.usage["disk%"] : "-"  }}%</div>
+        <div class="key">{{ "HOME.RESOURCE.CARD.DETAIL.DISK" | translate:{} }}</div>
+      </span>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <div class="clr-row clr-justify-content-end">
+      <div class="clr-col-2">
+        <button
+          class="btn btn-sm btn-link"
+          (click)="this.activate()"
+          *ngIf="this.loginService.inAdminView()"
+        >{{ "HOME.RESOURCE.CARD.FOOTER.ACTIVATE" | translate:{} }}</button>
+      </div>
+      <div class="clr-col-2">
+        <button
+          class="btn btn-sm btn-link"
+          (click)="this.contribute()"
+        >{{ "HOME.RESOURCE.CARD.FOOTER.CONTRIBUTE" | translate:{} }}</button>
+      </div>
+      <div class="clr-col-2">
+        <button
+          class="btn btn-sm btn-link"
+          (click)="this.delete()"
+        >{{ "HOME.RESOURCE.CARD.FOOTER.DELETE" | translate:{} }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

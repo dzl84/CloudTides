@@ -1,0 +1,51 @@
+<div class="content-header">
+  <h3>{{ "HOME.POLICY.CONTRIBUTION_POLICY" | translate:{} }}</h3>
+</div>
+
+<div class="content-body">
+  <button class="btn btn-primary" (click)="this.opened=true">
+    <clr-icon shape="plus"></clr-icon>
+    {{ "HOME.POLICY.ADD_POLICY" | translate:{} }}
+  </button>
+
+  <clr-datagrid>
+    <clr-dg-column [clrDgField]="'crid'">{{ "HOME.POLICY.DATAGRID.CRID" | translate:{} }}</clr-dg-column>
+    <clr-dg-column [clrDgField]="'template'">{{ "HOME.POLICY.DATAGRID.TEMPLATE" | translate:{} }}</clr-dg-column>
+    <clr-dg-column
+      [clrDgField]="'startConditions'">{{ "HOME.POLICY.DATAGRID.START_CONDITIONS" | translate:{} }}</clr-dg-column>
+    <clr-dg-column
+      [clrDgField]="'stopConditions'">{{ "HOME.POLICY.DATAGRID.STOP_CONDITIONS" | translate:{} }}</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let item of list$ | async" [clrDgItem]="item">
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="this.edit(item)">
+          {{ "HOME.POLICY.DATAGRID.EDIT" | translate:{} }}
+        </button>
+        <button class="action-item" (click)="this.delete(item)">
+          {{ "HOME.POLICY.DATAGRID.DELETE" | translate:{} }}
+        </button>
+      </clr-dg-action-overflow>
+      <clr-dg-cell>{{ item.crid }}</clr-dg-cell>
+      <clr-dg-cell>{{ item.template }}</clr-dg-cell>
+      <clr-dg-cell>{{ item.startConditions | list}}</clr-dg-cell>
+      <clr-dg-cell>{{ item.stopConditions | list}}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-placeholder>
+      No Policy Data
+    </clr-dg-placeholder>
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="this.vo.pageSize">
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        {{ "HOME.POLICY.DATAGRID.OF" | translate:{} }} {{pagination.totalItems}} {{ "HOME.POLICY.DATAGRID.ITEM" | translate:{} }}
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+</div>
+
+<tide-policy-dialog
+  *ngIf="this.opened"
+  [opened]="this.opened"
+  (save)="this.add($event)"
+  (cancel)="this.cancel()">
+</tide-policy-dialog>

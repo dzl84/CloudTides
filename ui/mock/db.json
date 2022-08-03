@@ -1,0 +1,41 @@
+{
+  "session": {
+
+  },
+  "config": {
+    "collect": "computeUnitCollect.sh"
+  },
+  "computeResource": [{
+    "id": 1,
+    "name": "vcenter",
+    "cpu": 4,
+    "mem": 17179869184,
+    "disk": 162896932864,
+    "usage": {
+      "cpu%": 10.2,
+      "mem%": 42.8,
+      "disk%": 93
+    }
+  }],
+  "schedulerPolicie": [{
+    "crid": 1,
+    "template": "Folding@Home",
+    "startConditions": [
+      ["cpu%", "lt", 5]
+    ],
+    "stopConditions": [
+      ["cpu%", "gt", 50]
+    ]
+  }],
+  "templates": [{
+    "id": "1",
+    "name": "Folding@Home",
+    "displayName": "VMware Appliance for Folding@Home",
+    "version": "v1.0.2",
+    "date": "April 01, 2020",
+    "url": "https://flings.vmware.com/vmware-appliance-for-folding-home",
+    "cpu": 4,
+    "mem": 1024,
+    "disk": 2048
+  }]
+}

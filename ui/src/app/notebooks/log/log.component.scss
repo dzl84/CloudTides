@@ -1,0 +1,19 @@
+.log-wrap {
+  padding: 20px;
+  position: relative;
+  .loading {
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: absolute;
+    left: 0;
+    top: 80px;
+    background-color:rgba($color: #000, $alpha: 0.2);
+    z-index: 999;
+    .spinner {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+    }
+  }
+}

@@ -1,0 +1,142 @@
+swagger: "2.0"
+info:
+  title: 'CloudTides-webserver'
+  version: '0.0.1'
+basePath: /api/webserver
+paths:
+  /addHost:
+    post:
+      operationId: 'addOneHost'
+      description: 'add a local machine to webserver database'
+      tags:
+        - 'hosts_api'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - name: body
+          in: body
+          schema:
+            description: 'local machine registration form'
+            type: object
+            properties:
+              hostname:
+                type: string
+              policy:
+                type: integer
+              datacenter:
+                type: string
+              cluster:
+                type: string
+              ip:
+                type: string
+              port:
+                type: integer
+                format: int64
+              sshkey:
+                type: string
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        201:
+          description: 'local machine registered successfully'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        400:
+          description: 'bad request'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        401:
+          description: 'Unauthorized'
+  /getHosts:
+    get:
+      operationId: 'getHosts'
+      description: 'returns all machines belong to a user'
+      tags:
+        - 'hosts_api'
+      produces:
+        - 'application/json'
+      responses:
+        200:
+          description: 'returns the list of hosts'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              results:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hostname:
+                      type: string
+                    policy:
+                      type: integer
+                    datacenter:
+                      type: string
+                    cluster:
+                      type: string
+                    ip:
+                      type: string
+                    port:
+                      type: integer
+                      format: int64
+                    sshkey:
+                      type: string
+        400:
+          description: 'bad request'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        401:
+          description: 'Unauthorized'
+        404:
+          description: 'hosts not found'
+  /deleteHost:
+    post:
+      operationId: 'deleteHost'
+      description: 'delete a host'
+      tags:
+        - 'hosts_api'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - name: body
+          in: body
+          schema:
+            description: 'use hostname to delete host'
+            type: object
+            properties:
+              hostname:
+                type: string
+      responses:
+        200:
+          description: 'successfully delete the host'
+          schema:
+            type: object
+            properties:
+              hostname:
+                type: string
+        400:
+          description: 'bad request'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: 'Server error'

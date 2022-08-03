@@ -1,0 +1,41 @@
+.country-flag-phine {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  .phone {
+    padding-left: 0px;
+    font-weight: bold;
+    color: #454545;
+    font-size: .65rem;
+  }
+  .input-contarner {
+    position: relative;
+    input {
+      margin-left: 100px;
+      border: none;
+      border-bottom: 1px solid #b3b3b3;
+      outline: none;
+      &:focus {
+        border: none;
+        border-bottom: 2px solid #0072a3;
+      }
+      &.ng-touched {
+        border-bottom: 1px solid #C21C00;
+      }
+      &.ng-valid {
+        border-bottom: 1px solid #b3b3b3;
+      }
+    }
+    p {
+      margin-top: 0px;
+      color: #C21C00;
+      font-size: 12px;
+      position: absolute;
+      left: 100px;
+      bottom: -22px;
+    }
+  }
+}
+.modal-body {
+  padding-bottom: 10px;
+}
