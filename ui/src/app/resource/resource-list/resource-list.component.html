@@ -2,140 +2,173 @@
   <clr-icon shape="plus"></clr-icon>
   {{ "HOME.RESOURCE.ADD_RESOURCE" | translate:{} }}
 </button>
-<button class="btn btn-primary" id="createPool" (click)="createEquinixModal=true">
-  <clr-icon shape="plus"></clr-icon>   {{ "HOME.RESOURCE.CREATE_POOL" | translate }}
 
-</button>
-<div *ngIf="this.list$ | async as list">
-  <!--div class="clr-row" *ngFor="let item of list">
-    <div class="clr-col-12">
-      <tide-resource-card [item]="item"></tide-resource-card>
-    </div>
-  </div-->
-  <!--clr-datagrid [(clrDgSelected)]="selected"-->
-  <h4>{{"HOME.RESOURCE.RESOURCE" | translate}}</h4>
-  <clr-datagrid>
-    <!--clr-dg-action-bar>
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-secondary" (click)="this.opened=true">
-          <clr-icon shape="plus"></clr-icon>
-        </button>
-      </div>
-    </clr-dg-action-bar-->
-    <clr-dg-column>
-      <div class="key">Vendor Name</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Tenant</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">DataCenter</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Type</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Total CPU</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Total Memory</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Total Disk</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">CPU Usage</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Memory Usage</div>
-    </clr-dg-column>
-    <clr-dg-column>
-      <div class="key">Disk Usage</div>
-    </clr-dg-column>
+<!-- <select #modeSelect class="select" (change) = "modeChange(modeSelect.value)" >
+  <optionz *ngFor = "let mode of modes">{{mode}}</option>
+</select> -->
 
-    <!--clr-dg-row *ngFor="let item of list"-->
-    <clr-dg-row *clrDgItems="let item of list" [clrDgItem]="item">
-      <clr-dg-action-overflow>
-        <button
-          class="btn btn-sm btn-link"
-          (click)="this.activate(item.id)"
-          *ngIf="this.loginService.inSiteAdminView()||this.loginService.inOrgAdminView"
-        >{{ "HOME.RESOURCE.CARD.FOOTER.ACTIVATE" | translate:{} }}</button>
-        <button
-          class="btn btn-sm btn-link"
-          (click)="this.contribute(item.id)"
-        >{{ "HOME.RESOURCE.CARD.FOOTER.CONTRIBUTE" | translate:{} }}</button>
-        <button
-          class="btn btn-sm btn-link"
-          (click)="this.delete(item.vcdId)"
-        >{{ "HOME.RESOURCE.CARD.FOOTER.DELETE" | translate:{} }}</button>
-      </clr-dg-action-overflow>
-      <clr-dg-cell><div class="value">{{item?.vendor}}</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.organization}}</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.name}}</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.resType}}</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.cpu}} GHz</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.mem}} GB</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.disk}} GB</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.usage["cpu"]}}GHz ({{ item?.usage ? item?.usage["cpu%"] : "-" }}%)</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.usage["mem"]}}GB ({{ item?.usage ? item?.usage["mem%"] : "-"  }}%)</div></clr-dg-cell>
-      <clr-dg-cell><div class="value">{{item?.usage["disk"]}}GB ({{ item?.usage ? item?.usage["disk%"] : "-"  }}%)</div></clr-dg-cell>
-    </clr-dg-row>
-  </clr-datagrid>
-  <h4>{{"HOME.RESOURCE.POOL" | translate}}</h4>
-  <clr-datagrid >
-    <clr-dg-column [clrDgField]="'attributes.pool'">Name</clr-dg-column>
-    <clr-dg-column [clrDgField]="'attributes.business_unit'">DataCenter</clr-dg-column>
-    <clr-dg-column [clrDgField]="'attributes.business_unit'">Project</clr-dg-column>
-    <clr-dg-column [clrDgField]="'attributes.business_unit'">Administrators</clr-dg-column>
-    <clr-dg-column [clrDgField]="'updated_by'">API Token Expiry</clr-dg-column>
-    <clr-dg-column [clrDgField]="'updated_by'">Reserved Servers</clr-dg-column>
-    <clr-dg-column [clrDgSortBy]="'created_at'">On-demand Servers</clr-dg-column>
-    <clr-dg-column>Spot Servers</clr-dg-column>
-    <clr-dg-column>Current Usage</clr-dg-column>
-    <clr-dg-column>Current Cost</clr-dg-column>
-    <clr-dg-column>Enabled</clr-dg-column>
-    <clr-dg-column style="width: 200px;">Actions</clr-dg-column>
-  
-    <clr-dg-row *clrDgItems="let pool of poolList" [clrDgItem]="pool">
-      <clr-dg-cell>
-        <a href="javascript:;" [routerLink]="'pool/'+pool.id">{{pool.name}}</a>
-      </clr-dg-cell>
-      <clr-dg-cell>{{pool.DataCenter}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.attributes ? pool.attributes.business_unit : ''}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.updated_by}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.created_at}}</clr-dg-cell>
-      <clr-dg-cell>{{pool.justification}}</clr-dg-cell>
-      <clr-dg-cell>
-        <div role="tooltip" aria-haspopup="true" class="tooltip tooltip-bottom-left">
-          <span class="tooltip-content tooltip-md">Edit Pool</span>
-          <button type="button" class="btn btn-sm btn-icon">
-            <clr-icon shape="pencil"></clr-icon>
-          </button>
+<clr-tabs>
+  <clr-tab>
+      <button clrTabLink id="cloud" (click) = "modeChange('cloud')">Cloud</button>
+      <clr-tab-content id="cloudList" *clrIfActive="true">
+        <div *ngIf="this.list$ | async as list">
+          <!--div class="clr-row" *ngFor="let item of list">
+            <div class="clr-col-12">
+              <tide-resource-card [item]="item"></tide-resource-card>
+            </div>
+          </div-->
+          <!--clr-datagrid [(clrDgSelected)]="selected"-->
+          <clr-datagrid>
+            <!--clr-dg-action-bar>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-secondary" (click)="this.opened=true">
+                  <clr-icon shape="plus"></clr-icon>
+                </button>
+              </div>
+            </clr-dg-action-bar-->
+            <clr-dg-column>
+              <div class="key">Vendor Name</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Tenant</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">DataCenter</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Type</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Total CPU</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Total Memory</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Total Disk</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">CPU Usage</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Memory Usage</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Disk Usage</div>
+            </clr-dg-column>
+        
+            <!--clr-dg-row *ngFor="let item of list"-->
+            <clr-dg-row *clrDgItems="let item of list" [clrDgItem]="item">
+              <clr-dg-action-overflow>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.activate(item.id)"
+                  *ngIf="this.loginService.inSiteAdminView()||this.loginService.inOrgAdminView"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.ACTIVATE" | translate:{} }}</button>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.contribute(item.id)"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.CONTRIBUTE" | translate:{} }}</button>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.delete(item.vcdId)"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.DELETE" | translate:{} }}</button>
+              </clr-dg-action-overflow>
+              <clr-dg-cell><div class="value">{{item?.vendor}}</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.organization}}</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.name}}</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.resType}}</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.cpu}} GHz</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.mem}} GB</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.disk}} GB</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.usage["cpu"]}}GHz ({{ item?.usage ? item?.usage["cpu%"] : "-" }}%)</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.usage["mem"]}}GB ({{ item?.usage ? item?.usage["mem%"] : "-"  }}%)</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.usage["disk"]}}GB ({{ item?.usage ? item?.usage["disk%"] : "-"  }}%)</div></clr-dg-cell>
+            </clr-dg-row>
+          </clr-datagrid>
         </div>
-        <clr-dropdown [clrCloseMenuOnItemClick]="true">
-          <button clrDropdownTrigger aria-label="Team dropdown menu">
-            <clr-icon shape="ellipsis-vertical"></clr-icon>
-          </button>
-          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-          </clr-dropdown-menu>
-        </clr-dropdown>
-      </clr-dg-cell>
-    </clr-dg-row>
-  
-    <clr-dg-footer>
-      <clr-dg-pagination #poolpagination [clrDgTotalItems]="poolList.length">
-        <clr-dg-page-size [clrPageSizeOptions]="pageSizeOptions">Pools per page</clr-dg-page-size>
-        {{poolpagination.firstItem + 1}} - {{poolpagination.lastItem + 1}} of {{poolList.length}} Pools
-      </clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
-</div>
+      </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+      <button clrTabLink id="link" (click) = "modeChange('local')">Local</button>
+      <clr-tab-content id="localList" *clrIfActive >
+        <div *ngIf="this.list$ | async as list">
+
+          <clr-datagrid>
+
+            <clr-dg-column>
+              <div class="key">Hostname</div>
+            </clr-dg-column>
+            <!-- <clr-dg-column>
+              <div class="key">Tenant</div>
+            </clr-dg-column> -->
+            <clr-dg-column>
+              <div class="key">Cluster</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Data Center</div>
+            </clr-dg-column>
+            <!-- <clr-dg-column>
+              <div class="key">Total CPU</div>
+            </clr-dg-column> -->
+            <clr-dg-column>
+              <div class="key">Total Memory</div>
+            </clr-dg-column>
+            <!-- <clr-dg-column>
+              <div class="key">Total Disk</div>
+            </clr-dg-column> -->
+            <clr-dg-column>
+              <div class="key">CPU Usage</div>
+            </clr-dg-column>
+            <clr-dg-column>
+              <div class="key">Memory Usage</div>
+            </clr-dg-column>
+            <!-- <clr-dg-column>
+              <div class="key">Disk Usage</div>
+            </clr-dg-column> -->
+        
+            <!--clr-dg-row *ngFor="let item of list"-->
+            <clr-dg-row *clrDgItems="let item of list" [clrDgItem]="item">
+              <clr-dg-action-overflow>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.activate(item.id)"
+                  *ngIf="this.loginService.inSiteAdminView()||this.loginService.inOrgAdminView"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.ACTIVATE" | translate:{} }}</button>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.contribute(item.id)"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.CONTRIBUTE" | translate:{} }}</button>
+                <button
+                  class="btn btn-sm btn-link"
+                  (click)="this.delete(item.hostname)"
+                >{{ "HOME.RESOURCE.CARD.FOOTER.DELETE" | translate:{} }}</button>
+              </clr-dg-action-overflow>
+              
+
+              <clr-dg-cell><div class="value">{{item?.hostname}}</div></clr-dg-cell>
+              <!-- <clr-dg-cell><div class="value">{{item?.organization}}</div></clr-dg-cell> -->
+              <!-- <clr-dg-cell><div class="value">{{item?.name}}</div></clr-dg-cell> -->
+              <clr-dg-cell><div class="value">{{item?.cluster}}</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.datacenter}}</div></clr-dg-cell>
+              <!-- <clr-dg-cell><div class="value">{{item?.cpu}} GHz</div></clr-dg-cell> -->
+              <clr-dg-cell><div class="value">{{item?.mem}} GB</div></clr-dg-cell>
+              <!-- <clr-dg-cell><div class="value">{{item?.disk}} GB</div></clr-dg-cell> -->
+              <clr-dg-cell><div class="value">{{ item?.usage ? item?.usage["cpu%"] : "-" }}%</div></clr-dg-cell>
+              <clr-dg-cell><div class="value">{{item?.usage["mem"]}}GB ({{ item?.usage ? item?.usage["mem%"] : "-"  }}%)</div></clr-dg-cell>
+              <!-- <clr-dg-cell><div class="value">{{item?.usage["disk"]}}GB ({{ item?.usage ? item?.usage["disk%"] : "-"  }}%)</div></clr-dg-cell> -->
+            </clr-dg-row>
+          </clr-datagrid>
+        </div>
+      </clr-tab-content>
+  </clr-tab>
+</clr-tabs>
+
+
+
+
+
+
 
 <tide-resource-dialog
   *ngIf="this.opened"
@@ -144,75 +177,10 @@
   (cancel)="this.cancel()">
 </tide-resource-dialog>
 
-<clr-modal [(clrModalOpen)]="createEquinixModal">
-  <h3 class="modal-title">{{ "HOME.RESOURCE.CREATE_POOL" | translate }}</h3>
-  <div class="modal-body">
-    <form class="clr-form clr-form-horizontal" [formGroup]='equinixForm'>
-      <clr-input-container>
-        <label>{{'HOME.TEMPLATE.CARD.NAME'|translate}}</label>
-        <input clrInput placeholder="" required name="name" formControlName='name'/>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-input-container>
 
-      <clr-select-container clrInline>
-        <label>DataCenter</label>
-        <select clrSelect name="options" formControlName='data_center' required>
-          <option value="one">One</option>
-          <option value="two">Two</option>
-          <option value="three">Three</option>
-        </select>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-select-container>
 
-      <clr-input-container>
-        <label>Project</label>
-        <input clrInput placeholder="" required name="name" formControlName='project'/>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-input-container>
 
-      <clr-select-container clrInline>
-        <label>Administrators</label>
-        <select clrSelect name="administrators" formControlName='administrators' required>
-          <option value="one">One</option>
-          <option value="two">Two</option>
-          <option value="three">Three</option>
-        </select>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-select-container>
 
-      <clr-select-container clrInline>
-        <label>Server Type</label>
-        <select clrSelect name="server-type" formControlName='server_type' required>
-          <option value="reserved">Reserved</option>
-          <option value="on-demand">On-demand</option>
-          <option value="spot">Spot</option>
-        </select>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-select-container>
-      
-      <clr-input-container>
-        <label>Usage</label>
-        <input clrInput placeholder="" required name="usage" formControlName='usage'/>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-input-container>
 
-      <clr-input-container>
-        <label>Cost</label>
-        <input clrInput placeholder="" required name="cost" formControlName='cost'/>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-input-container>
-      
-      <clr-toggle-container>
-        <label>Public</label>
-        <clr-toggle-wrapper>
-            <input type="checkbox" clrToggle name="enabled" [value]="true" formControlName="enabled" />
-        </clr-toggle-wrapper>
-    </clr-toggle-container>  
 
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="resetEquinixModal()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="createEquinixPoolHandler">Create</button>
-  </div>
-</clr-modal>
+

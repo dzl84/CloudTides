@@ -37,7 +37,6 @@
     "@webcomponents/custom-elements": "^1.4.1",
     "accounting-js": "^1.1.1",
     "chart.js": "^2.9.3",
-    "lodash": "^4.17.21",
     "ng2-charts": "^2.3.0",
     "normalize.css": "^8.0.1",
     "rxjs": "~6.5.4",

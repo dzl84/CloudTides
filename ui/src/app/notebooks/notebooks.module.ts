@@ -11,7 +11,6 @@ import { CreateInsranceComponent } from './create-insrance/create-insrance.compo
 import { LogComponent } from './log/log.component';
 import { HistoryComponent } from './history/history.component';
 import { GromacComponent } from './gromac/gromac.component';
-import { PoolComponent } from '../resource/pool-detail/pool.component';
 @NgModule({
   declarations: [
     // ...declarations
@@ -20,8 +19,7 @@ import { PoolComponent } from '../resource/pool-detail/pool.component';
     CreateInsranceComponent,
     LogComponent,
     HistoryComponent,
-    GromacComponent,
-    PoolComponent
+    GromacComponent
   ],
   providers: [
     NotebooksService,

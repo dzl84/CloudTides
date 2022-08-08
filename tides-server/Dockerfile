@@ -2,7 +2,7 @@ FROM golang:latest
 
 WORKDIR /build
 
-ENV GOPROXY https://goproxy.cn
+# ENV GOPROXY https://goproxy.cn
 COPY . .
 RUN go mod download
 RUN cd cmd && \

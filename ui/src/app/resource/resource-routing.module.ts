@@ -6,7 +6,6 @@ import { ResourceService } from './resource.service';
 import { ResourceListComponent } from './resource-list/resource-list.component';
 import { ResourceCardComponent } from './resource-card/resource-card.component';
 import { ResourceDialogComponent } from './resource-dialog/resource-dialog.component';
-import { PoolComponent } from './pool-detail/pool.component';
 
 const routes: Routes = [
   {
@@ -16,10 +15,6 @@ const routes: Routes = [
       {
         path: '',
         component: ResourceListComponent,
-      },
-      {
-        path: 'pool/:pool_id',
-        component: PoolComponent
       },
     ],
   },

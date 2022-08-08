@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, OnChanges } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Item, ItemPayload, ResourceService } from '../resource.service';
+import { Item, Item_local, ItemPayload, ResourceService } from '../resource.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NOTIFICATION_EXIST_TIME, RESOURCE_USAGE_REFRESH_PERIOD } from '@tide-config/const';
 import { LoginService } from 'src/app/login/login.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'tide-resource-list',
@@ -13,29 +12,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./resource-list.component.scss'],
 })
 export class ResourceListComponent implements OnInit, OnDestroy {
-  createEquinixModal = false
-  equinixForm!: FormGroup
-  pageSizeOptions = [10, 20, 50, 100, 500];
-  poolList:any[] = [{
-    name: 'pool-test',
-    id:1
-  }]
   constructor(
     private resourceService: ResourceService,
     public readonly translate: TranslateService,
     public readonly loginService: LoginService,
-    private fb: FormBuilder
-    ) {
-    this.equinixForm = this.fb.group({
-      name: [''],
-      data_center: [''],
-      project: [''],
-      administrators: [''],
-      server_type: [''],
-      usage: [''],
-      cost: [''],
-      enabled: [true]
-    })
+  ) {
 
   }
 
@@ -43,6 +24,8 @@ export class ResourceListComponent implements OnInit, OnDestroy {
     alertType: '',
     alertText: '',
   };
+
+
 
   async contribute(id: string) {
     await this.resourceService.contributeResource(id).then((resp) => {
@@ -98,10 +81,19 @@ export class ResourceListComponent implements OnInit, OnDestroy {
   }
 
   vendorList: Object = {};
-  list$: Observable<Item[]> = of([]);
+  list$: Observable<Item[]|Item_local[]> = of([]);
   opened = false;
   refreshInterval: number;
   selected: Observable<Item[]> = of([])
+
+  modes = ['cloud', 'local']
+  current_mode = 'cloud'
+
+  async modeChange(mode:string){
+    this.current_mode = mode
+    this.resourceService.changeMode(mode);
+    await this.refreshList();
+  }
 
   async save() {
     await this.refreshList();
@@ -112,6 +104,14 @@ export class ResourceListComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.resourceService.changeMode(this.current_mode);
+
+    await this.refreshList();
+  }
+
+  async ngOnChanges(){
+    console.log(this.current_mode);
+    this.resourceService.changeMode(this.current_mode);
     await this.refreshList();
   }
 
@@ -120,17 +120,10 @@ export class ResourceListComponent implements OnInit, OnDestroy {
     this.refreshInterval = window.setInterval(async () => {
       this.list$ = of(await this.resourceService.getList());
     }, RESOURCE_USAGE_REFRESH_PERIOD);
-    this.vendorList = Object(await this.resourceService.getVendorList())
+    this.vendorList = Object(await this.resourceService.getVendorList());
   }
 
   ngOnDestroy(): void {
     window.clearInterval(this.refreshInterval);
-  }
-  public resetEquinixModal () {
-    this.createEquinixModal = false
-  }
-
-  public createEquinixPoolHandler () {
-    this.createEquinixModal = false
   }
 }

@@ -1,0 +1,174 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Greeting Server
+consumes:
+- application/json
+produces:
+- application/json
+schemes:
+- http
+paths:
+  /hello:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          #required: false
+          type: string
+          in: query
+          description: defaults to World if not given
+      operationId: getGreeting
+      responses:
+        200:
+          description: returns a greeting
+          schema:
+              type: string
+              description: contains the actual greeting as plain text
+  /addHost:
+    get:
+      tags:
+        - hosts
+      operationId: findHosts
+      parameters:
+        - name: since
+          in: query
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        200:
+          description: list the hosts
+          schema:
+            type: array
+            items:
+              #$ref: "#/definitions/item"
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  readOnly: true
+                ip:
+                  type: string
+                  minLength: 1
+                completed:
+                  type: boolean
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+    post:
+      tags:
+        - hosts
+      operationId: addOneHost
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+                readOnly: true
+              ip:
+                type: string
+                minLength: 1
+              completed:
+                type: boolean
+            #$ref: "#/definitions/item"
+      responses:
+        201:
+          description: Created
+          schema:
+            #$ref: "#/definitions/item"
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+                readOnly: true
+              ip:
+                type: string
+                minLength: 1
+              completed:
+                type: boolean
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+  /hostsStatus:
+    get:
+      tags:
+        - hosts
+      operationId: queryHostInfo
+      parameters:
+        - name: since
+          in: query
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        200:
+          description: list the hosts' info
+          schema:
+            type: array
+            items:
+              #$ref: "#/definitions/item"
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  readOnly: true
+                ip:
+                  type: string
+                  minLength: 1
+                info:
+                  type: string
+                  #items:
+                  # Now is string, later can be object
+                  #  type: string
+                #completed:
+                #  type: boolean
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+
+
+definitions:
+  item:
+    type: object
+    #required:
+    #  - ip
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      ip:
+        type: string
+        minLength: 1
+      completed:
+        type: boolean
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string

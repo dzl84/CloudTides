@@ -155,16 +155,20 @@
         "PASSWORD": "密码",
         "CANCEL": "取消",
         "SAVE": "保存",
+        "NEXT": "下一页",
+        "BACK": "上一页",
         "RESOURCE_PLACEHOLDER": "资源名称",
         "DATACENTER_PLACEHOLDER": "数据中心名称",
         "ORG_NAME": "组织名称",
         "ORG_PLACEHOLDER": "组织名称",
         "NETWORK_PLACEHOLDER": "网络名称",
-        "CATALOG_PLACEHOLDER": "目录名称"
-      },
-      "CREATE_POOL": "新建资源池",
-      "POOL": "资源池",
-      "POOL_DETAIL": "资源池详情"
+        "CATALOG_PLACEHOLDER": "目录名称",
+        "HOSTNAME": "主机名",
+        "SSHKEY": "SSH 密钥",
+        "PORT": "端口号",
+        "IP": "IP 地址",
+        "CLUSTER": "集群"
+      }
     },
     "POLICY": {
       "POLICY": "策略",
@@ -249,7 +253,6 @@
       "APPLICATION": "应用程序",
       "INSTANCE": "实例",
       "HISTORY": "历史操作日志",
-      "POOL": "资源池",
       "NEW_INSTANCE": {
         "NEW_INSTANCE" : "创建新实例",
         "NEW_APPLICATION_INSTANCE": "新建实例",

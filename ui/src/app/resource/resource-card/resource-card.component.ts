@@ -18,6 +18,8 @@ export class ResourceCardComponent implements OnInit {
   ) { }
 
   @Input() item: Item;
+  mode = '';
+
 
   readonly vo = {
     alertType: '',
@@ -25,7 +27,7 @@ export class ResourceCardComponent implements OnInit {
   };
 
   ngOnInit() {
-
+    this.mode = this.resourceService.getMode();
   }
 
   async contribute() {

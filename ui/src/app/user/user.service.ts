@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "@tide-environments/environment";
 import { ORG_PATH, USER_PATH } from "@tide-config/path";
 import { LoginService } from "../login/login.service";
+import { stringify } from "querystring";
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,9 @@ export class UserService {
         },
       })
       .toPromise();
+
+    //Testing: Print user list url
+    console.log("User information got from ", environment.apiPrefix + USER_PATH);
     const List: ItemUser[] = [];
     for (const tem of tempList) {
       const TempItem: ItemUser = {
@@ -40,6 +44,11 @@ export class UserService {
         },
       })
       .toPromise();
+
+    // Testing print url:
+    console.log("UserList for org information got from ", environment.apiPrefix + USER_PATH + `/` + orgName);
+    // End testing    
+
     const List: ItemUser[] = [];
     for (const tem of tempList) {
       const TempItem: ItemUser = {
@@ -64,6 +73,11 @@ export class UserService {
         },
       })
       .toPromise();
+
+    // Testing print url:
+    console.log("User Org information got from ", environment.apiPrefix + ORG_PATH);
+    // End testing   
+
     const OrgObject: Object = {};
     OrgObject["SITE"] = "SITE";
     for (let item of OrgList) {

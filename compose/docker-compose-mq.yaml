@@ -11,6 +11,8 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - server_db:/var/lib/postgresql/data
+    networks:
+      - prom
 
   backend:
     build: ../tides-server
@@ -37,12 +39,19 @@ services:
     depends_on:
       - database
     entrypoint: ["/build/backend"]
+    networks:
+      - prom
+
+
   webssh:
     image: yinhaozheng/webssh
     environment:
       - host_url=http://backend:8033
     depends_on:
       - backend
+    networks:
+      - prom
+
   frontend:
     build:
       context: ../ui
@@ -51,6 +60,8 @@ services:
     depends_on:
       - backend
       - webssh
+    networks:
+      - prom
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
@@ -58,6 +69,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - prom
 
   mq:
     image: confluentinc/cp-kafka:7.0.1
@@ -73,10 +86,12 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_INTERNAL://mq:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://mq:9092,PLAINTEXT_INTERNAL://mq:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - prom
 
   broker:
     build: ../tides-broker
@@ -85,11 +100,24 @@ services:
       - AGENT_NAME=thinkcloud
       - MQ_HOST=mq:9092
       - SERVER_URL=http://backend:8033/api/v1/application/instance/action/statue
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=postgres
+      - BROKER_DB=broker
     depends_on:
       - mq
+      - database
+    ports:
+      - 2999:2999
     volumes:
       - ${PWD}/hosts.yaml:/build/hosts.yaml
-
+      - ${PWD}/../tides-broker/lhj-test-broker/lhj-broker/instant_query.js:/build/instant_query.js
+      - ${PWD}/../tides-broker/lhj-test-broker/lhj-broker/instant_query.ts:/build/instant_query.ts
+    networks:
+      - prom
+  
   nginx:
     image: nginx:stable
     volumes:
@@ -98,5 +126,40 @@ services:
       - "80:80"
     depends_on:
       - frontend
+    networks:
+      - prom
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+    networks:
+      - prom
+      
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - type: bind
+        source: ../dockerPrometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+      # - type: volume
+      #   source: prometheus
+      #   target: /prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - prom
+networks:
+  prom:
+    driver: bridge
+  
 volumes:
   server_db: {}
+  prometheus:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/dmgeo/prom/prometheus/data
+      # device: /

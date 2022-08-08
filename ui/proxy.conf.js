@@ -7,12 +7,12 @@ const {
 } = process.env;
 
 const endpoint = {
-  // local: 'http://0.0.0.0:80',
-  // e2e: 'http://0.0.0.0:80',
-  // webssh: 'http://127.0.0.1:80'
-  local: 'http://www.cloudtides.org.cn:8000/',
-  e2e: 'http://www.cloudtides.org.cn:8000/',
-  webssh: 'http://www.cloudtides.org.cn:8000/'
+  local: 'http://0.0.0.0:80',
+  e2e: 'http://0.0.0.0:80',
+  webssh: 'http://127.0.0.1:80'
+  // local: 'http://www.cloudtides.org.cn:8000/',
+  // e2e: 'http://www.cloudtides.org.cn:8000/',
+  // webssh: 'http://www.cloudtides.org.cn:8000/'
 };
 
 const target = endpoint[MODE];
@@ -53,6 +53,7 @@ const PROXY_CONFIG = {
       }
     }
   },
+  
   '/api-webshh/': {
     target: endpoint.webssh,
     changeOrigin: true,
@@ -62,6 +63,17 @@ const PROXY_CONFIG = {
       '^/api-webshh/': '',
     },
 
+  },
+
+  '/api-broker/': {
+    "target": "http://0.0.0.0:2999",
+    changeOrigin: true,
+    secure: false,
+    logLevel: "debug",
+    // ws: true,
+    pathRewrite: {
+      '^/api-broker/': '',
+    },
   }
 
 }
