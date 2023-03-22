@@ -1,0 +1,61 @@
+name: CloudTides UI
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'ui/**'
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - 'ui/**'
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: |
+          cd ui
+          npm install
+      - name: Build
+        run: |
+          cd ui
+          npm build
+  
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out code into the module directory
+        uses: actions/checkout@v2
+
+      - name: Login to Aliyun
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.cn-shanghai.aliyuncs.com
+          region-id: ${{ secrets.REGION }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker Image
+        run: docker build --build-arg MOD=prod -t registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest ./ui
+      
+      - name: Publish Docker Image
+        run: docker push registry.cn-shanghai.aliyuncs.com/scienterprise/cloudtides-frontend:latest
+
+      - name: Restart aliyun eci container group
+        run: |
+          cd tides-server/aliyun-script
+          ./aliyun_client ${{ secrets.REGION }} ${{ secrets.ACCESSKEY_ID }} ${{ secrets.ACCESSKEY_SECRET }} ${{ secrets.FRONTEND_CONTAINER }}

@@ -1,0 +1,45 @@
+<div class="intl-tel-input allow-dropdown">
+  <div class="flag-container">
+    <div
+      class="selected-flag"
+      [title]="currentData[lang] + ': +' + currentData.dialCode"
+      (click)="hideSubMenu = !hideSubMenu"
+    >
+    <div class="set-flag">
+      <div [class]="'iti-flag ' + currentData.code">
+      </div>
+      <div class="country-content">
+        <!-- {{currentData[lang]}} -->
+        (+{{currentData.dialCode}})  
+      </div>
+    </div>
+      <div class="iti-arrow">
+      </div>
+    </div>
+    <ul class="country-list" [hidden]="hideSubMenu">
+      <li
+      *ngFor="let item of frontCountriesArray"
+        (ngClass)="'country ' + (item.code == currentCode ? 'highlight' : '')"
+        (click)="cutFlag(item)"
+      >
+        <div class="flag-box">
+          <div [class]="'iti-flag ' + item.code"></div>
+        </div>
+        <span class="country-name">{{ item[lang] }}</span>
+        <span class="dial-code">+{{ item.dialCode }}</span>
+      </li>
+      <li class="divider"></li>
+      <!-- <li
+        *ngFor="let item of frontCountriesArray"
+        (class)="'country ' + (item.code == currentCode ? 'highlight' : '')"
+        (click)="currentCode = item.code; hideSubMenu = true; setCountry(item);"
+      >
+        <div class="flag-box">
+          <div (ngClass)="'iti-flag ' + item.code"></div>
+        </div>
+        <span class="country-name">{{ item[lang] }}</span>
+        <span class="dial-code">+{{ item.dialCode }}</span>
+      </li> -->
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<clr-modal [(clrModalOpen)]="opened"
+  [clrModalSize]="'lg'"
+  [clrModalClosable]="false">
+  <h3 class="modal-title">
+    Update User Information
+  </h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="this.userUpdateForm">
+      <clr-alert clrAlertType="danger"
+        [clrAlertClosable]="false"
+        *ngIf="this.vo.serverError">
+
+        <clr-alert-item>
+          <div class="alert-text">
+            <span>{{ this.vo.serverError }}</span>
+          </div>
+        </clr-alert-item>
+
+      </clr-alert>
+
+      <clr-input-container>
+        <label for="username">Username</label>
+        <input id="username"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          [placeholder]="'Username'"
+          formControlName="name"
+          clrInput />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label for="orgName1">Orgnization</label>
+        <input id="orgName1"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          formControlName="orgName"
+          clrInput 
+          />
+      </clr-input-container>
+
+
+      <clr-input-container *ngIf=this.updateSITE()>
+        <label for="role1">Role</label>
+        <input id="role1"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          formControlName="role"
+          clrInput
+          readonly="readonly"
+          />
+      </clr-input-container>
+
+      <clr-select-container *ngIf=!this.updateSITE()>
+        <label for="role">Role</label>
+        <select
+          clrSelect
+          id="role"
+          class="clr-col-12 clr-col-md-8"
+          formControlName="role"
+        >
+        <option *ngFor="let role of roleTypeList"
+          [ngValue]="role"> {{ roleType[role] }}</option>
+        </select>
+        <clr-control-error>{{ "HOME.RESOURCE.DIALOG.REQUIRED" | translate:{item: 'orgnization'} }}</clr-control-error>
+      </clr-select-container>
+
+      <clr-input-container>
+        <label for="email">Email</label>
+        <input id="email"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          [placeholder]="'Email'"
+          formControlName="email"
+          clrInput />
+          <clr-control-error *clrIfError="'email'">{{ 'REGISTER.EMAIL_WRONG_FORMAT' | translate:{} }}</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label for="phone">Phone</label>
+        <input id="phone"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          [placeholder]="'Phone'"
+          formControlName="phone"
+          clrInput />
+          <clr-control-error *clrIfError="'pattern'">Phone Number is not in the correct format</clr-control-error>
+      </clr-input-container>
+
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+      class="btn btn-outline"
+      (click)="this.onCancel()"
+      [disabled]="vo.spinning"
+    >
+      {{ "HOME.RESOURCE.DIALOG.CANCEL" | translate:{} }}
+    </button>
+    <button type="button"
+      class="btn btn-primary"
+      [disabled]="!userUpdateForm.valid || vo.spinning"
+      (click)="this.onSave()"
+    >
+      <span *ngIf="!vo.spinning">
+        {{ "HOME.RESOURCE.DIALOG.SAVE" | translate:{} }}
+      </span>
+      <span class="spinner spinner-sm" *ngIf="vo.spinning">
+        Loading...
+      </span>
+    </button>
+  </div>
+</clr-modal>

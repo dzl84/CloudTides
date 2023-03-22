@@ -26,4 +26,5 @@ gen: validate
 
 # just added `gen` and `validate`
 .PHONY: install gen validate
-	/Users/szhe/go/src/tides-server/swagger/swagger.yml
+	/Users/yinhaozheng/go/src/github.com/cloudtides/CloudTides/tides-server/swagger/swagger.yml
+#	/Users/szhe/go/src/tides-server/swagger/swagger.yml

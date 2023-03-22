@@ -1,0 +1,221 @@
+<style>
+
+    /* card container start */
+  
+  
+    .card-container-getstart {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+  
+    a:hover {
+      color: #89CBDF;
+  ;
+    }
+  
+    .circle-link {
+      height: 40px;
+      width: 40px;
+      border-radius: 40px;
+      margin: 8px;
+      background-color: white;
+      border: 1px solid #eeeeee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      transition: 1s ease-out;
+    }
+  
+    .circle-link:hover {
+      transform: translateY(-0.25rem);
+      box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    }
+
+  
+  
+    /* Responsive Styles */
+    @media screen and (max-width: 767px) {
+  
+      .card-container > *:not(.circle-link) ,
+      .terminal {
+        width: 100%;
+      }
+  
+      .card:not(.highlight-card) {
+        height: 16px;
+        margin: 8px 0;
+      }
+  
+      .card.highlight-card span {
+        margin-left: 72px;
+      }
+    }
+  </style>
+  
+  <!-- nav bar -->
+  
+  
+  <!-- main content -->
+  <div>
+  
+    <div class="ocs-title gray">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h1><font size="50">{{ 'home-main.main-1' | translate}}</font></h1>
+      <h1><font size="50">{{ 'home-main.main-2' | translate}}</font></h1>
+      <h1><font size="50">{{ 'home-main.main-3' | translate}}</font></h1>
+      <br>
+      <!-- <p>{{ 'demo.sub-title' | translate}}</p> -->
+      <!-- Start & Learn More -->
+      <br>
+      <div class="card-container-getstart">
+        <a class="get-start" target="_blank" rel="noopener" (click)="appcomponent.routeToVcpp()">
+          <span>{{'home-main.card-1' | translate}}</span>
+        </a>
+  
+        <a class="learn-more hidden" target="_blank" rel="noopener" href="#">
+          <span>{{'home-main.card-2' | translate}}</span>
+        </a>
+  
+        <a class="learn-more" target="_blank" rel="noopener" href="https://github.com/cloudtides/CloudTides/wiki">
+          <span>{{'home-main.card-3' | translate}}</span>
+        </a>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+  
+   
+  
+    <!-- Detailed Functions -->
+  
+    <!-- <div class='ocs-title'>
+      <br>
+      <h2>What CloudTides can help with you?</h2>
+      <p>We help the world's leading organizations follow their shipping.</p>
+      <br>
+    </div> -->
+  
+  
+    <div class = 'ocs-title'>
+      <div class="container blue">
+        <br>
+        <br>
+        <h3>{{'home-main.part1-title' | translate}}</h3>
+        <div class="card__container">
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-tachometer fa-3x" aria-hidden="true"></i> 
+              <p class="card__header">{{'home-main.part1-card1' | translate}}</p>
+              <button (click)="appcomponent.routeToVcpp()" class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-bar-chart fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part1-card2' | translate}}</p>
+              <button (click)="appcomponent.routeToVcpp()" class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-industry fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part1-card3' | translate}}</p>
+              <button (click)="appcomponent.routeToVcpp()" class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class = 'ocs-title'>
+      <div class="container green">
+        <br>
+        <br>
+        <h3>{{'home-main.part2-title' | translate}}</h3>
+        <div class="card__container">
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-bolt fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part2-card1' | translate}}</p>
+              <button class="card__button">{{'home-main.wait' | translate}}</button>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-hand-pointer-o fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part2-card2' | translate}}</p>
+              <button class="card__button">{{'home-main.wait' | translate}}</button>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-user-plus fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part2-card3' | translate}}</p>
+              <button class="card__button">{{'home-main.wait' | translate}}</button>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class = 'ocs-title'>
+      <div class="container gray">
+        <br>
+        <br>
+        <h3>{{'home-main.part3-title' | translate}}</h3>
+        <div class="card__container">
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-history fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part3-card1' | translate}}</p>
+              <button (click)="goCTwiki()" href="https://github.com/cloudtides/CloudTides/wiki"  class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-users fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part3-card2' | translate}}</p>
+              <button (click)="goCTwiki()" href="https://github.com/cloudtides/CloudTides/wiki" class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card__content">
+              <i class="fa fa-globe fa-3x" aria-hidden="true"></i>
+              <p class="card__header">{{'home-main.part3-card3' | translate}}</p>
+              <button (click)="goCTwiki()" class="card__button">{{'home-main.readnow' | translate}}</button>
+            </div>
+          </div>
+
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>
+  
+  <!-- Footer -->
+  <!-- <landingfooter></landingfooter> -->
+  

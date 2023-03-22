@@ -7,11 +7,10 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
-// User user
-
+// User schema
 type User struct {
 	gorm.Model
 
@@ -36,6 +35,9 @@ type User struct {
 	// password
 	Password string `json:"password,omitempty"`
 
+	// phone
+	Phone string `json:"phone,omitempty"`
+
 	// position
 	Position string `json:"position,omitempty"`
 
@@ -45,6 +47,21 @@ type User struct {
 
 	// username
 	Username string `gorm:"unique;not null"`
+
+	// pw_reset
+	PwReset bool `json:"pwReset,omitempty"`
+
+	// org_name
+	OrgName string `gorm:"index" json:"orgName,omitempty"`
+
+	// role SITE_ADMIN/ ORG_ADMIN/ USER
+	Role string `json:"role,omitempty"`
+
+	// avatar //TODO: NOT IMPLEMENTED
+	Avatar string `json:"avatar,omitempty"`
+
+	// temp
+	Temp string `json:"temp,omitempty"`
 }
 
 // Validate validates this user

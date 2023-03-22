@@ -1,0 +1,28 @@
+<div class="log-wrap">
+  <button class="btn btn-primary" routerLink="/cloudtides/notebooks/list" (click)="back()">
+    <clr-icon shape="undo"></clr-icon>
+    {{'HOME.LOG.BACK'|translate}}
+  </button>
+  <clr-datagrid>
+    <clr-dg-column style="width:36px;">{{'HOME.LOG.NO'|translate}}</clr-dg-column>
+    <clr-dg-column>{{'HOME.LOG.CONTENT'|translate}}</clr-dg-column>
+    <clr-dg-column>{{'HOME.LOG.DATE'|translate}}</clr-dg-column>
+    <clr-dg-column>{{'HOME.LOG.TIME'|translate}}</clr-dg-column>
+    <clr-dg-column>{{'HOME.LOG.LEVE'|translate}}</clr-dg-column>
+    <clr-dg-column>{{'HOME.LOG.SOURCE'|translate}}</clr-dg-column>
+  
+    <clr-dg-row *ngFor="let log of nd.appLogs, index as i">
+      <clr-dg-cell style="border-right: 1px solid #ccc;">{{i+1}}</clr-dg-cell>
+      <clr-dg-cell>{{log.content === 'None' ? '' : log.content}}</clr-dg-cell>
+      <clr-dg-cell>{{log.date === 'None' ? '' : log.date}}</clr-dg-cell>
+      <clr-dg-cell>{{log.time === 'None' ? '' : log.time}}</clr-dg-cell>
+      <clr-dg-cell>{{log.leve === 'None' ? '' : log.leve}}</clr-dg-cell>
+      <clr-dg-cell>{{log.source === 'None' ? '' : log.source}}</clr-dg-cell>
+    </clr-dg-row>
+  
+    <clr-dg-footer>{{nd.appLogs.length}} users</clr-dg-footer>
+  </clr-datagrid>
+  <div class="loading" *ngIf="nd.loading">
+    <clr-spinner>Loading ...</clr-spinner>
+  </div>
+</div>

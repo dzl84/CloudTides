@@ -1,24 +1,47 @@
-version: "3.2"
+version: "3.8"
 services:
-  backend:
-    build: ./server
-    volumes:
-      - ./server:/app/backend
+  database:
+    image: "postgres:alpine"
+    restart: always
+    env_file:
+      - .env
     ports:
-      - "8199:8000"
+      - "5432:5432"
+    volumes:
+      - server_db:/var/lib/postgresql/data
+  backend:
+    build: ./tides-server
+    volumes:
+      - ./tides-server:/data
+    env_file:
+      - .env
+    ports:
+      - "8033:8033"
     stdin_open: true
     tty: true
-    command: python3 manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - database
+    entrypoint: ["/build/backend"]
+  webssh:
+    build: ./webssh
+    ports:
+      - "8888:8888"
+    depends_on:
+      - backend
   frontend:
-    build: ./client
+    build:
+      context: ./ui
+      args:
+        - MOD=dev
     volumes:
-      - ./client:/app
+      - ./ui:/app
       # One-way volume to use node_modules from inside image
       - /app/node_modules
     ports:
-      - "8081:3000"
-    environment:
-      - NODE_ENV=development
+      - "80:80"
     depends_on:
       - backend
-    command: npm start
+#      - webssh
+
+volumes:
+  server_db:

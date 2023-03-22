@@ -1,0 +1,321 @@
+{
+  "language-name":{
+    "name" : "English",
+    "cn" : "简体中文",
+    "en" : "英语"
+  },  
+  "nav": {
+    "title":"CloudTides 云汐",
+    "first": "Home",
+    "second": "VCPP",
+    "third" : "VIN",
+    "fourth" : "CloudTides",
+    "fifth" : "News",
+    "sixth" : "About Us"
+  },
+  "serverMessage": {
+    "default200": "Successful operation",
+    "default401": "Invaild authentication. Please log in.",
+    "default404": "Error 404: request failed.",
+    "delete200": "Delete successfully",
+    "create200": "Create successfully",
+    "upload200": "Upload successfully",
+    "download200": "Download successfully",
+    "update200": "Update successfully",
+    "check": "Check successfully",
+    "connect": "Connect successfully",
+    "scan": "Scan successfully",
+    "login": "Login successfully",
+    "logout": "Logout successfully",
+    "update_password_success": "Password is successfully updated！",
+    "login_again_alert":"The page will redirect to login page in 3s."
+  },
+  "home-main": {
+    "main-1":"Improve the Cloud Resources on VCPP",
+    "main-2":"Accelerate the VIN Partner Career",
+    "main-3":"For Public Benefits; For Sustainable Dev",
+    "card-1": "VCPP more",
+    "card-2": "VIN more",
+    "card-3": "CloudTides more",
+    "part1-title": "Provide more Cloud Service on VCPP",
+    "part1-card1": "Enrich enterprise application directories",
+    "part1-card2": "Accelerating digital transformation",
+    "part1-card3": "Reach more new customers and new industries",
+    "part2-card1": "Enterprise applications quickly move to the cloud",
+    "part2-card2": "One-click deployment of the demo environment",
+    "part2-card3": "Expand market saling channels",
+    "part3-card1": "Improving the resource utilization",
+    "part3-card2": "Participating in public scientific research",
+    "part3-card3": "Environmental, Social, and Governance",
+    "part2-title": "Accelerate the business development of VIN partners",
+    "part3-title": "Help public welfare to improve corporate social image",
+    "readnow": "Learn More",
+    "wait": "Coming Soon"
+  },
+  "vcpp-main":{
+    "part1-title": "VCPP - Vmware Cloud Provider Program",
+    "part1-content": "The VMware Cloud Provider Program is comprised of VMware software-as-a-service offerings and our global ecosystem of VMware Service Provider Partners. It is the ideal solution for all companies that offer hosted services to third parties, including infrastructure as a service (IaaS) providers, cloud service providers (CSPs), application service providers (ASPs), Internet service providers (ISPs) and platform as a service (PaaS) providers.",
+    "part1-list1": "VMware Cloud Provider Program Overview",
+    "part1-list2": "VMware Cloud Provider Program Guide",
+    "part1-list3": "VMware Cloud Provider Managed Services Provider",
+    "part2-title": "Vmware Cloud Verified Provider",
+    "part2-content": "Featuring the VMware Cloud Verified logo in your marketing campaigns and content signals to your customers and prospects that your foundational cloud technologies and services are based on VMware Cloud Infrastructure.",
+    "part3-title": "VCPP List in China",
+    "part3-learnmore": "more.."
+  },
+  "LOGIN": {
+    "SUBMITTING": "Submitting...",
+    "LOGIN": "Login",
+    "LOGIN_TITLE": "CloudTides 云汐",
+    "USERNAME":"Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "SIGNUP": "Sign up"
+  },
+  "REGISTER": {
+    "REGISTER": "Register",
+    "SUBTITLE": "Register for CloudTides",
+    "ACCOUNT": "Account Information",
+    "USERNAME": "Username",
+    "USERNAME_MISSING": "Username is required",
+    "USERNAME_TOO_SHORT": "Username is too short",
+    "PASSWORD": "Password",
+    "PASSWORD_MISSING": "Password is required",
+    "PASSWORD_TOO_SHORT": "Password is too short",
+    "PASSWORD_TOO_LONG": "Password is too long",
+    "PASSWORD_CONFIRM": "Confirm Password",
+    "PASSWORD_NOT_MATCH": "Password does not match",
+    "BASIC_INFORMATION": "Basic Information",
+    "EMAIL": "Email",
+    "EMAIL_MISSING": "Email is required",
+    "EMAIL_WRONG_FORMAT": "Email is not in the correct format",
+    "PHONE": "Phone Number",
+    "PHONE_MISSING": "Phone number is required",
+    "PHONE_VALIDATOR": "Please fill in the correct mobile phone number",
+    "COMPANY": "Company Name",
+    "COMPANY_MISSING": "Company Name is required",
+    "SUBMITTING": "Register"
+  },
+  "RESET": {
+    "RESET": "Reset Password",
+    "USERNAME": "Username",
+    "USERNAME_MISSING": "Username is required",
+    "USERNAME_TOO_SHORT": "Username is too short",
+    "PASSWORD": "Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRMED_PASSWORD": "Confirm Password",
+    "PASSWORD_MISSING": "Password is required",
+    "PASSWORD_SAME": "Password is same as old password",
+    "PASSWORD_TOO_SHORT": "Password is too short",
+    "PASSWORD_TOO_LONG": "Password is too long",
+    "PASSWORD_CONFIRM": "Confirm Password",
+    "PASSWORD_NOT_MATCH": "Password does not match",
+    "VERIFICATION_CODE": "Verification code emailed",
+    "VERIFICATION_MISSING": "Verification code is required",
+    "SUBMITTING": "Reset"
+  },
+  "HOME": {
+    "RESOURCE": {
+      "RESOURCE": "Resource",
+      "ADD_RESOURCE": "Add Resource",
+      "CARD": {
+        "INFO": {
+          "CPU": "CPU",
+          "MEMORY": "Memory",
+          "DISK": "Disk"
+        },
+        "DETAIL": {
+          "CPU": "CPU",
+          "MEMORY": "Memory",
+          "DISK": "Disk"
+        },
+        "FOOTER": {
+          "ACTIVATE": "Activate",
+          "CONTRIBUTE": "Contribute",
+          "DELETE": "Delete"
+        }
+      },
+      "DIALOG": {
+        "ADD_RESOURCE": "Add Resource",
+        "NAME": "Name",
+        "REQUIRED": "{{item}} is required",
+        "DATACENTER": "Datacenter",
+        "ORG": "Tenant",
+        "NETWORK": "Network",
+        "CATALOG": "Catalog",
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "PASSWORD_HELP_TEXT": "Note: username and password here will only be used for adding resources. It will not be stored in this website.",
+        "CANCEL": "Cancel",
+        "CLOSE": "Close",
+        "SAVE": "Save",
+        "NEXT": "Next",
+        "BACK": "Back",
+        "RESOURCE_PLACEHOLDER": "Resource Name",
+        "DATACENTER_PLACEHOLDER": "Datacenter Name",
+        "ORG_PLACEHOLDER": "Tenant Name",
+        "NETWORK_PLACEHOLDER": "Network Name",
+        "CATALOG_PLACEHOLDER": "Catalog Name",
+        "HOSTNAME": "Hostname",
+        "SSHKEY": "SSH Key",
+        "PORT": "Port",
+        "IP": "IP",
+        "CLUSTER": "Cluster"
+      }
+    },
+    "POLICY": {
+      "POLICY": "Policy",
+      "CONTRIBUTION_POLICY": "Contribution Policy",
+      "ADD_POLICY": "Add Policy",
+      "DATAGRID": {
+        "CRID": "CRID",
+        "TEMPLATE": "Template",
+        "START_CONDITIONS": "Start Conditions",
+        "STOP_CONDITIONS": "Stop Conditions",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "OF": "of",
+        "ITEM": "items"
+      },
+      "DIALOG": {
+        "CREATE_POLICY": "Create Policy",
+        "TEMPLATE": "Template",
+        "START_CONDITION": "Start Condition",
+        "STOP_CONDITION": "Stop Condition",
+        "CPU": "CPU",
+        "MEMORY": "Memory",
+        "DISK": "Disk",
+        "CANCEL": "Cancel",
+        "CLOSE": "Close",
+        "SURE": "Sure",
+        "SAVE": "Save",
+        "SELECT_START": "Select the percentage when to start",
+        "SELECT_STOP": "Select the percentage when to stop",
+        "REQUIRED": "Required"
+      }
+    },
+    "DASHBOARD": {
+      "DASHBOARD": "Dashboard"
+    },
+    "TEMPLATE": {
+      "TEMPLATE": "Template",
+      "ADD_TEMPLATE": "Add Template",
+      "CARD": {
+        "NAME": "Name",
+        "VERSION": "Version",
+        "DATE": "Date",
+        "URL": "URL",
+        "CPU": "CPU",
+        "MEMORY": "Memory",
+        "DISK": "Disk",
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      }
+    },
+    "ORGNIZATION":{
+      "ORGNIZATION": "Organization",
+      "ADD_ORGNIZATION": "Add Org",
+      "LIST": {
+        "TCPU": "Total CPU",
+        "TMEMORY": "Total Memory",
+        "TDISK": "Total Disk",
+        "CCPU": "CPU Usage",
+        "CMEMORY": "Memory Usage",
+        "CDISK": "Disk Usage"
+      },
+      "DIALOG":{
+        "NAME": "Name",
+        "NAME_PLACEHOLDER": "Org Name"
+      },
+      "DELETE":"Delete"
+    },
+    "USER":{
+      "USER": "User",
+      "ADD_USER": "Add User",
+      "DELETE": "Delete",
+      "EDIT": "Edit",
+      "DIALOG":{
+        "USERNAME": "Username",
+        "ORGANIZATION": "Organization",
+        "ROLE": "Role",
+        "EMAIL":"Email",
+        "PHONE":"Phone Number"
+      }
+    },
+    "APPLICATION": {
+      "APPLICATION": "Application",
+      "INSTANCE": "instance",
+      "HISTORY": "historical operation record",
+      "NEW_INSTANCE": {
+        "NEW_INSTANCE": "new instance",
+        "NEW_APPLICATION_INSTANCE": "New instance",
+        "MODIFY_APPLICATION_INSTANCE": "modify instance",
+        "REGION": "Region",
+        "INSTANCE_PROPERTIES": "Instance Properties",
+        "SSHPASSWORD": "SSH Password",
+        "SUBNETWORK": "Subnetwork",
+        "SSHPORT": "SSH Port",
+        "PORT": "Port",
+        "ADVANCED_OPTIONS": "ADVANCED_OPTIONS",
+        "GPU_TYPE": "GPU type",
+        "APPTYPE": "Appliction Type",
+        "VERSION":"Version",
+        "NUM":"Number of cpu",
+        "CLOUDPLATFORM": "Resource pool"
+      },
+      "REFRESH": "REFRESH",
+      "CREATE": "CREATE",
+      "MODIFY": "MODIFY",
+      "Create": "Create",
+      "Modify": "Modify",
+      "START": "START",
+      "STOP": "STOP",
+      "RESET": "RESET",
+      "DELETE": "DELETE",
+      "FILTER": "Filter",
+      "PLACEHOLDER": {
+        "SEARCH": "Enter property name or value"
+      },
+      "LIST": {
+        "INSTANCE_LIST": "Instance list",
+        "INSTANCE_NAME": "Instance Name",
+        "ZONE": "Zone",
+        "AUTO_UPGRADE": "Auto-upgrade",
+        "SSHHOST": "SSH Host",
+        "MACHINE_TYPE": "Machine type",
+        "SSHUSER": "SSH User",
+        "LAST_MODIFIED": "Last modified",
+        "OPERATE": "Operate",
+        "CREATETIME": "Create time",
+        "TOTALRUNTIME": "Total run time",
+        "INSTANCE_TYPE": "Instance type",
+        "PLACE_CONFIRM": "Are you sure you want to delete this application?",
+        "INSTANCE_DETAILS": "Instance details",
+        "FILE_UPLOAD": "File Upload",
+        "FILE_LIST": "File list",
+        "FILE_NAME": "File name",
+        "UPLOAD_TIME": "Upload time",
+        "FILE_SIZE": "File size",
+        "DRAGHERE": "Drag the file here, or click",
+        "UPLOAD": "upload",
+        "LOCATION": "Location"
+      }
+
+    },
+    "LOG": {
+      "BACK": "Back",
+      "NO": "No",
+      "CONTENT": "Content",
+      "DATE": "Date",
+      "TIME": "Time",
+      "LEVE": "Level",
+      "SOURCE": "Source"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This is required"
+    },
+    "PRODUCT_NAME": "CloudTides",
+    "PROFILE": "Profile",
+    "LOGOUT": "Log out"
+  }
+}

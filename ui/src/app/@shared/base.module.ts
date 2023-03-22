@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ClarityModule } from '@clr/angular';
-
+import { DropzoneDirective } from './directive/dropzone.directive';
 
 @NgModule({
   imports: [
@@ -22,19 +22,22 @@ import { ClarityModule } from '@clr/angular';
     ReactiveFormsModule,
     HttpClientModule,
     ClarityModule,
+    DropzoneDirective
   ],
-  declarations: [],
+  declarations: [
+    DropzoneDirective
+  ],
 })
 export class BaseModule {
 
-  static forRoot (): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: BaseModule,
       providers: [],
     };
   }
 
-  static forChild (): ModuleWithProviders {
+  static forChild(): ModuleWithProviders {
     return {
       ngModule: BaseModule,
       providers: [],

@@ -1,0 +1,171 @@
+.note-wrap {
+  display: flex;
+  height: 100%;
+  p {
+    color: #333;
+  }
+  .note-nav {
+    .active {
+      background-color: #ccc;
+    }
+    .clr-vertical-nav ::ng-deep{
+      height: 100%;
+      .nav-group-trigger {
+        overflow: inherit;
+      }
+      .customize-instance {
+        border-bottom: 1px solid #ccc;
+        margin-top: 0px;
+        padding-left: 44px;
+      }
+      .version-lange {
+        border-bottom: 1px solid #ccc;
+        p {
+          margin-top: 0px;
+          padding-left: 24px;
+        }
+        .title {
+          padding-left: 44px;
+          width: 170px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .desc {
+          font-size: 12px;
+          line-height: 14px;
+          color: #aaa;
+        }
+        &.bnt2 {
+          padding-left: 10px;
+          p {
+            color: #777;
+          }
+        }
+        &.bnt3 {
+          padding-left: 20px;
+          p {
+            color: #999;
+          }
+        }
+      }
+    }
+    .nav-group ::ng-deep{
+      .nav-group-trigger {
+        height: auto;
+      }
+      .nav-group-content {
+        border-bottom: 1px solid #ccc;
+        .nav-group-text{
+          height: auto;
+          .version-lange {
+            border-bottom: none;
+            width: 170px;
+            .title {
+              padding-left: 20px;
+              width: 170px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;    
+            }
+            .desc {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .note-container {
+    flex: 1;
+  }
+  .modal {
+    .modal-dialog {
+      .modal-content {
+        position: relative;
+        .first-form-control {
+          margin-top: 0px;
+        }
+        .clr-control-label {
+          width: 100px;
+          height: 30px;
+          line-height: 30px;
+          &.label2 {
+            margin-left: 30px;
+          }
+        }
+        .create-title{
+          margin-top: 0px;
+          font-size: 20px;
+          font-weight: blod;
+        }
+        .option {
+          .option-title {
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: blod;
+          }
+          .option-list {
+            list-style: none;
+            li ::ng-deep{
+              border-top: 1px solid #ccc;
+              display: flex;
+              align-items: center;
+              padding: 5px 0;
+              .clr-form-control {
+                margin-top: 0px;
+              }
+              .clr-control-label {
+                width: 150px;
+              }
+              .clr-input {
+                border: none;
+                width: 300px;
+              }
+              #example4 {
+                width: 300px;
+                border: none;
+              }
+            }
+            li:last-of-type {
+              border-bottom: 1px solid #ccc;
+            }
+          }
+          .footer {
+            margin-top: 20PX;
+            display: flex;
+            justify-content: space-between;
+            P {
+              margin-top: 0px;
+              font-weight: blod;
+              font-size: 16px;
+            }
+            .btn {
+              border: none;
+            }
+            .btn-outline {
+              color: #333;
+            }
+          }
+        }
+        .loding-warp {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba($color: #000000, $alpha: 0.2);
+          .loading {
+            position: absolute;
+            left: 45%;
+            top: 45%;
+            transform: translate(-40%,-40%);
+          }
+        }
+      }
+    }
+  }
+  .fade.in {
+    opacity: 0.5;
+  }
+}

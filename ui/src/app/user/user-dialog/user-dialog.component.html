@@ -1,0 +1,128 @@
+<clr-modal [(clrModalOpen)]="opened"
+  [clrModalSize]="'lg'"
+  [clrModalClosable]="false">
+  <h3 class="modal-title">
+    {{ "HOME.USER.ADD_USER" | translate:{} }}
+  </h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="this.userForm">
+      <clr-alert clrAlertType="danger"
+        [clrAlertClosable]="false"
+        *ngIf="this.vo.serverError">
+
+        <clr-alert-item>
+          <div class="alert-text">
+            <span>{{ this.vo.serverError }}</span>
+          </div>
+        </clr-alert-item>
+
+      </clr-alert>
+
+
+      <clr-input-container>
+        <label for="username">{{ "HOME.USER.DIALOG.USERNAME" | translate:{} }}</label>
+        <input id="username"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          [placeholder]="'HOME.USER.DIALOG.USERNAME' | translate:{} "
+          formControlName="name"
+          clrInput />
+      </clr-input-container>
+
+      <clr-input-container *ngIf=this.loginService.inOrgAdminView()>
+        <label for="orgName1">{{ "HOME.USER.DIALOG.ORGANIZATION" | translate:{} }}</label>
+        <input id="orgName1"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          formControlName="orgName"
+          clrInput 
+          readonly="readonly"/>
+      </clr-input-container>
+
+
+      <clr-select-container *ngIf=this.loginService.inSiteAdminView()>
+        <label for="orgName">{{ "HOME.USER.DIALOG.ORGANIZATION" | translate:{} }}</label>
+        <select
+          clrSelect
+          id="orgName"
+          class="clr-col-12 clr-col-md-8"
+          formControlName="orgName"
+        >
+          <option *ngFor="let item of orgNames"
+            [ngValue]="item"> {{ item }}</option>
+        </select>
+        <clr-control-error>{{ "HOME.RESOURCE.DIALOG.REQUIRED" | translate:{item: 'Orgnization'} }}</clr-control-error>
+      </clr-select-container>
+
+     
+
+      <clr-select-container>
+        <label for="role">{{ "HOME.USER.DIALOG.ROLE" | translate:{} }}</label>
+        <select
+          clrSelect
+          id="role"
+          class="clr-col-12 clr-col-md-8"
+          formControlName="role"
+        >
+        <option *ngFor="let role of roleTypeList"
+          [ngValue]=role> {{ roleType[role] }}</option>
+        </select>
+        <clr-control-error>{{ "HOME.RESOURCE.DIALOG.REQUIRED" | translate:{item: 'Role'} }}</clr-control-error>
+      </clr-select-container>
+
+      <clr-input-container>
+        <label for="email">{{ "HOME.USER.DIALOG.EMAIL" | translate:{} }}</label>
+        <input id="email"
+          class="clr-col-12 clr-col-md-8"
+          type="text"
+          [placeholder]="'HOME.USER.DIALOG.EMAIL' | translate:{} "
+          formControlName="email"
+          clrInput />
+          <clr-control-error *clrIfError="'email'">{{ 'REGISTER.EMAIL_WRONG_FORMAT' | translate:{} }}</clr-control-error>
+      </clr-input-container>
+      <!-- <clr-input-container> -->
+          <!-- <clr-control-error *clrIfError="'pattern'">Phone Number is not in the correct format</clr-control-error> -->
+      <!-- </clr-input-container> -->
+        <div class="country-flag-phine">
+          <label class="phone" for="phone">{{ "HOME.USER.DIALOG.PHONE" | translate:{} }}</label>
+          <country-phone #countryPhone [currentCode]='currentCode' [currentAreaCode]='currentAreaCode' (setCurrentCode)='setCurrentCode($event)' (setCurrentAreaCode)='setCurrentAreaCode($event)'></country-phone>
+          <div class="input-contarner">
+            <input id="phone"
+            name="phone"
+            type="text"
+            (blur)="validator($event)"
+            formControlName="phone"
+            />
+            <clr-icon *ngIf="(userForm.get('phone').touched && !userForm.get('phone').valid) || validatorFlag" shape="exclamation-circle" style="height: 24px; width: 24px; color: #C21C00;"></clr-icon>
+            <p *ngIf="(userForm.get('phone').touched && !userForm.get('phone').valid) && !validatorFlag">
+              {{'REGISTER.PHONE_MISSING' | translate}}
+            </p>
+            <p *ngIf="validatorFlag">
+              {{'REGISTER.PHONE_VALIDATOR' | translate}}
+            </p>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+      class="btn btn-outline"
+      (click)="this.onCancel()"
+      [disabled]="vo.spinning"
+    >
+      {{ "HOME.RESOURCE.DIALOG.CANCEL" | translate:{} }}
+    </button>
+    <button type="button"
+      class="btn btn-primary"
+      [disabled]="!userForm.valid || vo.spinning"
+      (click)="this.onSave()"
+    >
+      <span *ngIf="!vo.spinning">
+        {{ "HOME.RESOURCE.DIALOG.SAVE" | translate:{} }}
+      </span>
+      <span class="spinner spinner-sm" *ngIf="vo.spinning">
+        Loading...
+      </span>
+    </button>
+  </div>
+</clr-modal>

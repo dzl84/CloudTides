@@ -14,3 +14,10 @@ coverage.svg
 client/build
 server/**/migrations/**
 server/venv/
+.DS_Store
+.env
+.env.backup
+ui/node_modules
+.*
+venv/
+/temp

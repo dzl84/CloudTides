@@ -23,9 +23,792 @@ func init() {
     "title": "CloudTides-Server",
     "version": "0.0.1"
   },
-  "basePath": "/v1",
+  "basePath": "/api/v1",
   "paths": {
-    "/policy/add": {
+    "/application/instance": {
+      "get": {
+        "description": "list application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "listApplicationInstance",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agentName": {
+                    "type": "string"
+                  },
+                  "appType": {
+                    "type": "string"
+                  },
+                  "createAt": {
+                    "type": "string"
+                  },
+                  "extra": {
+                    "type": "object"
+                  },
+                  "instanceName": {
+                    "type": "string"
+                  },
+                  "link": {
+                    "type": "string"
+                  },
+                  "port": {
+                    "type": "string"
+                  },
+                  "runningTime": {
+                    "type": "string"
+                  },
+                  "sshHost": {
+                    "type": "string"
+                  },
+                  "sshPassword": {
+                    "type": "string"
+                  },
+                  "sshPort": {
+                    "type": "string"
+                  },
+                  "sshUser": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "put": {
+        "description": "update application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "updateApplicationInstance",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "appType": {
+                  "type": "string"
+                },
+                "instanceName": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                },
+                "sshHost": {
+                  "type": "string"
+                },
+                "sshPassword": {
+                  "type": "string"
+                },
+                "sshPort": {
+                  "type": "integer"
+                },
+                "sshUser": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "link": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "createApplicationInstance",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agentName": {
+                  "type": "string"
+                },
+                "appType": {
+                  "type": "string"
+                },
+                "instanceName": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extra": {
+                  "type": "object"
+                },
+                "link": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/action/statue": {
+      "post": {
+        "description": "instance action statue",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "instance action statue",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "combo": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "ssh_host": {
+                  "type": "string"
+                },
+                "ssh_password": {
+                  "type": "string"
+                },
+                "ssh_port": {
+                  "type": "string"
+                },
+                "ssh_user": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/details/{token}": {
+      "get": {
+        "description": "search instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "searchInstance",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/file/{token}": {
+      "get": {
+        "description": "list files to instances",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "listInstanceFiles",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "createtime": {
+                    "type": "string"
+                  },
+                  "downlink": {
+                    "type": "string"
+                  },
+                  "filename": {
+                    "type": "string"
+                  },
+                  "filesize": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "upload file to instance",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "uploadInstanceFile",
+        "parameters": [
+          {
+            "type": "file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "downlink": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/file/{uid}/{token}/{name}": {
+      "get": {
+        "description": "down files to instances",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "downInstanceFile",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/application/instance/hosts": {
+      "get": {
+        "description": "achieve host",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "achieveHost",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agentName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/application/instance/{token}": {
+      "get": {
+        "description": "watch application instance logs",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "watchApplicationInstanceLogs",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "leve": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "time": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "deleteApplicationInstance",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/org": {
+      "get": {
+        "description": "list Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "listOrg",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "CurrentCPU": {
+                    "type": "number"
+                  },
+                  "CurrentDisk": {
+                    "type": "number"
+                  },
+                  "CurrentRAM": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "totalCPU": {
+                    "type": "number"
+                  },
+                  "totalDisk": {
+                    "type": "number"
+                  },
+                  "totalRAM": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "description": "add Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "addOrg",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/org/{id}": {
+      "delete": {
+        "description": "delete Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "delete Org",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy": {
+      "get": {
+        "description": "list all available policies",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "listPolicy",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "deployType": {
+                        "type": "string",
+                        "enum": [
+                          "K8S",
+                          "VM"
+                        ]
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "idlePolicy": {
+                        "type": "string"
+                      },
+                      "isDestroy": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "platformType": {
+                        "type": "string"
+                      },
+                      "thresholdPolicy": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      },
       "post": {
         "description": "add a new idle policy and threshold policy",
         "consumes": [
@@ -45,17 +828,7 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "accountType": {
-                  "type": "string",
-                  "enum": [
-                    "accManager",
-                    "boinc"
-                  ]
-                },
-                "boincPassword": {
-                  "type": "string"
-                },
-                "boincUsername": {
+                "catalog": {
                   "type": "string"
                 },
                 "deployType": {
@@ -74,8 +847,168 @@ func init() {
                 "name": {
                   "type": "string"
                 },
-                "projectId": {
+                "network": {
+                  "type": "string"
+                },
+                "platformType": {
+                  "type": "string"
+                },
+                "templateId": {
                   "type": "integer"
+                },
+                "threshold": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string",
+                  "enum": [
+                    "success"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/policy/{id}": {
+      "get": {
+        "description": "get info of a policy",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "getPolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deployType": {
+                  "type": "string",
+                  "enum": [
+                    "K8S",
+                    "VM"
+                  ]
+                },
+                "hostsAssigned": {
+                  "type": "integer"
+                },
+                "idlePolicy": {
+                  "type": "string"
+                },
+                "isDestroy": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "platformType": {
+                  "type": "string"
+                },
+                "thresholdPolicy": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "update a policy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "updatePolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deployType": {
+                  "type": "string",
+                  "enum": [
+                    "K8S",
+                    "VM"
+                  ]
+                },
+                "idle": {
+                  "type": "string"
+                },
+                "isDestroy": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
                 },
                 "templateId": {
                   "type": "integer"
@@ -114,82 +1047,24 @@ func init() {
             }
           },
           "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/policy/list": {
-      "get": {
-        "description": "list policies belonging to a user",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "policy"
-        ],
-        "operationId": "listPolicy",
-        "responses": {
-          "200": {
-            "description": "OK",
+            "description": "Unauthorized",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string"
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "deployType": {
-                        "type": "string",
-                        "enum": [
-                          "K8S",
-                          "VM"
-                        ]
-                      },
-                      "hostsAssigned": {
-                        "type": "integer"
-                      },
-                      "id": {
-                        "type": "integer"
-                      },
-                      "idlePolicy": {
-                        "type": "string"
-                      },
-                      "isDestroy": {
-                        "type": "boolean"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "projectName": {
-                        "type": "string"
-                      },
-                      "thresholdPolicy": {
-                        "type": "string"
-                      }
-                    }
-                  }
                 }
               }
             }
           },
-          "400": {
-            "description": "bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/policy/remove": {
+      },
       "delete": {
         "description": "remove a policy",
         "consumes": [
@@ -204,19 +1079,10 @@ func init() {
         "operationId": "removePolicy",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
@@ -226,16 +1092,16 @@ func init() {
               "type": "object",
               "properties": {
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found",
@@ -243,10 +1109,7 @@ func init() {
               "type": "object",
               "properties": {
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "no matching objects"
-                  ]
+                  "type": "string"
                 }
               }
             }
@@ -254,198 +1117,7 @@ func init() {
         }
       }
     },
-    "/policy/update": {
-      "put": {
-        "description": "update a policy",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "policy"
-        ],
-        "operationId": "updatePolicy",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Id": {
-                  "type": "integer"
-                },
-                "accountType": {
-                  "type": "string",
-                  "enum": [
-                    "accManager",
-                    "boinc"
-                  ]
-                },
-                "boincPassword": {
-                  "type": "string"
-                },
-                "boincUsername": {
-                  "type": "string"
-                },
-                "deployType": {
-                  "type": "string",
-                  "enum": [
-                    "K8S",
-                    "VM"
-                  ]
-                },
-                "idle": {
-                  "type": "string"
-                },
-                "isDestroy": {
-                  "type": "boolean"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "projectId": {
-                  "type": "integer"
-                },
-                "templateId": {
-                  "type": "integer"
-                },
-                "threshold": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/project/add": {
-      "post": {
-        "description": "add boinc projects",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "project"
-        ],
-        "operationId": "addProject",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "hasAccountManager": {
-                  "type": "boolean"
-                },
-                "projectName": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/project/delete": {
-      "delete": {
-        "description": "delete boinc project",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "project"
-        ],
-        "operationId": "deleteProject",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "ID": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/project/list": {
+    "/project": {
       "get": {
         "description": "list boinc projects",
         "produces": [
@@ -483,9 +1155,61 @@ func init() {
             "description": "Unauthorized"
           }
         }
+      },
+      "post": {
+        "description": "add boinc projects",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "addProject",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hasAccountManager": {
+                  "type": "boolean"
+                },
+                "projectName": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
-    "/project/update": {
+    "/project/{id}": {
       "put": {
         "description": "update boinc project",
         "consumes": [
@@ -497,14 +1221,17 @@ func init() {
         "operationId": "updateProject",
         "parameters": [
           {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
             "name": "reqBody",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "ID": {
-                  "type": "integer"
-                },
                 "hasAccountManager": {
                   "type": "boolean"
                 },
@@ -540,80 +1267,77 @@ func init() {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/resource/add": {
-      "post": {
+      },
+      "delete": {
+        "description": "delete boinc project",
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "deleteProject",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      }
+    },
+    "/resource/activate/{id}": {
+      "put": {
+        "description": "activate resource after initialization setup",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "addResource",
+        "operationId": "activateResource",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
-                "cluster": {
-                  "type": "string"
-                },
-                "datacenters": {
-                  "type": "string"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "isResourcePool": {
+                "activated": {
                   "type": "boolean"
                 },
-                "password": {
-                  "type": "string"
-                },
-                "policy": {
-                  "type": "integer"
-                },
-                "resources": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "username": {
-                  "type": "string"
-                },
-                "vmtype": {
-                  "type": "string",
-                  "enum": [
-                    "vsphere",
-                    "kvm",
-                    "hyper-v"
-                  ]
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns the list of created resources",
-            "schema": {
-              "type": "object",
-              "properties": {
                 "message": {
                   "type": "string"
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResourceAddItem"
-                  }
                 }
               }
             }
@@ -621,56 +1345,42 @@ func init() {
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Resource not found"
           }
         }
       }
     },
-    "/resource/assign_policy": {
+    "/resource/contribute/{id}": {
       "put": {
-        "description": "assign a policy to a specified resource",
-        "consumes": [
-          "application/json"
-        ],
+        "description": "toggle active status of resource",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "assignPolicy",
+        "operationId": "contributeResource",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "policyId": {
-                  "type": "integer"
-                },
-                "resourceId": {
-                  "type": "integer"
-                }
-              }
-            }
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "returns success message",
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
+                "contributed": {
+                  "type": "boolean"
+                },
                 "message": {
                   "type": "string"
                 }
@@ -680,69 +1390,11 @@ func init() {
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/delete": {
-      "delete": {
-        "description": "delete specified resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "deleteResource",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Resource not found"
           }
         }
       }
@@ -800,36 +1452,56 @@ func init() {
         }
       }
     },
-    "/resource/get_details": {
-      "get": {
-        "description": "returns detailed info of resources belonging to a user",
+    "/resource/policy/{id}": {
+      "put": {
+        "description": "assign policy",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "resourceInfo",
+        "operationId": "assignPolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "policy": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns detailed info of resources belonging to a user",
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string"
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResourceInfoItem"
-                  }
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found",
@@ -845,19 +1517,121 @@ func init() {
         }
       }
     },
-    "/resource/get_vm_details": {
+    "/resource/vcd": {
       "get": {
-        "description": "get detailed info of VMs belonging to a user",
+        "description": "list vcd resources",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "resourceVMsInfo",
+        "operationId": "listVcdResource",
         "responses": {
           "200": {
-            "description": "get detailed info of VMs belonging to a user",
+            "description": "list all vcd resources",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "allocationModel": {
+                    "type": "string"
+                  },
+                  "datacenter": {
+                    "type": "string"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "monitored": {
+                    "type": "boolean"
+                  },
+                  "organization": {
+                    "type": "string"
+                  },
+                  "policy": {
+                    "type": "integer"
+                  },
+                  "resType": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "vcdId": {
+                    "type": "integer"
+                  },
+                  "vendor": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "addVcdResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "catalog": {
+                  "type": "string"
+                },
+                "datacenter": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "network": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "resType": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns created username",
             "schema": {
               "type": "object",
               "properties": {
@@ -865,11 +1639,16 @@ func init() {
                   "type": "string"
                 },
                 "results": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/ResourceVMInfoItem"
+                  "type": "object",
+                  "properties": {
+                    "resourceId": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "vcdId": {
+                      "type": "integer"
                     }
                   }
                 }
@@ -893,7 +1672,219 @@ func init() {
         }
       }
     },
-    "/resource/list": {
+    "/resource/vcd/validate": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "validateVcdResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "vdc": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns the list of data centers belonging to the host",
+            "schema": {
+              "description": "list of data centers belonging to the host",
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/vcd/{id}": {
+      "get": {
+        "description": "get vcd resource",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getVcdResource",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return vcd info",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "allocationModel": {
+                  "type": "string"
+                },
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "datacenter": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "jobCompleted": {
+                  "type": "integer"
+                },
+                "monitored": {
+                  "type": "boolean"
+                },
+                "organization": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "setupStatus": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalJobs": {
+                  "type": "integer"
+                },
+                "totalRAM": {
+                  "type": "number"
+                },
+                "totalVMs": {
+                  "type": "integer"
+                },
+                "vendor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete vcd resource",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteVcdResource",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/vsphere": {
       "get": {
         "description": "returns the list of resources belonging to a user",
         "produces": [
@@ -902,7 +1893,7 @@ func init() {
         "tags": [
           "resource"
         ],
-        "operationId": "listResource",
+        "operationId": "listVsphereResource",
         "responses": {
           "200": {
             "description": "returns the list of resources belonging to a user",
@@ -928,21 +1919,59 @@ func init() {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/resource/overview": {
-      "get": {
-        "description": "returns overall contribution statistics for a user",
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "overviewStats",
+        "operationId": "addVsphereResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cluster": {
+                  "type": "string"
+                },
+                "datacenters": {
+                  "type": "string"
+                },
+                "hostAddress": {
+                  "type": "string"
+                },
+                "isResourcePool": {
+                  "type": "boolean"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns overall contribution statistics for a user",
+            "description": "returns the list of created resources",
             "schema": {
               "type": "object",
               "properties": {
@@ -950,45 +1979,9 @@ func init() {
                   "type": "string"
                 },
                 "results": {
-                  "type": "object",
-                  "properties": {
-                    "contribution": {
-                      "type": "number"
-                    },
-                    "power": {
-                      "type": "number"
-                    },
-                    "resource": {
-                      "type": "object",
-                      "properties": {
-                        "contributing": {
-                          "type": "integer"
-                        },
-                        "hosts": {
-                          "type": "integer"
-                        },
-                        "vms": {
-                          "type": "integer"
-                        }
-                      }
-                    },
-                    "workload": {
-                      "type": "object",
-                      "properties": {
-                        "contributed": {
-                          "type": "integer"
-                        },
-                        "destroyed": {
-                          "type": "integer"
-                        },
-                        "hostsUsed": {
-                          "type": "integer"
-                        },
-                        "running": {
-                          "type": "integer"
-                        }
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResourceAddItem"
                   }
                 }
               }
@@ -1011,176 +2004,7 @@ func init() {
         }
       }
     },
-    "/resource/toggle_active": {
-      "put": {
-        "description": "toggle the status of the resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "toggleActive",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resouce not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/update": {
-      "put": {
-        "description": "update usage info of resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "updateResource",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/update_status": {
-      "put": {
-        "description": "update the status of resource: busy, normal, idle",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "updateStatus",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "monitored": {
-                  "type": "boolean"
-                },
-                "resourceId": {
-                  "type": "integer"
-                },
-                "status": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "update success",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/resource/validate": {
+    "/resource/vsphere/validate": {
       "get": {
         "description": "returns the list of data centers belonging to the host",
         "consumes": [
@@ -1192,7 +2016,7 @@ func init() {
         "tags": [
           "resource"
         ],
-        "operationId": "validateResource",
+        "operationId": "validateVsphereResource",
         "parameters": [
           {
             "name": "reqBody",
@@ -1249,7 +2073,73 @@ func init() {
         }
       }
     },
-    "/template/add": {
+    "/template": {
+      "get": {
+        "description": "list all available VM templates",
+        "tags": [
+          "template"
+        ],
+        "operationId": "listTemplate",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "compatibility": {
+                    "type": "string"
+                  },
+                  "dateAdded": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "guestOS": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "memorySize": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "provisionedSpace": {
+                    "type": "number"
+                  },
+                  "resourceID": {
+                    "type": "integer"
+                  },
+                  "tag": {
+                    "type": "string"
+                  },
+                  "templateType": {
+                    "type": "string",
+                    "enum": [
+                      "datastore",
+                      "upload"
+                    ]
+                  },
+                  "vcpu": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "description": "upload a VM template",
         "consumes": [
@@ -1267,23 +2157,14 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "compat": {
+                "description": {
                   "type": "string"
-                },
-                "memsize": {
-                  "type": "number"
                 },
                 "name": {
                   "type": "string"
                 },
-                "os": {
+                "tag": {
                   "type": "string"
-                },
-                "source": {
-                  "type": "string"
-                },
-                "space": {
-                  "type": "number"
                 }
               }
             }
@@ -1295,11 +2176,11 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "integer"
+                },
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                  "type": "string"
                 }
               }
             }
@@ -1313,7 +2194,61 @@ func init() {
         }
       }
     },
-    "/template/delete": {
+    "/template/vmtemp/{id}": {
+      "get": {
+        "description": "list VMtemplate",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "listVMTemp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "disk": {
+                    "type": "integer"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "ports": {
+                    "type": "string"
+                  },
+                  "vcpu": {
+                    "type": "integer"
+                  },
+                  "vmem": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/template/{id}": {
       "delete": {
         "description": "delete specified template",
         "consumes": [
@@ -1325,16 +2260,10 @@ func init() {
         "operationId": "deleteTemplate",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
@@ -1344,10 +2273,7 @@ func init() {
               "type": "object",
               "properties": {
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                  "type": "string"
                 }
               }
             }
@@ -1357,6 +2283,9 @@ func init() {
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found"
@@ -1364,13 +2293,51 @@ func init() {
         }
       }
     },
-    "/template/list": {
-      "get": {
-        "description": "list all available VM templates",
-        "tags": [
-          "template"
+    "/usage": {
+      "post": {
+        "description": "add resource usage info into database",
+        "consumes": [
+          "application/json"
         ],
-        "operationId": "listTemplate",
+        "tags": [
+          "usage"
+        ],
+        "operationId": "addResourceUsage",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "hostAddress": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1382,39 +2349,6 @@ func init() {
                   "enum": [
                     "success"
                   ]
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "compatibility": {
-                        "type": "string"
-                      },
-                      "dateAdded": {
-                        "type": "string"
-                      },
-                      "guestOS": {
-                        "type": "string"
-                      },
-                      "memorySize": {
-                        "type": "number"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "provisionedSpace": {
-                        "type": "number"
-                      },
-                      "templateType": {
-                        "type": "string",
-                        "enum": [
-                          "datastore",
-                          "upload"
-                        ]
-                      }
-                    }
-                  }
                 }
               }
             }
@@ -1422,13 +2356,97 @@ func init() {
           "400": {
             "description": "bad request"
           },
-          "401": {
-            "description": "Unauthorized"
+          "404": {
+            "description": "resource not found"
           }
         }
       }
     },
-    "/usage/addVM": {
+    "/usage/past/{id}": {
+      "get": {
+        "description": "get past usage of a resource",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "getPastUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "timeLength": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "currentCPU": {
+                    "type": "number"
+                  },
+                  "currentDisk": {
+                    "type": "number"
+                  },
+                  "currentRAM": {
+                    "type": "number"
+                  },
+                  "percentCPU": {
+                    "type": "number"
+                  },
+                  "percentDisk": {
+                    "type": "number"
+                  },
+                  "percentRAM": {
+                    "type": "number"
+                  },
+                  "time": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage/vm": {
       "post": {
         "description": "add VM usage info into database",
         "consumes": [
@@ -1514,247 +2532,65 @@ func init() {
         }
       }
     },
-    "/usage/add_resource": {
-      "post": {
-        "description": "add resource usage info into database",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "addResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "totalCPU": {
-                  "type": "number"
-                },
-                "totalRAM": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/usage/delete_resource": {
-      "delete": {
-        "description": "delete resource usage info",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "deleteResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "datacenter": {
-                  "type": "string"
-                },
-                "hostAddress": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/usage/getUsage": {
+    "/usage/{id}": {
       "get": {
-        "description": "get resource usage info during last period",
-        "tags": [
-          "usage"
-        ],
-        "operationId": "resourcePastUsage",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "bad request"
-          }
-        }
-      }
-    },
-    "/usage/update_resource": {
-      "put": {
-        "description": "update datacenter usage info",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "updateResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "totalCPU": {
-                  "type": "number"
-                },
-                "totalRAM": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "resource usage recorded"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/users/get_details": {
-      "get": {
-        "description": "get user profile",
+        "description": "get resource usage",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "user"
+          "usage"
         ],
-        "operationId": "userDetails",
+        "operationId": "getResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns user profile",
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "name": {
                   "type": "string"
                 },
-                "results": {
-                  "type": "object",
-                  "properties": {
-                    "city": {
-                      "type": "string"
-                    },
-                    "companyName": {
-                      "type": "string"
-                    },
-                    "country": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "position": {
-                      "type": "string"
-                    }
-                  }
+                "percentCPU": {
+                  "type": "number"
+                },
+                "percentDisk": {
+                  "type": "number"
+                },
+                "percentRAM": {
+                  "type": "number"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "bad request"
           },
           "404": {
             "description": "resource not found",
@@ -1766,6 +2602,427 @@ func init() {
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "description": "update datacenter usage info",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "updateResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete resource usage info",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "deleteResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "description": "list User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "listUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "orgName": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "description": "add User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "addUser",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "orgName": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "put": {
+        "description": "Modify User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "Modify User",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "delete User",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{orgName}": {
+      "get": {
+        "description": "list User of Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "list User of org",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "orgName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "orgName": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1812,6 +3069,9 @@ func init() {
                 "userInfo": {
                   "type": "object",
                   "properties": {
+                    "orgName": {
+                      "type": "string"
+                    },
                     "priority": {
                       "type": "string",
                       "enum": [
@@ -1819,6 +3079,12 @@ func init() {
                         "Medium",
                         "High"
                       ]
+                    },
+                    "pwReset": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
                     },
                     "username": {
                       "type": "string"
@@ -1838,6 +3104,160 @@ func init() {
                   "enum": [
                     "Unauthorized"
                   ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "description": "get user profile",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "getUserProfile",
+        "responses": {
+          "200": {
+            "description": "returns user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "city": {
+                      "type": "string"
+                    },
+                    "companyName": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "string"
+                    },
+                    "priority": {
+                      "type": "string",
+                      "enum": [
+                        "Low",
+                        "Medium",
+                        "High"
+                      ]
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "update user profile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "updateUserProfile",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string"
+                },
+                "companyName": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
                 }
               }
             }
@@ -1865,19 +3285,32 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "city": {
+                  "type": "string"
+                },
                 "companyName": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
                   "type": "string"
                 },
                 "password": {
                   "type": "string"
                 },
-                "priority": {
-                  "type": "string",
-                  "enum": [
-                    "Low",
-                    "Medium",
-                    "High"
-                  ]
+                "phone": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
                 },
                 "username": {
                   "type": "string"
@@ -1895,10 +3328,31 @@ func init() {
                 "userInfo": {
                   "type": "object",
                   "properties": {
+                    "city": {
+                      "type": "string"
+                    },
                     "companyName": {
                       "type": "string"
                     },
+                    "country": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
                     "password": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "position": {
                       "type": "string"
                     },
                     "priority": {
@@ -1930,6 +3384,836 @@ func init() {
           }
         }
       }
+    },
+    "/users/reset": {
+      "post": {
+        "description": "reset password",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "resetPassword",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "newPassword": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "verificationCode": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/reset/verify": {
+      "post": {
+        "description": "send verification",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "sendVerification",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vapp": {
+      "get": {
+        "description": "list Vapps",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "listVapps",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "datacenter": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "ipaddress": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "poweredOn": {
+                    "type": "boolean"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "template": {
+                    "type": "string"
+                  },
+                  "vendor": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "add vapp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "addVapp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "datacenter": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "template": {
+                  "type": "integer"
+                },
+                "vendor": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vapp/vm/{id}": {
+      "get": {
+        "description": "list VMachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vm"
+        ],
+        "operationId": "listVM",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "IPAddress": {
+                    "type": "string"
+                  },
+                  "disk": {
+                    "type": "integer"
+                  },
+                  "externalIPAddress": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "usedMoney": {
+                    "type": "number"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "vcpu": {
+                    "type": "integer"
+                  },
+                  "vmem": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/vapp/{id}": {
+      "delete": {
+        "description": "delete vapp",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "deleteVapp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors": {
+      "get": {
+        "description": "list vendors",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "listVendor",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "vendorType": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "add vendor",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "addVendor",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "vendorType": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors/{id}": {
+      "delete": {
+        "description": "delete vendor",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "deleteVendor",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vm/ports/{id}": {
+      "get": {
+        "description": "list the exposed ports of a vmachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "port"
+        ],
+        "operationId": "listPorts",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "port": {
+                    "type": "integer"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/vm/{id}": {
+      "delete": {
+        "description": "delete VMachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vm"
+        ],
+        "operationId": "deleteVM",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vmtemp": {
+      "put": {
+        "description": "update VMTemp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "updateVMTemp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disk": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "ports": {
+                  "type": "string"
+                },
+                "vcpu": {
+                  "type": "integer"
+                },
+                "vmem": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add VMTemp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "addVMTemp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disk": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "ports": {
+                  "type": "string"
+                },
+                "templateID": {
+                  "type": "integer"
+                },
+                "vcpu": {
+                  "type": "integer"
+                },
+                "vmem": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vmtemp/{id}": {
+      "delete": {
+        "description": "delete VMTemplate",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "deleteVMTemp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ws/application/instance/{token}": {
+      "get": {
+        "description": "Websocket Watch application instance logs",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "WsWatchApplicationInstanceLogs",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1939,6 +4223,9 @@ func init() {
         "CPUPercent": {
           "type": "number"
         },
+        "DiskPercent": {
+          "type": "number"
+        },
         "RAMPercent": {
           "type": "number"
         },
@@ -1946,6 +4233,9 @@ func init() {
           "type": "string"
         },
         "currentCPU": {
+          "type": "number"
+        },
+        "currentDisk": {
           "type": "number"
         },
         "currentRAM": {
@@ -1972,14 +4262,6 @@ func init() {
         "name": {
           "type": "string"
         },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
         "policyName": {
           "type": "string"
         },
@@ -2000,88 +4282,6 @@ func init() {
         },
         "totalRAM": {
           "type": "number"
-        }
-      }
-    },
-    "ResourceInfoItem": {
-      "type": "object",
-      "properties": {
-        "CPUPercent": {
-          "type": "number"
-        },
-        "RAMPercent": {
-          "type": "number"
-        },
-        "activeVMs": {
-          "type": "integer"
-        },
-        "cluster": {
-          "type": "string"
-        },
-        "currentCPU": {
-          "type": "number"
-        },
-        "currentRAM": {
-          "type": "number"
-        },
-        "datacenter": {
-          "type": "string"
-        },
-        "dateAdded": {
-          "type": "string"
-        },
-        "hostAddress": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "isActive": {
-          "type": "boolean"
-        },
-        "jobCompleted": {
-          "type": "integer"
-        },
-        "lastDeployed": {
-          "type": "string"
-        },
-        "monitored": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
-        "policyName": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "idle",
-            "normal",
-            "busy",
-            "unknown"
-          ]
-        },
-        "totalCPU": {
-          "type": "number"
-        },
-        "totalJobs": {
-          "type": "integer"
-        },
-        "totalRAM": {
-          "type": "number"
-        },
-        "totalVMs": {
-          "type": "integer"
         }
       }
     },
@@ -2091,6 +4291,9 @@ func init() {
         "CPUPercent": {
           "type": "number"
         },
+        "DiskPercent": {
+          "type": "number"
+        },
         "RAMPercent": {
           "type": "number"
         },
@@ -2098,6 +4301,9 @@ func init() {
           "type": "string"
         },
         "currentCPU": {
+          "type": "number"
+        },
+        "currentDisk": {
           "type": "number"
         },
         "currentRAM": {
@@ -2127,14 +4333,6 @@ func init() {
         "name": {
           "type": "string"
         },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
         "policyName": {
           "type": "string"
         },
@@ -2150,55 +4348,11 @@ func init() {
         "totalCPU": {
           "type": "number"
         },
+        "totalDisk": {
+          "type": "number"
+        },
         "totalJobs": {
           "type": "integer"
-        },
-        "totalRAM": {
-          "type": "number"
-        }
-      }
-    },
-    "ResourceVMInfoItem": {
-      "type": "object",
-      "properties": {
-        "CPUPercent": {
-          "type": "number"
-        },
-        "RAMPercent": {
-          "type": "number"
-        },
-        "boincTime": {
-          "type": "string"
-        },
-        "currentCPU": {
-          "type": "number"
-        },
-        "currentRAM": {
-          "type": "number"
-        },
-        "dateCreated": {
-          "type": "string"
-        },
-        "dateDestroyed": {
-          "type": "string"
-        },
-        "guestOS": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "ipAddress": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "poweredOn": {
-          "type": "boolean"
-        },
-        "totalCPU": {
-          "type": "number"
         },
         "totalRAM": {
           "type": "number"
@@ -2213,21 +4367,45 @@ func init() {
     "title": "CloudTides-Server",
     "version": "0.0.1"
   },
-  "basePath": "/v1",
+  "basePath": "/api/v1",
   "paths": {
-    "/policy/add": {
-      "post": {
-        "description": "add a new idle policy and threshold policy",
-        "consumes": [
-          "application/json"
-        ],
+    "/application/instance": {
+      "get": {
+        "description": "list application instance",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "policy"
+          "application"
         ],
-        "operationId": "addPolicy",
+        "operationId": "listApplicationInstance",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListApplicationInstanceOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "put": {
+        "description": "update application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "updateApplicationInstance",
         "parameters": [
           {
             "name": "reqBody",
@@ -2235,42 +4413,28 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "accountType": {
-                  "type": "string",
-                  "enum": [
-                    "accManager",
-                    "boinc"
-                  ]
-                },
-                "boincPassword": {
+                "appType": {
                   "type": "string"
                 },
-                "boincUsername": {
+                "instanceName": {
                   "type": "string"
                 },
-                "deployType": {
-                  "type": "string",
-                  "enum": [
-                    "K8S",
-                    "VM"
-                  ]
-                },
-                "idle": {
+                "port": {
                   "type": "string"
                 },
-                "isDestroy": {
-                  "type": "boolean"
-                },
-                "name": {
+                "sshHost": {
                   "type": "string"
                 },
-                "projectId": {
+                "sshPassword": {
+                  "type": "string"
+                },
+                "sshPort": {
                   "type": "integer"
                 },
-                "templateId": {
-                  "type": "integer"
+                "sshUser": {
+                  "type": "string"
                 },
-                "threshold": {
+                "token": {
                   "type": "string"
                 }
               }
@@ -2283,17 +4447,514 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                "link": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
                 }
               }
             }
           },
-          "400": {
-            "description": "bad request",
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "createApplicationInstance",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agentName": {
+                  "type": "string"
+                },
+                "appType": {
+                  "type": "string"
+                },
+                "instanceName": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extra": {
+                  "type": "object"
+                },
+                "link": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/action/statue": {
+      "post": {
+        "description": "instance action statue",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "instance action statue",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "combo": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "ssh_host": {
+                  "type": "string"
+                },
+                "ssh_password": {
+                  "type": "string"
+                },
+                "ssh_port": {
+                  "type": "string"
+                },
+                "ssh_user": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/details/{token}": {
+      "get": {
+        "description": "search instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "searchInstance",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/file/{token}": {
+      "get": {
+        "description": "list files to instances",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "listInstanceFiles",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListInstanceFilesOKBodyItems0"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "upload file to instance",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "uploadInstanceFile",
+        "parameters": [
+          {
+            "type": "file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "downlink": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/application/instance/file/{uid}/{token}/{name}": {
+      "get": {
+        "description": "down files to instances",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "downInstanceFile",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/application/instance/hosts": {
+      "get": {
+        "description": "achieve host",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "achieveHost",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AchieveHostOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/application/instance/{token}": {
+      "get": {
+        "description": "watch application instance logs",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "watchApplicationInstanceLogs",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WatchApplicationInstanceLogsOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete application instance",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "deleteApplicationInstance",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/org": {
+      "get": {
+        "description": "list Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "listOrg",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListOrgOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "description": "add Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "addOrg",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/org/{id}": {
+      "delete": {
+        "description": "delete Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "org"
+        ],
+        "operationId": "delete Org",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
             "schema": {
               "type": "object",
               "properties": {
@@ -2305,13 +4966,27 @@ func init() {
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/policy/list": {
+    "/policy": {
       "get": {
-        "description": "list policies belonging to a user",
+        "description": "list all available policies",
         "produces": [
           "application/json"
         ],
@@ -2347,11 +5022,9 @@ func init() {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/policy/remove": {
-      "delete": {
-        "description": "remove a policy",
+      },
+      "post": {
+        "description": "add a new idle policy and threshold policy",
         "consumes": [
           "application/json"
         ],
@@ -2361,7 +5034,7 @@ func init() {
         "tags": [
           "policy"
         ],
-        "operationId": "removePolicy",
+        "operationId": "addPolicy",
         "parameters": [
           {
             "name": "reqBody",
@@ -2369,85 +5042,7 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "no matching objects"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/policy/update": {
-      "put": {
-        "description": "update a policy",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "policy"
-        ],
-        "operationId": "updatePolicy",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Id": {
-                  "type": "integer"
-                },
-                "accountType": {
-                  "type": "string",
-                  "enum": [
-                    "accManager",
-                    "boinc"
-                  ]
-                },
-                "boincPassword": {
-                  "type": "string"
-                },
-                "boincUsername": {
+                "catalog": {
                   "type": "string"
                 },
                 "deployType": {
@@ -2466,8 +5061,168 @@ func init() {
                 "name": {
                   "type": "string"
                 },
-                "projectId": {
+                "network": {
+                  "type": "string"
+                },
+                "platformType": {
+                  "type": "string"
+                },
+                "templateId": {
                   "type": "integer"
+                },
+                "threshold": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string",
+                  "enum": [
+                    "success"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/policy/{id}": {
+      "get": {
+        "description": "get info of a policy",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "getPolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deployType": {
+                  "type": "string",
+                  "enum": [
+                    "K8S",
+                    "VM"
+                  ]
+                },
+                "hostsAssigned": {
+                  "type": "integer"
+                },
+                "idlePolicy": {
+                  "type": "string"
+                },
+                "isDestroy": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "platformType": {
+                  "type": "string"
+                },
+                "thresholdPolicy": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "update a policy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "updatePolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deployType": {
+                  "type": "string",
+                  "enum": [
+                    "K8S",
+                    "VM"
+                  ]
+                },
+                "idle": {
+                  "type": "string"
+                },
+                "isDestroy": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
                 },
                 "templateId": {
                   "type": "integer"
@@ -2495,18 +5250,112 @@ func init() {
             }
           },
           "400": {
-            "description": "bad request"
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found"
           }
         }
+      },
+      "delete": {
+        "description": "remove a policy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "policy"
+        ],
+        "operationId": "removePolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "/project/add": {
+    "/project": {
+      "get": {
+        "description": "list boinc projects",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "listProject",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListProjectOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "description": "add boinc projects",
         "consumes": [
@@ -2542,51 +5391,9 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/project/delete": {
-      "delete": {
-        "description": "delete boinc project",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "project"
-        ],
-        "operationId": "deleteProject",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "ID": {
+                "id": {
                   "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
+                },
                 "message": {
                   "type": "string"
                 }
@@ -2598,40 +5405,11 @@ func init() {
           },
           "401": {
             "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resource not found"
           }
         }
       }
     },
-    "/project/list": {
-      "get": {
-        "description": "list boinc projects",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "project"
-        ],
-        "operationId": "listProject",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ListProjectOKBodyItems0"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/project/update": {
+    "/project/{id}": {
       "put": {
         "description": "update boinc project",
         "consumes": [
@@ -2643,14 +5421,17 @@ func init() {
         "operationId": "updateProject",
         "parameters": [
           {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
             "name": "reqBody",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "ID": {
-                  "type": "integer"
-                },
                 "hasAccountManager": {
                   "type": "boolean"
                 },
@@ -2686,80 +5467,77 @@ func init() {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/resource/add": {
-      "post": {
+      },
+      "delete": {
+        "description": "delete boinc project",
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "deleteProject",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      }
+    },
+    "/resource/activate/{id}": {
+      "put": {
+        "description": "activate resource after initialization setup",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "addResource",
+        "operationId": "activateResource",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
-                "cluster": {
-                  "type": "string"
-                },
-                "datacenters": {
-                  "type": "string"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "isResourcePool": {
+                "activated": {
                   "type": "boolean"
                 },
-                "password": {
-                  "type": "string"
-                },
-                "policy": {
-                  "type": "integer"
-                },
-                "resources": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "username": {
-                  "type": "string"
-                },
-                "vmtype": {
-                  "type": "string",
-                  "enum": [
-                    "vsphere",
-                    "kvm",
-                    "hyper-v"
-                  ]
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns the list of created resources",
-            "schema": {
-              "type": "object",
-              "properties": {
                 "message": {
                   "type": "string"
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResourceAddItem"
-                  }
                 }
               }
             }
@@ -2767,56 +5545,42 @@ func init() {
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Resource not found"
           }
         }
       }
     },
-    "/resource/assign_policy": {
+    "/resource/contribute/{id}": {
       "put": {
-        "description": "assign a policy to a specified resource",
-        "consumes": [
-          "application/json"
-        ],
+        "description": "toggle active status of resource",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "assignPolicy",
+        "operationId": "contributeResource",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "policyId": {
-                  "type": "integer"
-                },
-                "resourceId": {
-                  "type": "integer"
-                }
-              }
-            }
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "returns success message",
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
+                "contributed": {
+                  "type": "boolean"
+                },
                 "message": {
                   "type": "string"
                 }
@@ -2826,69 +5590,11 @@ func init() {
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/delete": {
-      "delete": {
-        "description": "delete specified resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "deleteResource",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Resource not found"
           }
         }
       }
@@ -2946,36 +5652,56 @@ func init() {
         }
       }
     },
-    "/resource/get_details": {
-      "get": {
-        "description": "returns detailed info of resources belonging to a user",
+    "/resource/policy/{id}": {
+      "put": {
+        "description": "assign policy",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "resourceInfo",
+        "operationId": "assignPolicy",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "policy": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns detailed info of resources belonging to a user",
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string"
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResourceInfoItem"
-                  }
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found",
@@ -2991,19 +5717,83 @@ func init() {
         }
       }
     },
-    "/resource/get_vm_details": {
+    "/resource/vcd": {
       "get": {
-        "description": "get detailed info of VMs belonging to a user",
+        "description": "list vcd resources",
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "resourceVMsInfo",
+        "operationId": "listVcdResource",
         "responses": {
           "200": {
-            "description": "get detailed info of VMs belonging to a user",
+            "description": "list all vcd resources",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListVcdResourceOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "addVcdResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "catalog": {
+                  "type": "string"
+                },
+                "datacenter": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "network": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "resType": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns created username",
             "schema": {
               "type": "object",
               "properties": {
@@ -3011,11 +5801,16 @@ func init() {
                   "type": "string"
                 },
                 "results": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/ResourceVMInfoItem"
+                  "type": "object",
+                  "properties": {
+                    "resourceId": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "vcdId": {
+                      "type": "integer"
                     }
                   }
                 }
@@ -3039,7 +5834,219 @@ func init() {
         }
       }
     },
-    "/resource/list": {
+    "/resource/vcd/validate": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "validateVcdResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "vdc": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns the list of data centers belonging to the host",
+            "schema": {
+              "description": "list of data centers belonging to the host",
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/vcd/{id}": {
+      "get": {
+        "description": "get vcd resource",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getVcdResource",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return vcd info",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "allocationModel": {
+                  "type": "string"
+                },
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "datacenter": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "jobCompleted": {
+                  "type": "integer"
+                },
+                "monitored": {
+                  "type": "boolean"
+                },
+                "organization": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "setupStatus": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalJobs": {
+                  "type": "integer"
+                },
+                "totalRAM": {
+                  "type": "number"
+                },
+                "totalVMs": {
+                  "type": "integer"
+                },
+                "vendor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete vcd resource",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteVcdResource",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource/vsphere": {
       "get": {
         "description": "returns the list of resources belonging to a user",
         "produces": [
@@ -3048,7 +6055,7 @@ func init() {
         "tags": [
           "resource"
         ],
-        "operationId": "listResource",
+        "operationId": "listVsphereResource",
         "responses": {
           "200": {
             "description": "returns the list of resources belonging to a user",
@@ -3074,21 +6081,59 @@ func init() {
             "description": "resource not found"
           }
         }
-      }
-    },
-    "/resource/overview": {
-      "get": {
-        "description": "returns overall contribution statistics for a user",
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "resource"
         ],
-        "operationId": "overviewStats",
+        "operationId": "addVsphereResource",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cluster": {
+                  "type": "string"
+                },
+                "datacenters": {
+                  "type": "string"
+                },
+                "hostAddress": {
+                  "type": "string"
+                },
+                "isResourcePool": {
+                  "type": "boolean"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "policy": {
+                  "type": "integer"
+                },
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns overall contribution statistics for a user",
+            "description": "returns the list of created resources",
             "schema": {
               "type": "object",
               "properties": {
@@ -3096,45 +6141,9 @@ func init() {
                   "type": "string"
                 },
                 "results": {
-                  "type": "object",
-                  "properties": {
-                    "contribution": {
-                      "type": "number"
-                    },
-                    "power": {
-                      "type": "number"
-                    },
-                    "resource": {
-                      "type": "object",
-                      "properties": {
-                        "contributing": {
-                          "type": "integer"
-                        },
-                        "hosts": {
-                          "type": "integer"
-                        },
-                        "vms": {
-                          "type": "integer"
-                        }
-                      }
-                    },
-                    "workload": {
-                      "type": "object",
-                      "properties": {
-                        "contributed": {
-                          "type": "integer"
-                        },
-                        "destroyed": {
-                          "type": "integer"
-                        },
-                        "hostsUsed": {
-                          "type": "integer"
-                        },
-                        "running": {
-                          "type": "integer"
-                        }
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResourceAddItem"
                   }
                 }
               }
@@ -3157,176 +6166,7 @@ func init() {
         }
       }
     },
-    "/resource/toggle_active": {
-      "put": {
-        "description": "toggle the status of the resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "toggleActive",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "resouce not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/update": {
-      "put": {
-        "description": "update usage info of resource",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "updateResource",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns success message",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "resource not found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/resource/update_status": {
-      "put": {
-        "description": "update the status of resource: busy, normal, idle",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "resource"
-        ],
-        "operationId": "updateStatus",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "monitored": {
-                  "type": "boolean"
-                },
-                "resourceId": {
-                  "type": "integer"
-                },
-                "status": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "update success",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/resource/validate": {
+    "/resource/vsphere/validate": {
       "get": {
         "description": "returns the list of data centers belonging to the host",
         "consumes": [
@@ -3338,7 +6178,7 @@ func init() {
         "tags": [
           "resource"
         ],
-        "operationId": "validateResource",
+        "operationId": "validateVsphereResource",
         "parameters": [
           {
             "name": "reqBody",
@@ -3395,7 +6235,31 @@ func init() {
         }
       }
     },
-    "/template/add": {
+    "/template": {
+      "get": {
+        "description": "list all available VM templates",
+        "tags": [
+          "template"
+        ],
+        "operationId": "listTemplate",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListTemplateOKBodyItems0"
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "description": "upload a VM template",
         "consumes": [
@@ -3413,23 +6277,14 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
-                "compat": {
+                "description": {
                   "type": "string"
-                },
-                "memsize": {
-                  "type": "number"
                 },
                 "name": {
                   "type": "string"
                 },
-                "os": {
+                "tag": {
                   "type": "string"
-                },
-                "source": {
-                  "type": "string"
-                },
-                "space": {
-                  "type": "number"
                 }
               }
             }
@@ -3441,11 +6296,11 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "integer"
+                },
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                  "type": "string"
                 }
               }
             }
@@ -3459,7 +6314,41 @@ func init() {
         }
       }
     },
-    "/template/delete": {
+    "/template/vmtemp/{id}": {
+      "get": {
+        "description": "list VMtemplate",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "listVMTemp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListVMTempOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/template/{id}": {
       "delete": {
         "description": "delete specified template",
         "consumes": [
@@ -3471,16 +6360,10 @@ func init() {
         "operationId": "deleteTemplate",
         "parameters": [
           {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
@@ -3490,10 +6373,7 @@ func init() {
               "type": "object",
               "properties": {
                 "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
+                  "type": "string"
                 }
               }
             }
@@ -3503,6 +6383,9 @@ func init() {
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "resource not found"
@@ -3510,13 +6393,51 @@ func init() {
         }
       }
     },
-    "/template/list": {
-      "get": {
-        "description": "list all available VM templates",
-        "tags": [
-          "template"
+    "/usage": {
+      "post": {
+        "description": "add resource usage info into database",
+        "consumes": [
+          "application/json"
         ],
-        "operationId": "listTemplate",
+        "tags": [
+          "usage"
+        ],
+        "operationId": "addResourceUsage",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "hostAddress": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3528,12 +6449,6 @@ func init() {
                   "enum": [
                     "success"
                   ]
-                },
-                "results": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResultsItems0"
-                  }
                 }
               }
             }
@@ -3541,13 +6456,73 @@ func init() {
           "400": {
             "description": "bad request"
           },
-          "401": {
-            "description": "Unauthorized"
+          "404": {
+            "description": "resource not found"
           }
         }
       }
     },
-    "/usage/addVM": {
+    "/usage/past/{id}": {
+      "get": {
+        "description": "get past usage of a resource",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "getPastUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "timeLength": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetPastUsageOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage/vm": {
       "post": {
         "description": "add VM usage info into database",
         "consumes": [
@@ -3598,247 +6573,65 @@ func init() {
         }
       }
     },
-    "/usage/add_resource": {
-      "post": {
-        "description": "add resource usage info into database",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "addResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "totalCPU": {
-                  "type": "number"
-                },
-                "totalRAM": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/usage/delete_resource": {
-      "delete": {
-        "description": "delete resource usage info",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "deleteResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "datacenter": {
-                  "type": "string"
-                },
-                "hostAddress": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "bad request"
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/usage/getUsage": {
+    "/usage/{id}": {
       "get": {
-        "description": "get resource usage info during last period",
-        "tags": [
-          "usage"
-        ],
-        "operationId": "resourcePastUsage",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "bad request"
-          }
-        }
-      }
-    },
-    "/usage/update_resource": {
-      "put": {
-        "description": "update datacenter usage info",
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "usage"
-        ],
-        "operationId": "updateResourceUsage",
-        "parameters": [
-          {
-            "name": "reqBody",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentCPU": {
-                  "type": "number"
-                },
-                "currentRAM": {
-                  "type": "number"
-                },
-                "hostAddress": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "totalCPU": {
-                  "type": "number"
-                },
-                "totalRAM": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "enum": [
-                    "resource usage recorded"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "resource not found"
-          }
-        }
-      }
-    },
-    "/users/get_details": {
-      "get": {
-        "description": "get user profile",
+        "description": "get resource usage",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "user"
+          "usage"
         ],
-        "operationId": "userDetails",
+        "operationId": "getResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
-            "description": "returns user profile",
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "name": {
                   "type": "string"
                 },
-                "results": {
-                  "type": "object",
-                  "properties": {
-                    "city": {
-                      "type": "string"
-                    },
-                    "companyName": {
-                      "type": "string"
-                    },
-                    "country": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "position": {
-                      "type": "string"
-                    }
-                  }
+                "percentCPU": {
+                  "type": "number"
+                },
+                "percentDisk": {
+                  "type": "number"
+                },
+                "percentRAM": {
+                  "type": "number"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "bad request"
           },
           "404": {
             "description": "resource not found",
@@ -3850,6 +6643,387 @@ func init() {
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "description": "update datacenter usage info",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "updateResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentCPU": {
+                  "type": "number"
+                },
+                "currentDisk": {
+                  "type": "number"
+                },
+                "currentRAM": {
+                  "type": "number"
+                },
+                "totalCPU": {
+                  "type": "number"
+                },
+                "totalDisk": {
+                  "type": "number"
+                },
+                "totalRAM": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      },
+      "delete": {
+        "description": "delete resource usage info",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "usage"
+        ],
+        "operationId": "deleteResourceUsage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "404": {
+            "description": "resource not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "description": "list User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "listUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListUserOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "description": "add User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "addUser",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "orgName": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "put": {
+        "description": "Modify User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "Modify User",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "org": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete User",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "delete User",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{orgName}": {
+      "get": {
+        "description": "list User of Org",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "list User of org",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "orgName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListUserOfOrgOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -3896,6 +7070,9 @@ func init() {
                 "userInfo": {
                   "type": "object",
                   "properties": {
+                    "orgName": {
+                      "type": "string"
+                    },
                     "priority": {
                       "type": "string",
                       "enum": [
@@ -3903,6 +7080,12 @@ func init() {
                         "Medium",
                         "High"
                       ]
+                    },
+                    "pwReset": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
                     },
                     "username": {
                       "type": "string"
@@ -3922,6 +7105,160 @@ func init() {
                   "enum": [
                     "Unauthorized"
                   ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "description": "get user profile",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "getUserProfile",
+        "responses": {
+          "200": {
+            "description": "returns user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "city": {
+                      "type": "string"
+                    },
+                    "companyName": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "string"
+                    },
+                    "priority": {
+                      "type": "string",
+                      "enum": [
+                        "Low",
+                        "Medium",
+                        "High"
+                      ]
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "update user profile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "updateUserProfile",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string"
+                },
+                "companyName": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
                 }
               }
             }
@@ -3949,19 +7286,32 @@ func init() {
             "schema": {
               "type": "object",
               "properties": {
+                "city": {
+                  "type": "string"
+                },
                 "companyName": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
                   "type": "string"
                 },
                 "password": {
                   "type": "string"
                 },
-                "priority": {
-                  "type": "string",
-                  "enum": [
-                    "Low",
-                    "Medium",
-                    "High"
-                  ]
+                "phone": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
                 },
                 "username": {
                   "type": "string"
@@ -3979,10 +7329,31 @@ func init() {
                 "userInfo": {
                   "type": "object",
                   "properties": {
+                    "city": {
+                      "type": "string"
+                    },
                     "companyName": {
                       "type": "string"
                     },
+                    "country": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
                     "password": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "position": {
                       "type": "string"
                     },
                     "priority": {
@@ -4014,9 +7385,943 @@ func init() {
           }
         }
       }
+    },
+    "/users/reset": {
+      "post": {
+        "description": "reset password",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "resetPassword",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "newPassword": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "verificationCode": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/reset/verify": {
+      "post": {
+        "description": "send verification",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "operationId": "sendVerification",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vapp": {
+      "get": {
+        "description": "list Vapps",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "listVapps",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListVappsOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "add vapp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "addVapp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "datacenter": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "template": {
+                  "type": "integer"
+                },
+                "vendor": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vapp/vm/{id}": {
+      "get": {
+        "description": "list VMachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vm"
+        ],
+        "operationId": "listVM",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListVMOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/vapp/{id}": {
+      "delete": {
+        "description": "delete vapp",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vapp"
+        ],
+        "operationId": "deleteVapp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors": {
+      "get": {
+        "description": "list vendors",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "listVendor",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListVendorOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "add vendor",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "addVendor",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "vendorType": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors/{id}": {
+      "delete": {
+        "description": "delete vendor",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vendor"
+        ],
+        "operationId": "deleteVendor",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vm/ports/{id}": {
+      "get": {
+        "description": "list the exposed ports of a vmachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "port"
+        ],
+        "operationId": "listPorts",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListPortsOKBodyItems0"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/vm/{id}": {
+      "delete": {
+        "description": "delete VMachine",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vm"
+        ],
+        "operationId": "deleteVM",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vmtemp": {
+      "put": {
+        "description": "update VMTemp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "updateVMTemp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disk": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "ports": {
+                  "type": "string"
+                },
+                "vcpu": {
+                  "type": "integer"
+                },
+                "vmem": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add VMTemp",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "addVMTemp",
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disk": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "ports": {
+                  "type": "string"
+                },
+                "templateID": {
+                  "type": "integer"
+                },
+                "vcpu": {
+                  "type": "integer"
+                },
+                "vmem": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vmtemp/{id}": {
+      "delete": {
+        "description": "delete VMTemplate",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vmtemp"
+        ],
+        "operationId": "deleteVMTemp",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ws/application/instance/{token}": {
+      "get": {
+        "description": "Websocket Watch application instance logs",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "application"
+        ],
+        "operationId": "WsWatchApplicationInstanceLogs",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "AchieveHostOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "agentName": {
+          "type": "string"
+        }
+      }
+    },
+    "AddVcdResourceOKBodyResults": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "vcdId": {
+          "type": "integer"
+        }
+      }
+    },
+    "GetPastUsageOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "currentCPU": {
+          "type": "number"
+        },
+        "currentDisk": {
+          "type": "number"
+        },
+        "currentRAM": {
+          "type": "number"
+        },
+        "percentCPU": {
+          "type": "number"
+        },
+        "percentDisk": {
+          "type": "number"
+        },
+        "percentRAM": {
+          "type": "number"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "GetUserProfileOKBodyResults": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "Low",
+            "Medium",
+            "High"
+          ]
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "ListApplicationInstanceOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "agentName": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "createAt": {
+          "type": "string"
+        },
+        "extra": {
+          "type": "object"
+        },
+        "instanceName": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "runningTime": {
+          "type": "string"
+        },
+        "sshHost": {
+          "type": "string"
+        },
+        "sshPassword": {
+          "type": "string"
+        },
+        "sshPort": {
+          "type": "string"
+        },
+        "sshUser": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "ListInstanceFilesOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "createtime": {
+          "type": "string"
+        },
+        "downlink": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "filesize": {
+          "type": "string"
+        }
+      }
+    },
+    "ListOrgOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "CurrentCPU": {
+          "type": "number"
+        },
+        "CurrentDisk": {
+          "type": "number"
+        },
+        "CurrentRAM": {
+          "type": "number"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalCPU": {
+          "type": "number"
+        },
+        "totalDisk": {
+          "type": "number"
+        },
+        "totalRAM": {
+          "type": "number"
+        }
+      }
+    },
+    "ListPortsOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
     "ListProjectOKBodyItems0": {
       "type": "object",
       "properties": {
@@ -4034,86 +8339,276 @@ func init() {
         }
       }
     },
-    "OverviewStatsOKBodyResults": {
+    "ListTemplateOKBodyItems0": {
       "type": "object",
       "properties": {
-        "contribution": {
-          "type": "number"
+        "compatibility": {
+          "type": "string"
         },
-        "power": {
-          "type": "number"
+        "dateAdded": {
+          "type": "string"
         },
-        "resource": {
-          "type": "object",
-          "properties": {
-            "contributing": {
-              "type": "integer"
-            },
-            "hosts": {
-              "type": "integer"
-            },
-            "vms": {
-              "type": "integer"
-            }
-          }
+        "description": {
+          "type": "string"
         },
-        "workload": {
-          "type": "object",
-          "properties": {
-            "contributed": {
-              "type": "integer"
-            },
-            "destroyed": {
-              "type": "integer"
-            },
-            "hostsUsed": {
-              "type": "integer"
-            },
-            "running": {
-              "type": "integer"
-            }
-          }
-        }
-      }
-    },
-    "OverviewStatsOKBodyResultsResource": {
-      "type": "object",
-      "properties": {
-        "contributing": {
+        "guestOS": {
+          "type": "string"
+        },
+        "id": {
           "type": "integer"
         },
-        "hosts": {
+        "memorySize": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "provisionedSpace": {
+          "type": "number"
+        },
+        "resourceID": {
           "type": "integer"
         },
-        "vms": {
+        "tag": {
+          "type": "string"
+        },
+        "templateType": {
+          "type": "string",
+          "enum": [
+            "datastore",
+            "upload"
+          ]
+        },
+        "vcpu": {
           "type": "integer"
         }
       }
     },
-    "OverviewStatsOKBodyResultsWorkload": {
+    "ListUserOKBodyItems0": {
       "type": "object",
       "properties": {
-        "contributed": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
           "type": "integer"
         },
-        "destroyed": {
+        "name": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "ListUserOfOrgOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
           "type": "integer"
         },
-        "hostsUsed": {
+        "name": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "ListVMOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "IPAddress": {
+          "type": "string"
+        },
+        "disk": {
           "type": "integer"
         },
-        "running": {
+        "externalIPAddress": {
+          "type": "string"
+        },
+        "id": {
           "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "usedMoney": {
+          "type": "number"
+        },
+        "username": {
+          "type": "string"
+        },
+        "vcpu": {
+          "type": "integer"
+        },
+        "vmem": {
+          "type": "integer"
+        }
+      }
+    },
+    "ListVMTempOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "disk": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "ports": {
+          "type": "string"
+        },
+        "vcpu": {
+          "type": "integer"
+        },
+        "vmem": {
+          "type": "integer"
+        }
+      }
+    },
+    "ListVappsOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "datacenter": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "ipaddress": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "poweredOn": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "template": {
+          "type": "string"
+        },
+        "vendor": {
+          "type": "string"
+        }
+      }
+    },
+    "ListVcdResourceOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "allocationModel": {
+          "type": "string"
+        },
+        "datacenter": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "monitored": {
+          "type": "boolean"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "integer"
+        },
+        "resType": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "vcdId": {
+          "type": "integer"
+        },
+        "vendor": {
+          "type": "string"
+        }
+      }
+    },
+    "ListVendorOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "vendorType": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
         }
       }
     },
     "RegisterUserOKBodyUserInfo": {
       "type": "object",
       "properties": {
+        "city": {
+          "type": "string"
+        },
         "companyName": {
           "type": "string"
         },
+        "country": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
         "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "position": {
           "type": "string"
         },
         "priority": {
@@ -4135,6 +8630,9 @@ func init() {
         "CPUPercent": {
           "type": "number"
         },
+        "DiskPercent": {
+          "type": "number"
+        },
         "RAMPercent": {
           "type": "number"
         },
@@ -4142,6 +8640,9 @@ func init() {
           "type": "string"
         },
         "currentCPU": {
+          "type": "number"
+        },
+        "currentDisk": {
           "type": "number"
         },
         "currentRAM": {
@@ -4168,14 +8669,6 @@ func init() {
         "name": {
           "type": "string"
         },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
         "policyName": {
           "type": "string"
         },
@@ -4196,88 +8689,6 @@ func init() {
         },
         "totalRAM": {
           "type": "number"
-        }
-      }
-    },
-    "ResourceInfoItem": {
-      "type": "object",
-      "properties": {
-        "CPUPercent": {
-          "type": "number"
-        },
-        "RAMPercent": {
-          "type": "number"
-        },
-        "activeVMs": {
-          "type": "integer"
-        },
-        "cluster": {
-          "type": "string"
-        },
-        "currentCPU": {
-          "type": "number"
-        },
-        "currentRAM": {
-          "type": "number"
-        },
-        "datacenter": {
-          "type": "string"
-        },
-        "dateAdded": {
-          "type": "string"
-        },
-        "hostAddress": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "isActive": {
-          "type": "boolean"
-        },
-        "jobCompleted": {
-          "type": "integer"
-        },
-        "lastDeployed": {
-          "type": "string"
-        },
-        "monitored": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
-        "policyName": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "idle",
-            "normal",
-            "busy",
-            "unknown"
-          ]
-        },
-        "totalCPU": {
-          "type": "number"
-        },
-        "totalJobs": {
-          "type": "integer"
-        },
-        "totalRAM": {
-          "type": "number"
-        },
-        "totalVMs": {
-          "type": "integer"
         }
       }
     },
@@ -4287,6 +8698,9 @@ func init() {
         "CPUPercent": {
           "type": "number"
         },
+        "DiskPercent": {
+          "type": "number"
+        },
         "RAMPercent": {
           "type": "number"
         },
@@ -4294,6 +8708,9 @@ func init() {
           "type": "string"
         },
         "currentCPU": {
+          "type": "number"
+        },
+        "currentDisk": {
           "type": "number"
         },
         "currentRAM": {
@@ -4323,14 +8740,6 @@ func init() {
         "name": {
           "type": "string"
         },
-        "platformType": {
-          "type": "string",
-          "enum": [
-            "vsphere",
-            "kvm",
-            "hyper-v"
-          ]
-        },
         "policyName": {
           "type": "string"
         },
@@ -4346,55 +8755,11 @@ func init() {
         "totalCPU": {
           "type": "number"
         },
+        "totalDisk": {
+          "type": "number"
+        },
         "totalJobs": {
           "type": "integer"
-        },
-        "totalRAM": {
-          "type": "number"
-        }
-      }
-    },
-    "ResourceVMInfoItem": {
-      "type": "object",
-      "properties": {
-        "CPUPercent": {
-          "type": "number"
-        },
-        "RAMPercent": {
-          "type": "number"
-        },
-        "boincTime": {
-          "type": "string"
-        },
-        "currentCPU": {
-          "type": "number"
-        },
-        "currentRAM": {
-          "type": "number"
-        },
-        "dateCreated": {
-          "type": "string"
-        },
-        "dateDestroyed": {
-          "type": "string"
-        },
-        "guestOS": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "ipAddress": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "poweredOn": {
-          "type": "boolean"
-        },
-        "totalCPU": {
-          "type": "number"
         },
         "totalRAM": {
           "type": "number"
@@ -4404,55 +8769,29 @@ func init() {
     "ResultsItems0": {
       "type": "object",
       "properties": {
-        "compatibility": {
+        "deployType": {
+          "type": "string",
+          "enum": [
+            "K8S",
+            "VM"
+          ]
+        },
+        "id": {
+          "type": "integer"
+        },
+        "idlePolicy": {
           "type": "string"
         },
-        "dateAdded": {
-          "type": "string"
-        },
-        "guestOS": {
-          "type": "string"
-        },
-        "memorySize": {
-          "type": "number"
+        "isDestroy": {
+          "type": "boolean"
         },
         "name": {
           "type": "string"
         },
-        "provisionedSpace": {
-          "type": "number"
-        },
-        "templateType": {
-          "type": "string",
-          "enum": [
-            "datastore",
-            "upload"
-          ]
-        }
-      }
-    },
-    "UserDetailsOKBodyResults": {
-      "type": "object",
-      "properties": {
-        "city": {
+        "platformType": {
           "type": "string"
         },
-        "companyName": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "position": {
+        "thresholdPolicy": {
           "type": "string"
         }
       }
@@ -4460,6 +8799,9 @@ func init() {
     "UserLoginOKBodyUserInfo": {
       "type": "object",
       "properties": {
+        "orgName": {
+          "type": "string"
+        },
         "priority": {
           "type": "string",
           "enum": [
@@ -4467,6 +8809,12 @@ func init() {
             "Medium",
             "High"
           ]
+        },
+        "pwReset": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
         },
         "username": {
           "type": "string"
@@ -4508,6 +8856,26 @@ func init() {
         },
         "totalRAM": {
           "type": "number"
+        }
+      }
+    },
+    "WatchApplicationInstanceLogsOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "leve": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
         }
       }
     }

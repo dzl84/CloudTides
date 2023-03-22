@@ -1,0 +1,123 @@
+<form class="clr-form">
+  <div>
+    <clr-icon shape="filter-2"></clr-icon>
+    {{'HOME.APPLICATION.FILTER' | translate}}
+  </div>
+  <div class="clr-control-container">
+      <div class="clr-input-wrapper clr-row">
+        <input class="searchinput" clrInput 
+        placeholder="{{'HOME.APPLICATION.PLACEHOLDER.SEARCH' | translate}}" 
+        name="filter" 
+        [(ngModel)]="filterSearchValue"/>
+          <button type="button" class="btn btn-link btn-icon">
+            <clr-icon shape="search"></clr-icon>
+          </button>
+      </div>
+  </div>
+</form>
+<clr-datagrid class="table-list">
+  <clr-dg-column [clrDgField]="'name'">{{'HOME.APPLICATION.LIST.INSTANCE_NAME' | translate}}</clr-dg-column>
+  <clr-dg-column>{{'HOME.APPLICATION.LIST.CREATETIME' | translate}}</clr-dg-column>
+  <clr-dg-column>{{'HOME.APPLICATION.LIST.TOTALRUNTIME' | translate}}</clr-dg-column>
+  <clr-dg-column>{{'HOME.APPLICATION.LIST.INSTANCE_TYPE' | translate}}</clr-dg-column>
+  <clr-dg-column>{{'HOME.APPLICATION.LIST.LOCATION' | translate}}</clr-dg-column>
+  <clr-dg-column>{{'HOME.APPLICATION.LIST.OPERATE' | translate}}</clr-dg-column>
+  <clr-dg-row class="clr-align-items-center" *clrDgItems="let item of nd.appList" [clrDgItem]="item">
+    <clr-dg-cell>{{item.instanceName}}</clr-dg-cell>
+    <clr-dg-cell>{{item.createAt*1000 | date:'yyyy-MM-dd'}}</clr-dg-cell>
+    <clr-dg-cell>{{item.runningTime | formatSecond}}</clr-dg-cell>
+    <clr-dg-cell>
+      {{item.appType}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      {{item.agentName}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <clr-icon class="icon" *ngIf="item.appType === 'jupyter'" (click)="toJupyter(item)" shape="play" solid></clr-icon>
+      <clr-icon class="icon" *ngIf="item.appType !== 'jupyter'" (click)="toGromacs(item)" shape="play" solid></clr-icon>
+      <clr-icon class="icon" shape="form" (click)="checkApp(item)"></clr-icon>
+      <clr-icon class="icon" shape="trash" (click)="deleteApp(item)"></clr-icon>
+      <clr-icon shape="justify-text" (click)="getCurrentAppLogs(item)"></clr-icon>
+    </clr-dg-cell>
+  </clr-dg-row>
+</clr-datagrid>
+<div class="modal" *ngIf="sureDeleteFalg">
+  <div class="modal-dialog modal-ld" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <p>{{'HOME.APPLICATION.LIST.PLACE_CONFIRM' | translate}}</p>
+      <div class="btns">
+        <button (click)="cancel()" class="btn btn-outline">{{'HOME.POLICY.DIALOG.CANCEL' | translate}}</button>
+        <button (click)="sure()" class="btn btn-primary">{{'HOME.POLICY.DIALOG.SURE' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" *ngIf="check">
+  <div class="modal-dialog modal-xs" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <p>{{'HOME.APPLICATION.LIST.INSTANCE_DETAILS' | translate}}</p>
+      <ul class="list">
+        <li>
+          <label class="label-text">{{'HOME.APPLICATION.LIST.INSTANCE_NAME' | translate}}:</label>
+          <input type="text" class="label-input" id="instanceName" name="instanceName" [value]="currentInstanc.instanceName" disabled>
+        </li>
+        <li>
+          <label class="label-text">{{'HOME.APPLICATION.LIST.CREATETIME' | translate}}:</label>
+          <input type="text" class="label-input" id="createTime" name="createTime" disabled>
+        </li>
+        <li>
+          <label class="label-text">{{'HOME.APPLICATION.LIST.INSTANCE_TYPE' | translate}}:</label>
+          <input type="text" class="label-input" id="type" name="type" [value]="currentInstanc.appType" disabled>
+        </li>
+        <li>
+          <p>{{'HOME.APPLICATION.LIST.FILE_UPLOAD' | translate}}</p>
+          <div class="upload-file">
+            <div class="upload" #uploadzone
+            dropzone 
+            [class.hovering]="uploadzone.isHovering"
+            (hovered)="uploadzone.isHovering = $event"
+            (dropped)="onDrop($event)">
+              <img src="assets/img/upload.png" alt="">
+              <p>
+                {{'HOME.APPLICATION.LIST.DRAGHERE' | translate}}<label for="file">&nbsp;{{'HOME.APPLICATION.LIST.UPLOAD' | translate}}</label>
+                <input (change)="changeFile($event)" type="file" name="file" id="file" multiple="multiple" style="display: none;">             
+              </p>
+            </div>
+            <p class="error-file" *ngIf="this.errorTip !== ''">
+              {{errorTip}}
+            </p>
+          </div>
+          <div *ngIf="readyupload">{{file.name}}</div>
+          <div class="progress top" *ngIf="readyupload">
+            <progress [value]="progress" max="100"></progress>
+            <span>{{progress}}%</span>
+          </div>
+        </li>
+        <li>
+          <p>{{'HOME.APPLICATION.LIST.FILE_LIST' | translate}}</p>
+          <clr-datagrid>
+            <clr-dg-column>{{'HOME.APPLICATION.LIST.FILE_NAME' | translate}}</clr-dg-column>
+            <clr-dg-column>{{'HOME.APPLICATION.LIST.UPLOAD_TIME' | translate}}</clr-dg-column>
+            <clr-dg-column>{{'HOME.APPLICATION.LIST.FILE_SIZE' | translate}}</clr-dg-column>
+            <clr-dg-column>{{'HOME.APPLICATION.LIST.OPERATE' | translate}}</clr-dg-column>
+          
+            <clr-dg-row *ngFor="let file of fileList">
+              <clr-dg-cell>{{file.filename}}</clr-dg-cell>
+              <clr-dg-cell>{{file.createtime | date:'yyyy-MM-dd'}}</clr-dg-cell>
+              <clr-dg-cell>{{file.filesize}}</clr-dg-cell>
+              <clr-dg-cell>
+                <clr-icon class="icon file-icon" shape="download" (click)="downFile(file)" style="color: #2779AD;"></clr-icon>
+                <clr-icon class="icon file-icon" shape="trash" style="color: #991700;"></clr-icon>
+              </clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>{{fileList.length}}</clr-dg-footer>
+          </clr-datagrid>
+        </li>
+      </ul>
+      <div class="btns">
+        <button (click)="cancel()" class="btn btn-outline">{{'HOME.POLICY.DIALOG.CLOSE' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="background" class="modal-backdrop" aria-hidden="true"></div>

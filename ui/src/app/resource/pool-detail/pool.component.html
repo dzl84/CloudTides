@@ -1,0 +1,180 @@
+<h4>{{ "HOME.RESOURCE.POOL_DETAIL" | translate }}</h4>
+<div class="details-header-section">
+  <div class="details-header-title-row">
+    <div class="left-info-container">
+      <!-- <h2 class="margin-top-0">Pools</h2> -->
+    </div>
+    <div class="right-button-container" >
+      <button class="btn btn-sm btn-primary" id="createPool" (click)="createEquinixModal=true; titlePool='Service'">
+        <clr-icon shape="plus"></clr-icon> Service
+      </button>
+      <button class="btn btn-sm btn-primary" id="createPool" (click)="createEquinixModal=true; titlePool='Clouds'">
+        <clr-icon shape="plus"></clr-icon> Clouds
+      </button>
+      <!-- <div class="dropdown open">
+        <button class="dropdown-toggle btn btn-primary btn-sm" type="button" (click)="actionMenuFlag =!actionMenuFlag">
+          <clr-icon shape="cloud"></clr-icon>
+          Actions
+          <clr-icon shape="caret" class="down"></clr-icon>
+        </button>
+        <div class="dropdown-menu" *ngIf="actionMenuFlag">
+          <div class="dropdown-item active">Action</div>
+          <div class="dropdown-item disabled">Disabled Link</div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<clr-datagrid [clrDgLoading]="poolListLoading">
+  <clr-dg-column [clrDgField]="'attributes.pool'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'attributes.business_unit'">DataCenter</clr-dg-column>
+  <clr-dg-column [clrDgField]="'attributes.business_unit'">Project</clr-dg-column>
+  <clr-dg-column [clrDgField]="'attributes.business_unit'">Administrators</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_by'">API Token Expiry</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_by'">Reserved Servers</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'created_at'">On-demand Servers</clr-dg-column>
+  <clr-dg-column>Spot Servers</clr-dg-column>
+  <clr-dg-column>Current Usage</clr-dg-column>
+  <clr-dg-column>Current Cost</clr-dg-column>
+  <clr-dg-column>Enabled</clr-dg-column>
+  <clr-dg-column style="width: 200px;">Actions</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let pool of poolList" [clrDgItem]="pool">
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.pool}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.attributes.business_unit ? pool.attributes.business_unit : ''}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.updated_by}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.created_at}}</clr-dg-cell>
+    <clr-dg-cell>{{pool.justification}}</clr-dg-cell>
+    <clr-dg-cell>
+      <div role="tooltip" aria-haspopup="true" class="tooltip tooltip-bottom-left">
+        <span class="tooltip-content tooltip-md">Edit Pool</span>
+        <button type="button" class="btn btn-sm btn-icon">
+          <clr-icon shape="pencil"></clr-icon>
+        </button>
+      </div>
+      <clr-dropdown [clrCloseMenuOnItemClick]="true">
+        <button clrDropdownTrigger aria-label="Team dropdown menu">
+          <clr-icon shape="ellipsis-vertical"></clr-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-detail *clrIfDetail="let pool">
+    <clr-dg-detail-header>Pool: {{pool.attributes.pool}}</clr-dg-detail-header>
+    <!-- <clr-dg-detail-body *ngIf="checkApproversContacts(pool)">
+      <div class="section-title-bar">
+        <h4 class="section-title-bar-title">Approvers & Contacts</h4>
+      </div>
+      <table class="table mt-half">
+        <thead>
+          <tr>
+            <th>Pool Approver(s)</th>
+            <th>Team Approver(s)</th>
+            <th>Contacts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{pool.attributes.pool_approvers}}</td>
+            <td>{{pool.attributes.team_allocation_approvers}}</td>
+            <td>{{pool.attributes.alert_receivers}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </clr-dg-detail-body>
+    <clr-dg-detail-body *ngIf="!checkApproversContacts(pool)">
+      <h4 style="text-align: center; margin-top: 1.5rem;">Pool does not any any approvers or contacts</h4>
+    </clr-dg-detail-body> -->
+  </clr-dg-detail>
+
+  <clr-dg-footer>
+    <clr-dg-pagination #poolpagination [clrDgTotalItems]="poolList.length">
+      <clr-dg-page-size [clrPageSizeOptions]="pageSizeOptions">Pools per page</clr-dg-page-size>
+      {{poolpagination.firstItem + 1}} - {{poolpagination.lastItem + 1}} of {{poolList.length}} Pools
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="createEquinixModal">
+  <h3 class="modal-title">Create A {{titlePool}}</h3>
+  <div class="modal-body">
+    <form class="clr-form clr-form-horizontal" [formGroup]='equinixForm'>
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput placeholder="" required name="name" formControlName='name'/>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-input-container>
+
+      <clr-select-container clrInline>
+        <label>DataCenter</label>
+        <select clrSelect name="options" formControlName='data_center' required>
+          <option value="one">One</option>
+          <option value="two">Two</option>
+          <option value="three">Three</option>
+        </select>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-select-container>
+
+      <clr-input-container>
+        <label>Project</label>
+        <input clrInput placeholder="" required name="name" formControlName='project'/>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-input-container>
+
+      <clr-select-container clrInline>
+        <label>Administrators</label>
+        <select clrSelect name="administrators" formControlName='administrators' required>
+          <option value="one">One</option>
+          <option value="two">Two</option>
+          <option value="three">Three</option>
+        </select>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-select-container>
+
+      <clr-select-container clrInline>
+        <label>Server Type</label>
+        <select clrSelect name="server-type" formControlName='server_type' required>
+          <option value="reserved">Reserved</option>
+          <option value="on-demand">On-demand</option>
+          <option value="spot">Spot</option>
+        </select>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-select-container>
+      
+      <clr-input-container>
+        <label>Usage</label>
+        <input clrInput placeholder="" required name="usage" formControlName='usage'/>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Cost</label>
+        <input clrInput placeholder="" required name="cost" formControlName='cost'/>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-input-container>
+      
+      <clr-toggle-container>
+        <label>Enabled</label>
+        <clr-toggle-wrapper>
+            <input type="checkbox" clrToggle name="enabled" [value]="true" formControlName="enabled" />
+        </clr-toggle-wrapper>
+    </clr-toggle-container>  
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="resetEquinixModal()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="createEquinixPoolHandler">Create</button>
+  </div>
+</clr-modal>

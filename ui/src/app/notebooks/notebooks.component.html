@@ -1,0 +1,136 @@
+<div class="note-wrap">
+  <!-- <iframe src="https://www.baidu.com" id="inner" frameborder="0"></iframe> -->
+  <div class="note-nav">
+    <!-- <p  (click)="aa()">8888</p> -->
+    <!-- <a href="http://www.w3schools.com" target="_blank">88888</a> -->
+    <clr-vertical-nav>
+      <a clrVerticalNavLink routerLink="/cloudtides/notebooks/newInstance" routerLinkActive="active">
+        <clr-icon shape="plus-circle" solid></clr-icon>
+        {{'HOME.APPLICATION.NEW_INSTANCE.NEW_INSTANCE' | translate}}
+      </a>
+      <a clrVerticalNavLink routerLink="/cloudtides/notebooks/list" routerLinkActive="active">
+        <clr-icon shape="list" solid></clr-icon>
+        {{'HOME.APPLICATION.LIST.INSTANCE_LIST' | translate}}
+      </a>
+      <a clrVerticalNavLink routerLink="/cloudtides/notebooks/history" routerLinkActive="active">
+        <clr-icon shape="list" solid></clr-icon>
+        {{'HOME.APPLICATION.HISTORY' | translate}}
+      </a>
+    </clr-vertical-nav>
+  </div>
+  <div class="note-container">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="modal" *ngIf="noteBook.createInstanceFlag">
+    <div class="modal-dialog fadeDown in" role="dialog" aria-hidden="true">
+      <div class="modal-content">
+        <p class="create-title">{{noteBook.createInstanceTitle | translate}} {{'HOME.APPLICATION.INSTANCE' | translate}}</p>
+        <div class="alert alert-danger" *ngIf="errorMsg!== ''">
+          <div class="alert-items" >
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                {{errorMsg}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <form class="clr-form clr-form-horizontal" *ngIf="noteBook.currentModel === 'jupyter'" [formGroup]="jupyterInstanceForm" (ngSubmit)='create(jupyterInstanceForm)'>
+          <div class="clr-form-control first-form-control">
+            <clr-input-container>
+              <label for="instanceName" class="clr-control-label">{{'HOME.APPLICATION.LIST.INSTANCE_NAME' | translate}}</label>
+              <input name="instanceName" id="instanceName" clrInput type="text" formControlName="instanceName"/>
+              <clr-control-error>{{"HOME.VALIDATION.REQUIRED" | translate }}</clr-control-error> 
+            </clr-input-container>
+          </div>
+          <div class="clr-form-control">
+          </div>
+          <div class="option">
+            <p class="option-title">
+              {{'HOME.APPLICATION.NEW_INSTANCE.INSTANCE_PROPERTIES' | translate}}
+              <clr-icon shape="pencil" solid></clr-icon>
+
+            </p>
+            <ul class="option-list">
+              <li>
+                <clr-input-container>
+                  <label class="clr-control-label" for="port">{{'HOME.APPLICATION.NEW_INSTANCE.PORT' | translate}}</label>
+                  <input clrInput type="text" name="port" id="port" formControlName='port' required>
+                  <clr-control-error >{{"HOME.VALIDATION.REQUIRED" | translate }}</clr-control-error> 
+                </clr-input-container>
+              </li>
+              <!-- <li>
+                <label class="clr-control-label" for="sshHost">{{'HOME.APPLICATION.LIST.SSHHOST' | translate}}</label>
+                <div class="clr-control-container">
+                  <div class="clr-select-wrapper">
+                    <select placeholder="Select Option" id="sshHost" name="sshHost" formControlName="sshHost">
+                      <option *ngFor="let ip of hostNameList" [value]='ip.address'>{{ip.address}}</option>
+                    </select>
+                  </div>
+                </div>
+              </li> -->
+              <li>
+                <label class="clr-control-label" for="input7">{{'HOME.APPLICATION.NEW_INSTANCE.APPTYPE' | translate}}</label>
+                <div class="clr-control-container">
+                  <div class="clr-select-wrapper">
+                    <select placeholder="Select Option" id="input7" name="appType" formControlName="appType">
+                      <option value='jupyter'>jupyter</option>
+                      <option value='gromacs'>gromacs</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="footer">
+              <div>
+                <button (click)="cancel()" class="btn btn-outline">{{'HOME.POLICY.DIALOG.CANCEL' | translate}}</button>
+                <button type="submit" class="btn btn-info-outline" [disabled]="disabled">{{noteBook.createInstanceTitle | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form class="clr-form clr-form-horizontal" *ngIf="noteBook.currentModel !== 'jupyter'" [formGroup]="nb.gromacsInstanceForm" (ngSubmit)='create(nb.gromacsInstanceForm)'>
+          <div class="clr-form-control first-form-control">
+            <clr-input-container>
+              <label for="instanceName" class="clr-control-label">{{'HOME.APPLICATION.LIST.INSTANCE_NAME' | translate}}</label>
+              <input name="instanceName" id="instanceName" clrInput type="text" formControlName="instanceName"/>
+              <clr-control-error>{{"HOME.VALIDATION.REQUIRED" | translate }}</clr-control-error> 
+            </clr-input-container>
+          </div>
+          <div class="clr-form-control">
+          </div>
+          <div class="option">
+            <p class="option-title">
+              {{'HOME.APPLICATION.NEW_INSTANCE.INSTANCE_PROPERTIES' | translate}}
+              <clr-icon shape="pencil" solid></clr-icon>
+            </p>
+            <ul class="option-list">
+              <li>
+                <label class="clr-control-label" for="input7">{{'HOME.APPLICATION.NEW_INSTANCE.CLOUDPLATFORM' | translate}}</label>
+                <div class="clr-control-container">
+                  <div class="clr-select-wrapper">
+                    <select placeholder="Select Option" id="input7" name="cloud" formControlName="agentName">
+                      <option *ngFor="let cloud of hostNameList" [value]='cloud.agentName'>{{cloud.agentName}}</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="footer">
+              <div>
+                <button (click)="cancel()" class="btn btn-outline">{{'HOME.POLICY.DIALOG.CANCEL' | translate}}</button>
+                <button type="submit" class="btn btn-info-outline" [disabled]="disabled">{{noteBook.createInstanceTitle | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="loding-warp" *ngIf="loadingFlag">
+          <clr-spinner class="loading">Loading ...</clr-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="noteBook.createInstanceFlag" class="modal-backdrop fade in" aria-hidden="true"></div>
+</div>

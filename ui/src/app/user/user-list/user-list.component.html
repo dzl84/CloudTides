@@ -1,0 +1,77 @@
+<button class="btn btn-primary" (click)="this.opened=true">
+  <clr-icon shape="plus"></clr-icon>
+  {{ "HOME.USER.ADD_USER" | translate:{} }}
+</button>
+
+<div *ngIf="this.list$ | async as list">
+  <!--div class="clr-row" *ngFor="let item of list">
+    <div class="clr-col-12">
+      <tide-resource-card [item]="item"></tide-resource-card>
+    </div>
+  </div-->
+  <!--clr-datagrid [(clrDgSelected)]="selected"-->
+  <clr-datagrid>
+    <!--clr-dg-action-bar>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="this.opened=true">
+          <clr-icon shape="plus"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-action-bar-->
+    <clr-dg-column>
+      <div class="key">ID</div>
+    </clr-dg-column>
+    <clr-dg-column>
+      <div class="key">User Name</div>
+    </clr-dg-column>
+    <clr-dg-column>
+      <div class="key">Orgnization Name</div>
+    </clr-dg-column>
+    <clr-dg-column>
+      <div class="key">Role</div>
+    </clr-dg-column>
+    <clr-dg-column>
+      <div class="key">Email</div>
+    </clr-dg-column>
+    <clr-dg-column>
+      <div class="key">Phone Number</div>
+    </clr-dg-column>
+  
+
+    <!--clr-dg-row *ngFor="let item of list"-->
+    <clr-dg-row *clrDgItems="let item of list" [clrDgItem]="item">
+      <clr-dg-action-overflow>
+        <button
+          class="btn btn-sm btn-link"
+          (click)="this.displayDetail(item.id, item.name, item.orgName, item.role, item.email, item.phone)"
+        >{{ "HOME.USER.EDIT" | translate:{} }}</button>
+        <button
+          class="btn btn-sm btn-link"
+          (click)="this.delete(item.id)"
+        >{{ "HOME.USER.DELETE" | translate:{} }}</button>
+      </clr-dg-action-overflow>
+      <clr-dg-cell><div class="value">{{item?.id}}</div></clr-dg-cell>
+      <clr-dg-cell><div class="value">{{item?.name}}</div></clr-dg-cell>
+      <clr-dg-cell><div class="value">{{item?.orgName}}</div></clr-dg-cell>
+      <clr-dg-cell><div class="value">{{roleTypes[item?.role]}}</div></clr-dg-cell>
+      <clr-dg-cell><div class="value">{{item?.email}}</div></clr-dg-cell>
+      <clr-dg-cell><div class="value">{{item?.phone}}</div></clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+</div>
+
+<tide-user-dialog
+  *ngIf="this.opened"
+  [opened]="this.opened"
+  (save)="this.save()"
+  (cancel)="this.cancel()">
+</tide-user-dialog>
+
+<tide-user-card
+  *ngIf="this.UpdateOpened"
+  [opened]="this.UpdateOpened"
+  [userid]="this.UserId"
+  (save)="this.save()"
+  (cancel)="this.cancel()">
+</tide-user-card>
+

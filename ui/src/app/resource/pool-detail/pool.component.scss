@@ -1,0 +1,35 @@
+.details-header-section {
+  display: block;
+
+  .details-header-title-row {
+    display: flex;
+    justify-content: space-between;
+
+    .left-info-container {
+      display: flex;
+      align-items: center;
+
+      h2 {
+        display: inline-block;
+      }
+    }
+    .right-button-container {
+      display: flex;
+      align-items: center;
+
+      button {
+        &:last-of-type {
+          margin-left: .5rem;
+        }
+      }
+      .down {
+        transform: rotate(180deg);
+        top: 7px;
+      }
+    }
+  }
+}
+
+.margin-top-0 {
+  margin-top: 0px;
+}

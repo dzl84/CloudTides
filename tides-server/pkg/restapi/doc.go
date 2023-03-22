@@ -5,7 +5,7 @@
 //  Schemes:
 //    http
 //  Host: localhost
-//  BasePath: /v1
+//  BasePath: /api/v1
 //  Version: 0.0.1
 //
 //  Consumes:
@@ -13,6 +13,7 @@
 //    - multipart/form-data
 //
 //  Produces:
+//    - application/octet-stream
 //    - application/json
 //
 // swagger:meta
